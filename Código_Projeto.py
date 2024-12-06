@@ -276,14 +276,137 @@ def analisePorPalavraChave(publicacoes):
             print(f"{i}. {p['Título']} (Publicado em {p['Data da Publicação']})")
 
 
+
 # --------------------------------------------------------------------------------------------------------------------------
 
 # 7. ESTATÍSTICAS DE PUBLICAÇÃO: O sistema deve apresentar relatórios que incluam os seguintes gráficos:
-# - Distribuição de publicações por ano.
-# - Distribuição de publicações por mês de um determinado ano.
-# - Número de publicações por autor (top 20 autores).
-# - Distribuição de publicações de um autor por anos.
-# - Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave).
+
+import matplotlib.pyplot as plt
+
+# - Distribuição de publicações por ano:
+
+def distPublicacoesPorAno(publicacoes):
+    contagem_anos = {}
+    for publicacao in publicacoes:
+        ano = int(publicacao["Data da Publicação"].split("-")[0])  # Extrair o 1º elemento da lista resultante, se fatiarmos a data pelo "-" = ano
+        if ano not in contagem_anos:
+            contagem_anos[ano] = 1
+        else:
+            contagem_anos[ano] = contagem_anos[ano] + 1
+
+    # - Converte o dicionário "anos_ordenados" numa lista de tuplos (ano, nº de publicações)
+    # - Ordena os tuplos com base no seu 1º elemento = ano
+    anos_ordenados = sorted(contagem_anos.items(), key=lambda x: x[0])
+    for x in anos_ordenados:
+        ano, contagem_publicacoes = x
+
+    # Gráfico
+    plt.bar(ano, contagem_publicacoes, color="skyblue")
+    plt.xlabel("Ano")
+    plt.ylabel("Número de Publicações")
+    plt.title("Distribuição de Publicações por Ano")
+    plt.show()
+
+
+# - Distribuição de publicações por mês de um determinado ano:
+
+def distPublicacoesPorMes(publicacoes, ano_escolhido):
+    # Contar publicações por mês no ano escolhido
+    contagem_meses = {mes: 0 for mes in range(1, 13)} # dicionário em compreensão --> criar um dicionário que tenha como chave todos os números de 1 até 12 (meses) e o respetivos valores começam a zero
+    # contagem_meses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 }
+
+    for p in publicacoes:
+        ano, mes, _ = map(int, p["Data da Publicação"].split("-")) # map --> aplica a função int a cada elemento da lista resultante de p["Data da Publicação"].split("-")
+        if ano == ano_escolhido:
+            contagem_meses[mes] = contagem_meses[mes] + 1
+
+    # Gráfico
+    meses = list(contagem_meses.keys())
+    numero_publicacoes = list(contagem_meses.values())
+
+    plt.bar(meses, numero_publicacoes, color="lightgreen")
+    plt.xlabel("Mês")
+    plt.ylabel("Número de Publicações")
+    plt.title(f"Distribuição de Publicações por Mês em {ano_escolhido}")
+    plt.xticks(meses) # ???
+    plt.show()
+
+
+# - Número de publicações por autor (top 20 autores):
+
+def distPublicacoesPorAutor(publicacoes):
+    contagem_autores = {}
+    for p in publicacoes:
+        for autor in p["Autores"]:
+            nome = autor["Nome"]
+            if nome not in contagem_autores:
+                contagem_autores[nome] = 1
+            else:
+                contagem_autores[nome] = contagem_autores[nome] + 1
+
+    autores_ordenados = sorted(contagem_autores.items(), key=lambda x: x[1], reverse=True)
+    top20_autores = autores_ordenados[:20]
+    for y in top20_autores:
+        nomes, n_publicacoes = y
+
+    # Gráfico
+    plt.barh(nomes, n_publicacoes, color="pink")
+    plt.xlabel("Número de Publicações")
+    plt.ylabel("Autores")
+    plt.title("Top 20 Autores por Número de Publicações")
+    plt.gca().invert_yaxis()  # Inverte para o maior no topo # ??????????
+    plt.show()
+
+
+# - Distribuição de publicações de um autor por anos:
+
+def distPublicacoesAutorPorAnos(publicacoes, nome_autor):
+    contagem_anos = {}
+    for p in publicacoes:
+        ano = int(p["Data da Publicação"].split("-")[0])
+        for autor in p["Autores"]:
+            if autor["Nome"].lower() == nome_autor.lower():
+                if ano not in contagem_anos:
+                    contagem_anos[ano] = 1
+                else:
+                    contagem_anos[ano] = contagem_anos[ano] + 1
+
+    anos_ordenados = sorted(contagem_anos.items(), key=lambda x: x[0])
+    for z in anos_ordenados:
+        anos, quantidades = z
+
+    # Gráfico
+    plt.bar(anos, quantidades, color="purple")
+    plt.xlabel("Ano")
+    plt.ylabel("Número de Publicações")
+    plt.title(f"Distribuição de Publicações de {nome_autor} por Anos")
+    plt.show()
+
+
+# - Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave):
+
+def distPalavrasChavePorFrequencia(publicacoes):
+    contagem_palavras = {}
+    for p in publicacoes:
+        for palavra in p["Palavras-Chave"]:
+            palavra = palavra.lower()
+            if palavra not in contagem_palavras:
+                contagem_palavras[palavra] = 1
+            contagem_palavras[palavra] = contagem_palavras[palavra] + 1
+
+    palavras_ordenadas = sorted(contagem_palavras.items(), key=lambda x: x[1], reverse=True)
+    top20_palavras = palavras_ordenadas[:20]
+    for w in top20_palavras:
+        palavra, frequencia = w
+
+    # Gráfico
+    plt.barh(palavra, frequencia, color="red") # ???
+    plt.xlabel("Frequência")
+    plt.ylabel("Palavras-Chave")
+    plt.title("Top 20 Palavras-Chave por Frequência")
+    plt.gca().invert_yaxis()  # Inverte para a mais frequente no topo # ?????
+    plt.show()
+    
 # - Distribuição de palavras-chave mais frequente por ano.
 
 # 8. ARMAZENAMENTO DOS DADOS: Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte;
