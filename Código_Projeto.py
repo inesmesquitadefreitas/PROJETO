@@ -407,7 +407,28 @@ def distPalavrasChavePorFrequencia(publicacoes):
     plt.gca().invert_yaxis()  # Inverte para a mais frequente no topo # ?????
     plt.show()
     
-# - Distribuição de palavras-chave mais frequente por ano.
+# - Distribuição de palavras-chave mais frequente por ano:
+
+def distPalavrasChavePorAno(publicacoes, palavra_chave):
+    contagem_anos = {}
+    for p in publicacoes:
+        if palavra_chave.lower() in [palavra.lower() for palavra in p["Palavras-Chave"]]:
+            ano = int(p["Data da Publicação"].split("-")[0])
+            if ano not in contagem_anos:
+                contagem_anos[ano] = 1
+            contagem_anos[ano] = contagem_anos[ano] + 1
+
+    anos_ordenados = sorted(contagem_anos.items(), key=lambda x: x[0])
+    for a in anos_ordenados:
+        anos, quantidades = a
+
+    # Gráfico
+    plt.bar(anos, quantidades, color="orange")
+    plt.xlabel("Ano")
+    plt.ylabel(f"Frequência de '{palavra_chave}'")
+    plt.title(f"Frequência de '{palavra_chave}' por Ano")
+    plt.show()
+
 
 # 8. ARMAZENAMENTO DOS DADOS: Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte;
 
