@@ -1,69 +1,60 @@
-# PROJETO
-
-# !!! No projeto, temos de editar o ficheiro do stor "Dados_Projeto.json" (não sabemos fazer isso) --> definimos uma variável "publicacoes" para simular esse ficheiro
-
-# 1) CARREGAMENTO DA BASE DE DADOS: O programa no arranque deverá carregar para memória o dataset que deverá estar guardado no ficheiro de suporte à aplicação
-
 import json
 
-f = open(r"C:\Users\Inês Mesquita\Documents\Eng_Biomédica\Programação\Projeto\Dados_Projeto.json", encoding='utf-8') # Abre o arquivo Dados_Projeto.json, que possui o path "C:\Users\Inês Mesquita\Documents\Eng_Biomédica\Programação\Projeto\" | # encoding='utf-8' garante que o arquivo seja lido corretamente, especialmente se tiver caracteres especiais
-aceder_dados = json.load(f) # Lê o conteúdo do arquivo JSON e transforma-o numa estrutura de dados Python. Geralmente, o JSON é carregado como listas ou dicionários (dependendo da estrutura do arquivo). Aqui, o conteúdo é atribuído à variável "dados"
+# Carregar dados do arquivo JSON
+def carregaDADOS(fnome):
+    with open(fnome, encoding='utf-8') as f:
+        return json.load(f)
 
-def carregaDADOS(fnome): # Define a função carregaDADOS, que aceita um argumento "fnome" (=nome de um arquivo JSON) e carrega o seu conteúdo.
-    f = open(r"C:\Users\Inês Mesquita\Documents\Eng_Biomédica\Programação\Projeto\Dados_Projeto.json", encoding='utf-8') # Abre o arquivo Dados_Projeto.json com o path indicado anteriormente.
-    carrega_dados = json.load(f) # Lê e carrega os dados do arquivo JSON na variável "carrega_dados"
-    return carrega_dados
+# Salvar dados no arquivo JSON
+def salvarDados(dados, ficheiro="Dados_Projeto.json"):
+    with open(ficheiro, "w", encoding="utf-8") as f:
+        json.dump(dados, f, indent=4)
+    with open("output.txt", "a", encoding="utf-8") as f:
+        f.write(f"Dados salvos com sucesso no ficheiro {ficheiro}!\n")
 
-dados = carregaDADOS("Dados_Projeto.json") # Chama a função carregaDADOS, passando "Dados_Projeto.json" como argumento.
+# Carregar dados no início do programa
+dados = carregaDADOS("/home/heitor/Documents/PROJETO/Dados_Projeto.json")
 
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 2) CRIAÇÃO DE PUBLICAÇÕES: O utilizador deve poder criar um artigo especificando um título, resumo, palavras-chave, DOI, uma lista de autores e sua afiliação correspondente, url para o ficheiro PDF do artigo, data de publicação e url do artigo;
-
-def criarPublicacao(): 
-
-    print(" -------- NOVA PUBLICAÇÃO --------")
-
-    # Input dos dados necessários para cada chave
-
-    titulo = input("Título do artigo: ").strip() # .strip() --> remover espaços em branco no início e no fim de uma string (ou outros caracteres especificados)
+# Função para criar uma nova publicação
+def criarPublicacao():
+    with open("output.txt", "a", encoding="utf-8") as f:
+        f.write(" -------- NOVA PUBLICAÇÃO --------\n")
+    titulo = input("Título do artigo: ").strip()
     resumo = input("Resumo do artigo: ").strip()
-    palavras_chave = input("Palavras-chave (separadas por vírgula): ").strip().split(",") # split(",") --> fatiar a string pela vírgula, obtendo cada uma das palavras-chave 
+    palavras_chave = input("Palavras-chave (separadas por vírgula): ").strip().split(",")
     doi = input("DOI: ").strip()
-
-    autores = []
-    cond = True
-    while cond:
-        nome_autor = input("Nome do autor: ").strip()
-        if nome_autor == "":
-            cond = False
-        else:
-            autor_afiliacao = input(f"Afiliação do autor {nome_autor}': ").strip()
-            autores.append({"Nome": nome_autor, "Afiliação": autor_afiliacao})
-
-
     url_pdf = input("URL do PDF: ").strip()
     url_artigo = input("URL do artigo: ").strip()
 
+    autores = []
+    while True:
+        nome_autor = input("Nome do autor (deixe em branco para terminar): ").strip()
+        if not nome_autor:
+            break
+        autor_afiliacao = input(f"Afiliação do autor {nome_autor}: ").strip()
+        autores.append({"Nome": nome_autor, "Afiliação": autor_afiliacao})
+
     data_publicacao = ""
-    while data_publicacao == "":
+    while not data_publicacao:
         data_input = input("Data de Publicação (YYYY-MM-DD): ").strip()
         partes_data = data_input.split("-")
         if len(partes_data) == 3 and all(p.isdigit() for p in partes_data):
             ano, mes, dia = int(partes_data[0]), int(partes_data[1]), int(partes_data[2])
-            if 1 <= mes <= 12 and 1 <= dia <= 31:  # Verificação básica
-                if mes in [4, 6, 9, 11] and dia > 30:  # Meses com 30 dias
-                    print("Mês especificado tem no máximo 30 dias.")
-                elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)):  # Fevereiro
-                    print("Data inválida em fevereiro.")
+            if 1 <= mes <= 12 and 1 <= dia <= 31:
+                if mes in [4, 6, 9, 11] and dia > 30:
+                    with open("output.txt", "a", encoding="utf-8") as f:
+                        f.write("Mês especificado tem no máximo 30 dias.\n")
+                elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)):
+                    with open("output.txt", "a", encoding="utf-8") as f:
+                        f.write("Data inválida em fevereiro.\n")
                 else:
                     data_publicacao = f"{ano:04d}-{mes:02d}-{dia:02d}"
             else:
-                print("Mês ou dia fora do intervalo.")
+                with open("output.txt", "a", encoding="utf-8") as f:
+                    f.write("Mês ou dia fora do intervalo.\n")
         else:
-            print("Formato de data inválido. Use YYYY-MM-DD.")
-    
-    # Criar o dicionário da publicação
+            with open("output.txt", "a", encoding="utf-8") as f:
+                f.write("Formato de data inválido. Use YYYY-MM-DD.\n")
 
     nova_publicacao = {
         "Título": titulo,
@@ -75,66 +66,88 @@ def criarPublicacao():
         "Data da Publicação": data_publicacao,
         "URL do Artigo": url_artigo
     }
-    
 
-# !!! Não conseguimos adicionar a Publicação ao documento "Dados_Projeto.json"
-def salvarDados(dados, ficheiro="Dados_Projeto.json"):
-    # Abre o ficheiro e grava os dados em formato JSON
-    f = open(ficheiro, "w", encoding="utf-8")
-    f.write(json.dumps(dados, f, indent=4))
-    f.close()
-    print(f"Dados salvos com sucesso no ficheiro {ficheiro}!")
+    dados.append(nova_publicacao)
+    salvarDados(dados)
 
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 3) ATUALIZAÇÃO DE PUBLICAÇÕES: O sistema deve permitir a atualização da informação de uma publicação, nomeadamente a data de publicação, o resumo, palavras-chave, autores e afiliações;
-
+# Função para atualizar uma publicação existente
 def atualizarPublicacao(publicacoes, indice):
     if 0 <= indice < len(publicacoes):
         publicacao = publicacoes[indice]
-        print(f"Atualizando a publicação: {publicacao["Título"]}")
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write(f"Atualizando a publicação: {publicacao['Título']}\n")
 
-    # Atualizar título
-    titulo = input(f"Novo título (atual: {publicacao["Título"]}): ").strip() or publicacao["Título"]
-    publicacao["Título"] = titulo
-        
-    # Atualizar resumo
-    resumo = input(f"Novo resumo (atual: {publicacao["Resumo"]}): ").strip() or publicacao["Resumo"]
-    publicacao["Resumo"] = resumo
+        titulo = input(f"Novo título (atual: {publicacao['Título']}): ").strip() or publicacao['Título']
+        resumo = input(f"Novo resumo (atual: {publicacao['Resumo']}): ").strip() or publicacao['Resumo']
+        palavras_chave = input(f"Novas palavras-chave (atual: {publicacao['Palavras-Chave']}): ").strip() or publicacao['Palavras-Chave']
+        publicacao['Título'] = titulo
+        publicacao['Resumo'] = resumo
+        publicacao['Palavras-Chave'] = [palavra.strip() for palavra in palavras_chave.split(",")]
 
-    # Atualizar palavras-chave
-    palavras_chave = input(f"Novas palavras-chave (atual: {publicacao["Palavras-Chave"]}): ").strip() or publicacao["Palavras-Chave"]
-    publicacao["Palavras-Chave"] = palavras_chave
+        for autor in publicacao["Autores"]:
+            autor["Nome"] = input(f"Novo nome para o autor '{autor['Nome']}' (deixe em branco para não alterar): ").strip() or autor["Nome"]
+            autor["Afiliação"] = input(f"Nova afiliação para o autor '{autor['Nome']}' (deixe em branco para não alterar): ").strip() or autor["Afiliação"]
 
-    # Atualizar autores e afiliações
-    for autor in publicacao["Autores"]:
-        autor["Nome"] = input(f"Novo nome para o autor '{autor["Nome"]}' (deixe em branco para não alterar): ").strip() or autor["Nome"]
-        autor["Afiliação"] = input(f"Nova afiliação para o autor '{autor["Nome"]}' (deixe em branco para não alterar): ").strip() or autor["Afiliação"]
-    
-    # Atualizar data de publicação
-    nova_data = input(f"Nova data de publicação (atual: {publicacao["Data da Publicação"]}): ").strip() # Exemplo: nova_data_input = 2024-01-01
-    partes = nova_data.split("-") # partes = ['01', '01', '2024']
-    if len(partes) == 3 and all(p.isdigit() for p in partes): # verificar se len(partes) == 3 --> verificar se partes possui "ano", "mês" e "dia" E verificar se "for p in partes", all(p.isdigit() --> se cada elemento de "ano", "mês" e "dia" é um dígito
-        ano, mes, dia = int(partes[0]), int(partes[1]), int(partes[2])
-        if 1 <= mes <= 12 and 1 <= dia <= 31:  # Verificação básica
-            if mes in [4, 6, 9, 11] and dia > 30:  # Meses com 30 dias
-                print("Mês especificado tem no máximo 30 dias.")
-            elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)): # Fevereiro
-                    print("Data inválida em fevereiro.")
+        nova_data = input(f"Nova data de publicação (atual: {publicacao['Data da Publicação']}): ").strip()
+        partes = nova_data.split("-")
+        if len(partes) == 3 and all(p.isdigit() for p in partes):
+            ano, mes, dia = int(partes[0]), int(partes[1]), int(partes[2])
+            if 1 <= mes <= 12 and 1 <= dia <= 31:
+                if mes in [4, 6, 9, 11] and dia > 30:
+                    with open("output.txt", "a", encoding="utf-8") as f:
+                        f.write("Mês especificado tem no máximo 30 dias.\n")
+                elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)):
+                    with open("output.txt", "a", encoding="utf-8") as f:
+                        f.write("Data inválida em fevereiro.\n")
+                else:
+                    publicacao["Data da Publicação"] = f"{ano:04d}-{mes:02d}-{dia:02d}"
             else:
-                publicacao["Data da Publicação"] = f"{ano:04d}-{mes:02d}-{dia:02d}" # 04d: 4 dígitos // 02d: 2 dígitos
-
-            print("Publicação atualizada com sucesso!")
+                with open("output.txt", "a", encoding="utf-8") as f:
+                    f.write("Mês ou dia fora do intervalo.\n")
         else:
-            print("Erro: Índice da publicação inválido!")
+            with open("output.txt", "a", encoding="utf-8") as f:
+                f.write("Formato de data inválido. Use YYYY-MM-DD.\n")
 
-# --------------------------------------------------------------------------------------------------------------------------
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write("Publicação atualizada com sucesso!\n")
+        salvarDados(publicacoes)
+    else:
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write("Erro: Índice da publicação inválido!\n")
 
-# 4. CONSULTA DE PUBLICAÇÕES: O sistema deve permitir pesquisar publicações. Esta pesquisa deve permitir filtros por título, autor, afiliação, data de publicação e palavras-chave. Deve ainda ser possível ordenar as publicações encontradas pelos títulos e pela data de publicação;
+# Função para importar dados de outro arquivo JSON
+def importarDados(ficheiro):
+    try:
+        with open(ficheiro, encoding='utf-8') as f:
+            novos_dados = json.load(f)
+            dados.extend(novos_dados)
+            salvarDados(dados)
+            with open("output.txt", "a", encoding="utf-8") as f:
+                f.write(f"Dados importados com sucesso do ficheiro {ficheiro}!\n")
+    except Exception as e:
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write(f"Erro ao importar dados: {e}\n")
 
-def consultarPublicacoes(publicacoes): # publicacoes é o documento "Dados_Projeto.json" --> como o identifico?
-    
-    # O utilizador vai selecionar o tipo de filtro que vai usar para pesquisar publicações
+# Função para consultar uma publicação específica
+def consultarPublicacao(indice):
+    if 0 <= indice < len(dados):
+        publicacao = dados[indice]
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write(f"--- Publicação {indice} ---\n")
+            f.write(f"Título: {publicacao['Título']}\n")
+            f.write(f"Resumo: {publicacao['Resumo']}\n")
+            f.write(f"Palavras-Chave: {', '.join(publicacao['Palavras-Chave'])}\n")
+            f.write(f"DOI: {publicacao['DOI']}\n")
+            f.write(f"URL do PDF: {publicacao['URL do PDF']}\n")
+            f.write(f"Data da Publicação: {publicacao['Data da Publicação']}\n")
+            f.write(f"URL do Artigo: {publicacao['URL do Artigo']}\n")
+            f.write(f"Autores: {', '.join(autor['Nome'] for autor in publicacao['Autores'])}\n")
+    else:
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write("Erro: Índice da publicação inválido!\n")
+
+# Função para consultar publicações com filtros
+def consultarPublicacoes():
     print("--- CONSULTA DE PUBLICAÇÕES ---")
     print("1. Título")
     print("2. Autor")
@@ -160,12 +173,12 @@ def consultarPublicacoes(publicacoes): # publicacoes é o documento "Dados_Proje
         filtro = input("Digite a palavra-chave: ").strip().lower()
         chave_filtro = "Palavras-Chave"
     else:
-        print("Opção inválida!")
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write("Opção inválida!\n")
         return
 
-    # Filtrar publicações com base no critério escolhido
     publicacoes_encontradas = []
-    for p in publicacoes:
+    for p in dados:
         if chave_filtro == "Título" and filtro in p["Título"].lower():
             publicacoes_encontradas.append(p)
         elif chave_filtro == "Autor":
@@ -183,111 +196,138 @@ def consultarPublicacoes(publicacoes): # publicacoes é o documento "Dados_Proje
                 if filtro in palavra.lower():
                    publicacoes_encontradas.append(p)
     
-
-    # Ordenar os resultados por data e título
-    publicacoes_encontradas.sort(key=lambda x: (x["Data da Publicação"], x["Título"].lower())) # sort: modifica a lista original
+    publicacoes_encontradas.sort(key=lambda x: (x["Data da Publicação"], x["Título"].lower()))
     
-    # Exibir os resultados
-    if publicacoes_encontradas != []:
-        print("--- RESULTADOS DA PESQUISA ---")
-        for i, p in enumerate(publicacoes_encontradas, start=1):
-            print(f"{i}) Título: {p['Título']}")
-            print(f"   Data da Publicação: {p['Data da Publicação']}")
-            print(f"   Autores: {', '.join(autor['Nome'] for autor in p['Autores'])}")
-            print(f"   DOI: {p['DOI']}")
-            print(f"   Palavras-Chave: {', '.join(p['Palavras-Chave'])}")
+    with open("output.txt", "a", encoding="utf-8") as f:
+        if publicacoes_encontradas:
+            f.write("--- RESULTADOS DA PESQUISA ---\n")
+            for i, p in enumerate(publicacoes_encontradas, start=1):
+                f.write(f"{i}) Título: {p['Título']}\n")
+                f.write(f"   Data da Publicação: {p['Data da Publicação']}\n")
+                f.write(f"   Autores: {', '.join(autor['Nome'] for autor in p['Autores'])}\n")
+                f.write(f"   DOI: {p['DOI']}\n")
+                f.write(f"   Palavras-Chave: {', '.join(p['Palavras-Chave'])}\n")
+        else:
+            f.write("Nenhuma publicação encontrada com o critério especificado.\n")
+
+# Função para eliminar uma publicação
+def eliminarPublicacao(indice):
+    if 0 <= indice < len(dados):
+        dados.pop(indice)
+        salvarDados(dados)
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write(f"Publicação {indice} eliminada com sucesso!\n")
     else:
-        print("Nenhuma publicação encontrada com o critério especificado.")
-    
-    return publicacoes_encontradas
+        with open("output.txt", "a", encoding="utf-8") as f:
+            f.write("Erro: Índice da publicação inválido!\n")
 
-# --------------------------------------------------------------------------------------------------------------------------
+# Função para listar autores e suas publicações
+def listarAutores():
+    autores = {}
+    for p in dados:
+        if "Autores" in p:
+            for autor in p["Autores"]:
+                nome_autor = autor["Nome"]
+                if nome_autor not in autores:
+                    autores[nome_autor] = []
+                autores[nome_autor].append(p["Título"])
+        else:
+            with open("output.txt", "a", encoding="utf-8") as f:
+                f.write(f"Publicação sem autores encontrada: {p}\n")
 
-# 5. ANÁLISE DE PUBLICAÇÕES POR AUTOR: O sistema deve permitir listar os autores e aceder aos artigos de cada autor da lista. Os autores devem aparecer ordenados pela frequência dos seus artigos publicados e/ou por ordem alfabética;
+    with open("output.txt", "a", encoding="utf-8") as f:
+        f.write("--- LISTA DE AUTORES ---\n")
+        for autor, publicacoes in autores.items():
+            f.write(f"Autor: {autor}\n")
+            for pub in publicacoes:
+                f.write(f"  - {pub}\n")
 
-def analisePorAutor(publicacoes):
-    
-    # Dicionário para armazenar os autores e as suas publicações
-    dicionario_autores = {}
+# Função para gerar relatórios de estatísticas
+def gerarRelatorios():
+    palavras_chave = {}
+    publicacoes_por_autor = {}
+    publicacoes_por_ano = {}
 
-    # Contar publicações de cada autor
-    for p in publicacoes:
+    for p in dados:
+        ano = p["Data da Publicação"].split("-")[0]
+        if ano not in publicacoes_por_ano:
+            publicacoes_por_ano[ano] = 0
+        publicacoes_por_ano[ano] += 1
+
+        for palavra in p["Palavras-Chave"]:
+            if palavra not in palavras_chave:
+                palavras_chave[palavra] = 0
+            palavras_chave[palavra] += 1
+
         for autor in p["Autores"]:
             nome_autor = autor["Nome"]
-            if nome_autor not in dicionario_autores:
-                dicionario_autores[nome_autor] = [] # se o nome do autor não for uma chave no dicionario_autores, inseri-lo como chave com o valor de uma lista vazia
-            dicionario_autores[nome_autor].append(p) # se ele já for chave, adicionar a publicação p à lista de publicações do autor
+            if nome_autor not in publicacoes_por_autor:
+                publicacoes_por_autor[nome_autor] = 0
+            publicacoes_por_autor[nome_autor] += 1
 
-    # Perguntar ao utilizador o tipo de ordenação
-    print("--- ANÁLISE DE PUBLICAÇÕES POR AUTOR ---")
-    print("1. Ordenar por frequência de artigos publicados (ordem decrescente).")
-    print("2. Ordenar por ordem alfabética dos nomes dos autores.")
-    opcao = input("Escolha o tipo de ordenação (1/2): ").strip()
+    with open("output.txt", "a", encoding="utf-8") as f:
+        f.write("--- RELATÓRIO DE ESTATÍSTICAS ---\n")
+        f.write("Número de publicações por ano:\n")
+        for ano, count in publicacoes_por_ano.items():
+            f.write(f"{ano}: {count}\n")
 
-    if opcao == "1":
-        autores_ordenados = sorted(dicionario_autores.items(), key=lambda x: len(x[1]), reverse=True)
-    elif opcao == "2":
-        autores_ordenados = sorted(dicionario_autores.items(), key=lambda x: x[0].lower())
-    else:
-        print("Opção inválida! Exibindo autores em ordem aleatória.")
-        autores_ordenados = dicionario_autores.items()
+        f.write("\nNúmero de publicações por autor:\n")
+        for autor, count in publicacoes_por_autor.items():
+            f.write(f"{autor}: {count}\n")
 
-    print("--- RESULTADOS ---")
-    for autor, artigos in autores_ordenados:
-        print(f"Autor: {autor}: ({len(artigos)} artigos publicados)")
-        for i, p in enumerate(artigos, start=1):
-            print(f"{i}. {p['Título']} (Publicado em {p['Data da Publicação']})")
+        f.write("\nFrequência de palavras-chave:\n")
+        for palavra, count in palavras_chave.items():
+            f.write(f"{palavra}: {count}\n")
 
-    return dict(autores_ordenados)
+# Função para exibir a mensagem de ajuda
+def exibirAjuda():
+    with open("output.txt", "a", encoding="utf-8") as f:
+        f.write("""
+Comandos disponíveis:
+1. Criar Publicação - Criar uma nova publicação
+2. Consulta de Publicação - Consultar uma publicação específica
+3. Consultar Publicações - Listar todas as publicações com filtros
+4. Atualizar Publicação - Atualizar uma publicação existente
+5. Eliminar Publicação - Eliminar uma publicação
+6. Listar Autores - Listar todos os autores e suas publicações
+7. Importar Publicações - Importar publicações de um arquivo JSON
+8. Relatório de Estatísticas - Gerar relatórios de estatísticas
+9. Help - Exibir esta mensagem de ajuda
+10. Sair - Sair do programa
+""")
 
-# --------------------------------------------------------------------------------------------------------------------------
+# Função principal para o menu de linha de comando
+def menu():
+    while True:
+        comando = input("Digite um comando (ou 'Help' para ver os comandos disponíveis): ").strip().lower()
+        if comando == "criar publicação":
+            criarPublicacao()
+        elif comando == "consulta de publicação":
+            indice = int(input("Digite o índice da publicação: ").strip())
+            consultarPublicacao(indice)
+        elif comando == "consultar publicações":
+            consultarPublicacoes()
+        elif comando == "atualizar publicação":
+            indice = int(input("Digite o índice da publicação: ").strip())
+            atualizarPublicacao(dados, indice)
+        elif comando == "eliminar publicação":
+            indice = int(input("Digite o índice da publicação: ").strip())
+            eliminarPublicacao(indice)
+        elif comando == "listar autores":
+            listarAutores()
+        elif comando == "importar publicações":
+            ficheiro = input("Digite o caminho do arquivo JSON: ").strip()
+            importarDados(ficheiro)
+        elif comando == "relatório de estatísticas":
+            gerarRelatorios()
+        elif comando == "help":
+            exibirAjuda()
+        elif comando == "sair":
+            break
+        else:
+            with open("output.txt", "a", encoding="utf-8") as f:
+                f.write("Comando inválido! Digite 'Help' para ver os comandos disponíveis.\n")
 
-# 6. ANÁLISE DE PUBLICAÇÕES POR PALAVRA-CHAVE: O sistema deve permitir a pesquisa e visualização das palavras-chave do dataset. As palavras-chave devem estar ordenadas pelo seu número de ocorrências nos artigos e/ou por ordem alfabética. O sistema deve também permitir visualizar a lista das publicações associadas a cada palavra-chave;
-
-def analisePorPalavraChave(publicacoes):
-    
-    # Dicionário para contar palavras-chave e associar as publicações
-    dicionario_palavras = {}
-
-    for p in publicacoes:
-        for palavra in p["Palavras-Chave"]:
-            palavra = palavra.lower()
-            if palavra not in dicionario_palavras:
-                dicionario_palavras[palavra] = []
-            dicionario_palavras[palavra].append(p)
-
-    print("--- ANÁLISE DE PUBLICAÇÕES POR PALAVRA-CHAVE ---")
-    print("1. Ordenar palavras-chave pela frequência de ocorrências (ordem decrescente).")
-    print("2. Ordenar palavras-chave por ordem alfabética.")
-    opcao = input("Escolha o tipo de ordenação (1/2): ").strip()
-
-    if opcao == "1":
-        palavras_ordenadas = sorted(dicionario_palavras.items(), key=lambda x: len(x[1]), reverse=True)
-    elif opcao == "2":
-        palavras_ordenadas = sorted(dicionario_palavras.items(), key=lambda x: x[0])
-    else:
-        print("Opção inválida! Exibindo palavras-chave em ordem aleatória.")
-        palavras_ordenadas = dicionario_palavras.items()
-
-    print("--- RESULTADOS ---")
-    for palavra, artigos in palavras_ordenadas:
-        print(f"Palavra-chave: '{palavra}': ({len(artigos)} ocorrências)")
-        for i, p in enumerate(artigos, start=1):
-            print(f"{i}. {p['Título']} (Publicado em {p['Data da Publicação']})")
-
-
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 7. ESTATÍSTICAS DE PUBLICAÇÃO: O sistema deve apresentar relatórios que incluam os seguintes gráficos:
-# - Distribuição de publicações por ano.
-# - Distribuição de publicações por mês de um determinado ano.
-# - Número de publicações por autor (top 20 autores).
-# - Distribuição de publicações de um autor por anos.
-# - Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave).
-# - Distribuição de palavras-chave mais frequente por ano.
-
-# 8. ARMAZENAMENTO DOS DADOS: Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte;
-
-# 9. IMPORTAÇÃO DE DADOS: Em qualquer momento, deverá ser possível importar novos registos dum outro ficheiro que tenha a mesma estrutura do ficheiro de suporte;
-
-# 10. EXPORTAÇÃO PARCIAL DE DADOS: Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa (apenas o subconjunto retornado pela pesquisa).
+# Executar o menu de linha de comando
+if __name__ == "__main__":
+    menu()
