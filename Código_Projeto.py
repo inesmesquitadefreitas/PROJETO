@@ -1,5 +1,7 @@
 # PROJETO
 
+# !!! não conseguimos editar o ficheiro do stor Dados_Projeto.json porque "publicacoes" não está definido
+
 # 1) CARREGAMENTO DA BASE DE DADOS: O programa no arranque deverá carregar para memória o dataset que deverá estar guardado no ficheiro de suporte à aplicação
 
 import json
@@ -87,7 +89,7 @@ def salvarDados(dados, ficheiro="Dados_Projeto.json"):
 
 # 3) ATUALIZAÇÃO DE PUBLICAÇÕES: O sistema deve permitir a atualização da informação de uma publicação, nomeadamente a data de publicação, o resumo, palavras-chave, autores e afiliações;
 
-def atualizarPublicacao(publicacoes, indice): # "publicacoes" não está definido --> publicacoes = documento do stor: Dados_Projeto.json
+def atualizarPublicacao(publicacoes, indice):
     if 0 <= indice < len(publicacoes):
         publicacao = publicacoes[indice]
         print(f"Atualizando a publicação: {publicacao["Título"]}")
