@@ -1,6 +1,6 @@
 # PROJETO
 
-# !!! não conseguimos editar o ficheiro do stor Dados_Projeto.json porque "publicacoes" não está definido
+# !!! No projeto, temos de editar o ficheiro do stor "Dados_Projeto.json" (não sabemos fazer isso) --> definimos uma variável "publicacoes" para simular esse ficheiro
 
 # 1) CARREGAMENTO DA BASE DE DADOS: O programa no arranque deverá carregar para memória o dataset que deverá estar guardado no ficheiro de suporte à aplicação
 
