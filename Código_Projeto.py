@@ -1,145 +1,123 @@
-# PROJETO
-
-# !!! No projeto, temos de editar o ficheiro do stor "Dados_Projeto.json" (não sabemos fazer isso) --> definimos uma variável "publicacoes" para simular esse ficheiro
-
-# 1) CARREGAMENTO DA BASE DE DADOS: O programa no arranque deverá carregar para memória o dataset que deverá estar guardado no ficheiro de suporte à aplicação
-
 import json
 
-f = open(r"C:\Users\Inês Mesquita\Documents\Eng_Biomédica\Programação\Projeto\Dados_Projeto.json", encoding='utf-8') # Abre o arquivo Dados_Projeto.json, que possui o path "C:\Users\Inês Mesquita\Documents\Eng_Biomédica\Programação\Projeto\" | # encoding='utf-8' garante que o arquivo seja lido corretamente, especialmente se tiver caracteres especiais
-aceder_dados = json.load(f) # Lê o conteúdo do arquivo JSON e transforma-o numa estrutura de dados Python. Geralmente, o JSON é carregado como listas ou dicionários (dependendo da estrutura do arquivo). Aqui, o conteúdo é atribuído à variável "dados"
+# ----------------------------------------------------------------------
+# Carregar dados do arquivo JSON
+def carregaDADOS(fnome):
+    with open(fnome, encoding='utf-8') as f:
+        return json.load(f)
 
-def carregaDADOS(fnome): # Define a função carregaDADOS, que aceita um argumento "fnome" (=nome de um arquivo JSON) e carrega o seu conteúdo.
-    f = open(r"C:\Users\Inês Mesquita\Documents\Eng_Biomédica\Programação\Projeto\Dados_Projeto.json", encoding='utf-8') # Abre o arquivo Dados_Projeto.json com o path indicado anteriormente.
-    carrega_dados = json.load(f) # Lê e carrega os dados do arquivo JSON na variável "carrega_dados"
-    return carrega_dados
+# Salvar dados no arquivo JSON
+def salvarDados(dados, ficheiro="ataMedicaPapers.json"):
+    try:
+        with open(ficheiro, "w", encoding="utf-8") as f:
+            json.dump(dados, f, indent=4, ensure_ascii=False)
+            print(f"Dados salvos com sucesso no ficheiro {ficheiro}!")
+    except Exception as e:
+        print(f"Erro ao salvar dados no ficheiro {ficheiro}: {e}")
 
-dados = carregaDADOS("Dados_Projeto.json") # Chama a função carregaDADOS, passando "Dados_Projeto.json" como argumento.
-
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 2) CRIAÇÃO DE PUBLICAÇÕES: O utilizador deve poder criar um artigo especificando um título, resumo, palavras-chave, DOI, uma lista de autores e sua afiliação correspondente, url para o ficheiro PDF do artigo, data de publicação e url do artigo;
-
-def criarPublicacao(): 
-
-    print(" -------- NOVA PUBLICAÇÃO --------")
-
-    # Input dos dados necessários para cada chave
-
-    titulo = input("Título do artigo: ").strip() # .strip() --> remover espaços em branco no início e no fim de uma string (ou outros caracteres especificados)
+# Carregar dados no início do programa
+dados = carregaDADOS("C:/Users/Inês Mesquita/Documents/Eng_Biomédica/Programação/Projeto/ataMedicaPapers.json")
+# ----------------------------------------------------------------------
+# (1) Função para CRIAR uma nova publicação
+def criarPublicacao():
+    print("\n-------- NOVA PUBLICAÇÃO --------")
+    titulo = input("Título do artigo: ").strip() # strip() --> remover caracteres especificados (neste caso, o \n e espaços em branco no início e fim de uma string)
     resumo = input("Resumo do artigo: ").strip()
-    palavras_chave = input("Palavras-chave (separadas por vírgula): ").strip().split(",") # split(",") --> fatiar a string pela vírgula, obtendo cada uma das palavras-chave 
+
+    lista_palavras_chave = []
+    cond = True
+    while cond:
+        palavra_chave = input("Palavra-chave (deixe em branco para terminar): ").strip()
+        if palavra_chave:
+            lista_palavras_chave.append(palavra_chave)
+        else:
+            cond = False
+    palavras_chave = ", ".join(lista_palavras_chave)
+
     doi = input("DOI: ").strip()
+    url_pdf = input("URL do PDF: ").strip()
+    url_artigo = input("URL do artigo: ").strip()
 
     autores = []
     cond = True
     while cond:
-        nome_autor = input("Nome do autor: ").strip()
-        if nome_autor == "":
+        nome_autor = input("Nome do autor (deixe em branco para terminar): ").strip()
+        if not nome_autor: # if nome_autor == "":
             cond = False
-        else:
-            autor_afiliacao = input(f"Afiliação do autor {nome_autor}': ").strip()
-            autores.append({"Nome": nome_autor, "Afiliação": autor_afiliacao})
-
-
-    url_pdf = input("URL do PDF: ").strip()
-    url_artigo = input("URL do artigo: ").strip()
+        autor_afiliacao = input(f"Afiliação do autor {nome_autor}: ").strip()
+        if nome_autor and autor_afiliacao:
+            autores.append({"name": nome_autor, "affiliation": autor_afiliacao})
 
     data_publicacao = ""
-    while data_publicacao == "":
+    while not data_publicacao: # while data_publicacao == "":
         data_input = input("Data de Publicação (YYYY-MM-DD): ").strip()
         partes_data = data_input.split("-")
         if len(partes_data) == 3 and all(p.isdigit() for p in partes_data):
             ano, mes, dia = int(partes_data[0]), int(partes_data[1]), int(partes_data[2])
-            if 1 <= mes <= 12 and 1 <= dia <= 31:  # Verificação básica
-                if mes in [4, 6, 9, 11] and dia > 30:  # Meses com 30 dias
-                    print("Mês especificado tem no máximo 30 dias.")
-                elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)):  # Fevereiro
-                    print("Data inválida em fevereiro.")
+            if 1 <= mes <= 12 and 1 <= dia <= 31:
+                if mes in [4, 6, 9, 11] and dia > 30:
+                    print("Mês especificado tem no máximo 30 dias.\n")
+                elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)):
+                    print("Data inválida em fevereiro.\n")
                 else:
                     data_publicacao = f"{ano:04d}-{mes:02d}-{dia:02d}"
             else:
-                print("Mês ou dia fora do intervalo.")
+                print("Mês ou dia fora do intervalo.\n")
         else:
-            print("Formato de data inválido. Use YYYY-MM-DD.")
-    
-    # Criar o dicionário da publicação
+            print("Formato de data inválido. Use YYYY-MM-DD.\n")
 
     nova_publicacao = {
-        "Título": titulo,
-        "Resumo": resumo,
-        "Palavras-Chave": [palavra.strip() for palavra in palavras_chave],
-        "DOI": doi,
-        "Autores": autores,
-        "URL do PDF": url_pdf,
-        "Data da Publicação": data_publicacao,
-        "URL do Artigo": url_artigo
+        "title": titulo,
+        "abstract": resumo,
+        "keywords": palavras_chave,
+        "doi": doi,
+        "authors": autores,
+        "pdf": url_pdf,
+        "publish_date": data_publicacao,
+        "url": url_artigo
     }
-    
 
-# !!! Não conseguimos adicionar a Publicação ao documento "Dados_Projeto.json"
-def salvarDados(dados, ficheiro="Dados_Projeto.json"):
-    # Abre o ficheiro e grava os dados em formato JSON
-    f = open(ficheiro, "w", encoding="utf-8")
-    f.write(json.dumps(dados, f, indent=4))
-    f.close()
-    print(f"Dados salvos com sucesso no ficheiro {ficheiro}!")
+    dados.append(nova_publicacao)
+    salvarDados(dados)
 
-# --------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# (2) Função para CONSULTAR uma publicação específica
+def consultarPublicacao(indice):
+    if 0 <= indice < len(dados):
+        publicacao = dados[indice]
+        print(f"--- Publicação de índice {indice} ---\n")
+        if publicacao.get('title'):
+            print(f"Título: {publicacao['title']}\n")
+        if publicacao.get('abstract'):
+            print(f"Resumo: {publicacao['abstract']}\n")
+        if publicacao.get('keywords'):
+            listaKeywords = [palavra.strip(". ") for palavra in publicacao['keywords'].split(", ")]
+            print(f"Palavras-Chave: {', '.join(listaKeywords)}\n")
+        if publicacao.get('authors'):
+            listaAutores = []
+            for p in publicacao['authors']:
+                nomeAutor = p.get('name')
+                listaAutores.append(nomeAutor)
+            print(f"Autores: {', '.join(listaAutores)}\n")
+        if publicacao.get('doi'):
+            print(f"DOI: {publicacao['doi']}\n")
+        if publicacao.get('pdf'):
+            print(f"URL do PDF: {publicacao['pdf']}\n")
+        if publicacao.get('url'):
+            print(f"URL do Artigo: {publicacao['url']}\n")
+        if publicacao.get('publish_date'):
+            print(f"Data da Publicação: {publicacao['publish_date']}\n")
+    else:
+        print("Erro: Índice da publicação inválido!\n")
 
-# 3) ATUALIZAÇÃO DE PUBLICAÇÕES: O sistema deve permitir a atualização da informação de uma publicação, nomeadamente a data de publicação, o resumo, palavras-chave, autores e afiliações;
-
-def atualizarPublicacao(publicacoes, indice):
-    if 0 <= indice < len(publicacoes):
-        publicacao = publicacoes[indice]
-        print(f"Atualizando a publicação: {publicacao["Título"]}")
-
-    # Atualizar título
-    titulo = input(f"Novo título (atual: {publicacao["Título"]}): ").strip() or publicacao["Título"]
-    publicacao["Título"] = titulo
-        
-    # Atualizar resumo
-    resumo = input(f"Novo resumo (atual: {publicacao["Resumo"]}): ").strip() or publicacao["Resumo"]
-    publicacao["Resumo"] = resumo
-
-    # Atualizar palavras-chave
-    palavras_chave = input(f"Novas palavras-chave (atual: {publicacao["Palavras-Chave"]}): ").strip() or publicacao["Palavras-Chave"]
-    publicacao["Palavras-Chave"] = palavras_chave
-
-    # Atualizar autores e afiliações
-    for autor in publicacao["Autores"]:
-        autor["Nome"] = input(f"Novo nome para o autor '{autor["Nome"]}' (deixe em branco para não alterar): ").strip() or autor["Nome"]
-        autor["Afiliação"] = input(f"Nova afiliação para o autor '{autor["Nome"]}' (deixe em branco para não alterar): ").strip() or autor["Afiliação"]
-    
-    # Atualizar data de publicação
-    nova_data = input(f"Nova data de publicação (atual: {publicacao["Data da Publicação"]}): ").strip() # Exemplo: nova_data_input = 2024-01-01
-    partes = nova_data.split("-") # partes = ['01', '01', '2024']
-    if len(partes) == 3 and all(p.isdigit() for p in partes): # verificar se len(partes) == 3 --> verificar se partes possui "ano", "mês" e "dia" E verificar se "for p in partes", all(p.isdigit() --> se cada elemento de "ano", "mês" e "dia" é um dígito
-        ano, mes, dia = int(partes[0]), int(partes[1]), int(partes[2])
-        if 1 <= mes <= 12 and 1 <= dia <= 31:  # Verificação básica
-            if mes in [4, 6, 9, 11] and dia > 30:  # Meses com 30 dias
-                print("Mês especificado tem no máximo 30 dias.")
-            elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)): # Fevereiro
-                    print("Data inválida em fevereiro.")
-            else:
-                publicacao["Data da Publicação"] = f"{ano:04d}-{mes:02d}-{dia:02d}" # 04d: 4 dígitos // 02d: 2 dígitos
-
-            print("Publicação atualizada com sucesso!")
-        else:
-            print("Erro: Índice da publicação inválido!")
-
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 4. CONSULTA DE PUBLICAÇÕES: O sistema deve permitir pesquisar publicações. Esta pesquisa deve permitir filtros por título, autor, afiliação, data de publicação e palavras-chave. Deve ainda ser possível ordenar as publicações encontradas pelos títulos e pela data de publicação;
-
-def consultarPublicacoes(publicacoes): # publicacoes é o documento "Dados_Projeto.json" --> como o identifico?
-    
-    # O utilizador vai selecionar o tipo de filtro que vai usar para pesquisar publicações
+# ----------------------------------------------------------------------
+# (3) Função para FILTRAR publicações
+def consultarPublicacoes():
     print("--- CONSULTA DE PUBLICAÇÕES ---")
     print("1. Título")
     print("2. Autor")
     print("3. Afiliação")
-    print("4. Data de Publicação")
+    print("4. Data da Publicação")
     print("5. Palavra-chave")
     
     opcao = input("Selecione o tipo de filtro (1-5): ").strip()
@@ -149,74 +127,501 @@ def consultarPublicacoes(publicacoes): # publicacoes é o documento "Dados_Proje
         chave_filtro = "Título"
     elif opcao == "2":
         filtro = input("Digite o nome do autor: ").strip().lower()
-        chave_filtro = "Autor"
+        chave_filtro = "Nome do Autor"
     elif opcao == "3":
         filtro = input("Digite a afiliação: ").strip().lower()
         chave_filtro = "Afiliação"
     elif opcao == "4":
-        filtro = input("Digite a data de publicação (YYYY-MM-DD): ").strip()
+        filtro = input("Digite a data da publicação (YYYY-MM-DD): ").strip()
         chave_filtro = "Data da Publicação"
     elif opcao == "5":
         filtro = input("Digite a palavra-chave: ").strip().lower()
         chave_filtro = "Palavras-Chave"
     else:
-        print("Opção inválida!")
-        return
+        print("Opção inválida!\n")
 
-    # Filtrar publicações com base no critério escolhido
     publicacoes_encontradas = []
-    for p in publicacoes:
-        if chave_filtro == "Título" and filtro in p["Título"].lower():
+    for p in dados:
+        if chave_filtro == "Título" and filtro.lower() in p.get('title').lower() and p not in publicacoes_encontradas:
             publicacoes_encontradas.append(p)
-        elif chave_filtro == "Autor":
-            for autor in p["Autores"]:
-                if filtro in autor["Nome"].lower():
+        elif chave_filtro == "Nome do Autor":
+            for autor in p.get('authors'): # p.get('authors') --> pode have publicações sem a chave 'authors' (prevenimos erros)
+                if filtro.lower() in autor.get('name').lower() and p not in publicacoes_encontradas:
                     publicacoes_encontradas.append(p)
         elif chave_filtro == "Afiliação":
-            for autor in p["Autores"]:
-                if filtro in autor["Afiliação"].lower():
+            for autor in p.get("authors"):
+                if filtro.lower() in autor.get('affiliation').lower() and p not in publicacoes_encontradas:
                     publicacoes_encontradas.append(p)
-        elif chave_filtro == "Data da Publicação" and p["Data da Publicação"] == filtro:
+        elif chave_filtro == "Data da Publicação" and p.get('publish_date') == filtro and p not in publicacoes_encontradas:
             publicacoes_encontradas.append(p)
         elif chave_filtro == "Palavras-Chave":
-            for palavra in p["Palavras-Chave"]:
-                if filtro in palavra.lower():
+            for palavra in p.get('keywords').split(", "):
+                palavra = palavra.strip('. ')
+                if filtro in palavra.lower() and p not in publicacoes_encontradas:
                    publicacoes_encontradas.append(p)
     
-
     # Ordenar os resultados por data e título
-    publicacoes_encontradas.sort(key=lambda x: (x["Data da Publicação"], x["Título"].lower())) # sort: modifica a lista original
+    publicacoes_encontradas.sort(key=lambda x: (x.get("publish_date"), x.get("title").lower()))
     
     # Exibir os resultados
-    if publicacoes_encontradas != []:
-        print("--- RESULTADOS DA PESQUISA ---")
-        for i, p in enumerate(publicacoes_encontradas, start=1):
-            print(f"{i}) Título: {p['Título']}")
-            print(f"   Data da Publicação: {p['Data da Publicação']}")
-            print(f"   Autores: {', '.join(autor['Nome'] for autor in p['Autores'])}")
-            print(f"   DOI: {p['DOI']}")
-            print(f"   Palavras-Chave: {', '.join(p['Palavras-Chave'])}")
+    if publicacoes_encontradas:
+        print("\n------ RESULTADOS DA PESQUISA ------\n")
+        for i, pub in enumerate(publicacoes_encontradas, start=1):
+            print(f"({i})\n")
+            if pub.get('title'):
+                print(f"Título: {pub['title']}\n")
+            if pub.get('abstract'):
+                print(f"Resumo: {pub['abstract']}\n")
+            if pub.get('keywords'):
+                listaKeywords = [palavra.strip(". ") for palavra in pub['keywords'].split(", ")]
+                print(f"Palavras-Chave: {', '.join(listaKeywords)}\n")
+            if pub.get('authors'):
+                listaAutores = []
+                for p in pub['authors']:
+                    nomeAutor = p['name']
+                    listaAutores.append(nomeAutor)
+                print(f"Autores: {', '.join(listaAutores)}\n")
+            if pub.get('doi'):
+                print(f"DOI: {pub['doi']}\n")
+            if pub.get('publish_date'):
+                print(f"Data da Publicação: {pub['publish_date']}\n")
     else:
-        print("Nenhuma publicação encontrada com o critério especificado.")
+        print("Nenhuma publicação encontrada com o critério especificado.\n")
+
+# ----------------------------------------------------------------------
+# Função para ATUALIZAR uma publicação existente
+def atualizarPublicacao(dados, indice):
+    if 0 <= indice < len(dados):
+        publicacao = dados[indice]
+        print("\n----- Atualizar Publicação -----\n")
+        print(f"Se não desejar atualizar o parâmetro, deixe em branco.\n")
+
+        if publicacao.get('title'):
+            titulo = input(f"Novo título (atual: {publicacao['title']}): ").strip()
+            if not titulo:
+                titulo = publicacao['title']
+            publicacao['title'] = titulo
+        
+        if publicacao.get('abstract'):
+            resumo = input(f"Novo resumo (atual: {publicacao['abstract']}): ").strip()
+            if not resumo:
+                resumo = publicacao['abstract']
+            publicacao['abstract'] = resumo
+
+        if publicacao.get('keywords'):
+            palavras_chave = input(f"Novas palavras-chave, separadas por uma vírgula (atuais: {publicacao['keywords']}): ")
+            if palavras_chave:
+                palavras_chave = [palavra.strip('. ') for palavra in palavras_chave.split(",")]
+            else:
+                palavras_chave = publicacao['keywords']
+            publicacao['keywords'] = palavras_chave
+        
+        if publicacao.get('authors'):
+            for autor in publicacao["authors"]:
+                nomeAutor = input(f"Novo nome para o autor '{autor['name']}': ").strip()
+                if not nomeAutor:
+                    nomeAutor = autor["name"]  
+                afiliacaoAutor = input(f"Nova afiliação para o autor '{autor['name']}': ").strip()
+                if not afiliacaoAutor:
+                    afiliacaoAutor = autor["affiliation"]
+                autor["name"] = nomeAutor
+                autor["affiliation"] = afiliacaoAutor
+        
+        if publicacao.get('publish_date'):
+            nova_data = input(f"Nova data de publicação (atual: {publicacao['publish_date']}): ").strip()
+            partes = nova_data.split("-")
+            if len(partes) == 3 and all(p.isdigit() for p in partes):
+                ano, mes, dia = int(partes[0]), int(partes[1]), int(partes[2])
+                if 1 <= mes <= 12 and 1 <= dia <= 31:
+                    if mes in [4, 6, 9, 11] and dia > 30:
+                        print("Mês especificado tem no máximo 30 dias.\n")
+                    elif mes == 2 and (dia > 29 or (dia == 29 and ano % 4 != 0)):
+                        print("Data inválida em fevereiro.\n")
+                    else:
+                        publicacao["publish_date"] = f"{ano:04d}-{mes:02d}-{dia:02d}"
+                else:
+                    print("Mês ou dia fora do intervalo.\n")
+            else:
+                print("Formato de data inválido. Use YYYY-MM-DD.\n")
+
+        print("Publicação atualizada com sucesso!\n")
+        salvarDados(dados)
+    else:
+        print("Erro: Índice da publicação inválido!\n")
+
+# ----------------------------------------------------------------------
+# Função para ELIMINAR uma publicação
+def eliminarPublicacao(indice):
+    if 0 <= indice < len(dados):
+        dados.pop(indice) # pop --> remover um elemento
+        salvarDados(dados)
+        print(f"Publicação de índice {indice} eliminada com sucesso!\n")
+    else:
+        print("Erro: Índice da publicação inválido!\n")
+
+# ----------------------------------------------------------------------
+# Função para listar AUTORES e as suas PUBLICAÇÕES
+def listarAutores():
+    lista = {}
+    for p in dados:
+        if "authors" in p:
+            for autor in p["authors"]:
+                nome_autor = autor["name"]
+                if nome_autor not in lista:
+                    lista[nome_autor] = []
+                if p.get('title'):
+                    (lista[nome_autor]).append(p['title'])
+                elif p.get('abstract'):
+                    (lista[nome_autor]).append(f"Publicação sem Título. Abstract: {p['abstract']}")
+                else:
+                    (lista[nome_autor]).append('Publicação sem Título.')
+  
+    print("------ AUTORES E RESPETIVAS PUBLICAÇÕES ------\n")
+    for autor, publicacoes in lista.items():
+        print(f"Autor: {autor}\n")
+        print(f"Publicações:")
+        for pub in publicacoes:
+            print(f"  - {pub}")
+        print("-------------------------------------------")
+
+# ----------------------------------------------------------------------
+# Função para IMPORTAR dados de outro arquivo JSON
+def importarDados(ficheiro):
+    try:
+        with open(ficheiro, encoding='utf-8') as f:
+            novos_dados = json.load(f)
+            dados.extend(novos_dados)
+            salvarDados(dados)
+            print(f"Dados importados com sucesso do ficheiro {ficheiro}!\n")
+    except Exception as e:
+        print(f"Erro ao importar dados: {e}\n")
     
-    return publicacoes_encontradas
+# ----------------------------------------------------------------------
+# Função para gerar RELATÓRIOS de estatísticas
+import matplotlib.pyplot as plt
+import numpy as np
 
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 5. ANÁLISE DE PUBLICAÇÕES POR AUTOR: O sistema deve permitir listar os autores e aceder aos artigos de cada autor da lista. Os autores devem aparecer ordenados pela frequência dos seus artigos publicados e/ou por ordem alfabética;
-
-def analisePorAutor(publicacoes):
+def gerarRelatorios():
     
-    # Dicionário para armazenar os autores e as suas publicações
+    print("""
+Gerar Relatórios:
+(1) Distribuição de Publicações por Ano
+(2) Distribuição de Palavras-Chave por Frequência
+(3) Distribuição de Publicações Por Autor
+(4) Distribuição de Publicações por Mês de um Ano
+(5) Distribuição de Publicações de um Autor por Anos
+(6) Distribuição de Palavra-Chave Mais Frequente por Ano
+(7) Sair - Terminar Relatórios          
+""")
+    
+    with open("relatorio.md", "w", encoding="utf-8") as f: # .md --> markdown --> suporta texto e imagens(gráfico)
+        f.write("----- RELATÓRIO DE ESTATÍSTICAS -----\n")
+
+    cond = True
+    while cond:
+        comando = input("Digite um comando para gerar o seu relatório (1-7): ")
+
+        # Distribuição de Publicações por Ano
+        if comando == "1":
+            publicacoes_por_ano = {}
+            for p in dados:
+                if p.get("publish_date"):
+                    ano = p["publish_date"].split("-")[0]
+                    if ano not in publicacoes_por_ano:
+                        publicacoes_por_ano[ano] = 1
+                    else:
+                        publicacoes_por_ano[ano] = publicacoes_por_ano[ano] + 1
+
+            # Converte o dicionário "anos_ordenados" numa lista de tuplos (ano, nº de publicações)
+            # Ordena os tuplos com base no seu 1º elemento = ano
+            anos_ordenados = sorted(publicacoes_por_ano.items(), key=lambda x: x[0])
+
+            ano = [x[0] for x in anos_ordenados]
+            contagem_publicacoes = [x[1] for x in anos_ordenados]
+
+            # Gerar Gráfico de Barras Verticais
+            plt.bar(ano, contagem_publicacoes, color="tomato")
+            plt.xlabel("Ano")
+            plt.ylabel("Número de Publicações")
+            plt.title("Distribuição de Publicações por Ano")
+            plt.xticks(rotation=45, ha='right')  # Rotaciona os anos em 45 graus e alinha à direita
+            plt.tight_layout() # Ajusta automaticamente os elementos do gráfico para evitar sobreposição
+
+            # Salvar o gráfico como imagem
+            grafico1 = "publicacoesPorAno.png"
+            plt.savefig(grafico1)
+            plt.close()
+
+            with open("relatorio.md", "a", encoding="utf-8") as f: # "a" --> add (se escrevesse "w", apagava tudo o que o ficheiro já tinha)
+                f.write("\nNúmero de publicações por ano\n")
+                for ano, contagem_publicacoes in anos_ordenados:
+                    f.write(f"- {ano}: {contagem_publicacoes}\n")
+                f.write("\n")
+                f.write("Gráfico de Distribuição de Publicações por Ano\n")
+                f.write(f"![Gráfico de Distribuição de Publicações por Ano]({grafico1})\n")
+        
+            print(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico1}'.")
+
+        # Distribuição de Palavras-Chave por Frequência
+        elif comando == "2":
+            palavras_chave_freq = {}
+            for p in dados:
+                if p.get("keywords"):
+                    listaPalavras = [palavra.strip(". ") for palavra in p['keywords'].split(", ")]
+                    for palavra in listaPalavras:
+                        palavra = palavra.strip("., ")
+                        if palavra not in palavras_chave_freq:
+                            palavras_chave_freq[palavra] = 1
+                        else:
+                            palavras_chave_freq[palavra] = palavras_chave_freq[palavra] + 1
+
+            palavras_ordenadas = sorted(palavras_chave_freq.items(), key=lambda x: x[1], reverse=True)
+            top20_palavras = palavras_ordenadas[:20]
+
+            palavra = [x[0] for x in top20_palavras]
+            frequencia = [x[1] for x in top20_palavras]
+
+            # Gerar Gráfico de Barras Horizontais
+            bars = plt.barh(palavra, frequencia, color="plum") # barras
+
+            for bar in bars:
+                if bar.get_width() > 22:  # Se o comprimento da barra > 22, colocar o texto dentro da barra
+                    plt.text(bar.get_width() - 5, bar.get_y() + bar.get_height() / 2, str(int(bar.get_width())), va='center', ha='right', color='black', fontsize=9)
+                else:  # Caso contrário, colocar o texto fora
+                    plt.text(bar.get_width() + 5, bar.get_y() + bar.get_height() / 2, str(int(bar.get_width())), va='center', ha='left', color='black', fontsize=9)
+
+            plt.xlabel("Frequência", fontsize=10, weight='bold', color="indigo")
+            plt.ylabel("Palavras-Chave", fontsize=10, weight='bold', color="indigo")
+            plt.title("Top 20 Palavras-Chave por Frequência", fontsize=12, weight='bold', color="indigo")
+            plt.gca().invert_yaxis() # Inverte para a + frequente no topo
+            plt.tight_layout()
+
+            # Salvar o gráfico como imagem
+            grafico2 = "frequenciasPalavrasChave.png"
+            plt.savefig(grafico2)
+            plt.close()
+
+            with open("relatorio.md", "a", encoding="utf-8") as f:
+                f.write("\nFrequência de palavras-chave:\n")
+                for palavra, frequencia in top20_palavras:
+                    f.write(f"- {palavra}: {frequencia}\n")
+                f.write("\n")
+                f.write("Gráfico de Distribuição de Palavras-Chave por Frequência - Top 20 Palavras\n")
+                f.write(f"![Gráfico de Distribuição de Palavras-Chave por Frequência]({grafico2})\n")
+        
+            print(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico2}'.")
+            
+        # Distribuição de Publicações Por Autor
+        elif comando == "3":
+            publicacoes_por_autor = {}
+            for p in dados:
+                if p.get("authors"):
+                    for autor in p["authors"]:
+                        nome_autor = autor["name"]
+                        if nome_autor not in publicacoes_por_autor:
+                            publicacoes_por_autor[nome_autor] = 1
+                        else:
+                            publicacoes_por_autor[nome_autor] = publicacoes_por_autor[nome_autor] + 1
+
+            autores_ordenados = sorted(publicacoes_por_autor.items(), key=lambda x: x[1], reverse=True)
+            top20_autores = autores_ordenados[:20]
+            nomes = [x[0] for x in top20_autores]
+            n_publicacoes = [x[1] for x in top20_autores]
+
+            # Gerar Gráfico
+            plt.barh(nomes, n_publicacoes, color="pink")
+            plt.xlabel("Número de Publicações")
+            plt.ylabel("Autores")
+            plt.title("Top 20 Autores por Número de Publicações")
+            plt.gca().invert_yaxis()  # Inverte para o maior no topo
+
+            # Salvar o gráfico como imagem
+            grafico3 = "publicacoesPorAutor.png"
+            plt.savefig(grafico3)
+            plt.close()
+
+            with open("relatorio.md", "a", encoding="utf-8") as f:
+                f.write("\nNúmero de publicações por autor:\n")
+                for nomes, n_publicacoes in top20_autores:
+                    f.write(f"- {nomes}: {n_publicacoes}\n")
+                f.write("\n")
+                f.write("Gráfico de Distribuição de Publicações por Autor - Top 20 Autores\n")
+                f.write(f"![Gráfico de Distribuição de Publicações por Autor\n]({grafico3})\n")
+        
+            print(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico3}'.")
+
+        # Distribuição de Publicações por Mês de um Determinado Ano
+        elif comando == "4":
+            ano_escolhido = int(input("Ano: "))
+            contagem_meses = {mes: 0 for mes in range(1, 13)}
+            # dicionário em compreensão --> chave = todos os números de 1-12 (meses) : valores = 0
+            # contagem_meses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 }
+
+            for p in dados:
+                if p.get('publish_date'):
+                    partes_data = p['publish_date'].split("-")
+                    if all(x.isdigit() for x in partes_data):
+                        ano = int(partes_data[0])
+                        mes = int(partes_data[1])
+                        if ano == ano_escolhido:
+                            contagem_meses[mes] = contagem_meses[mes] + 1
+
+            # Gerar Gráfico de Pizza (Pie Chart)
+            
+            labels = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+            sizes = [x[1] for x in contagem_meses.items()]
+            sizes_filtrados = [size for size in sizes if size > 0]
+            labels_filtrados = [label for size, label in zip(sizes, labels) if size > 0]
+            # zip(sizes, labels) combina as 2 listas em pares
+            # Quando iteramos em zip, podemos aplicar condições aos pares, garantindo que valores e rótulos correspondam
+        
+            fig, ax = plt.subplots()
+            ax.pie(sizes_filtrados, labels=labels_filtrados, autopct=lambda p: f'{int(p/100.*sum(sizes_filtrados))}', startangle=90, colors = ['lightpink', 'plum', 'skyblue'])
+            # autopct=lambda p: f'{int(p/100.*sum(sizes_filtrados))}'
+            # - Define uma função sem nome (lambda) que recebe um argumento p (no contexto do ax.pie(), o p é a % calculada automaticamente pelo Matplotlib para cada fatia do gráfico)
+            # - Converte X% para 0,0X
+            # - Multiplica esse valor (fração de cada elemento) pela soma dos valores em "sizes_filtrados"
+            ax.set_title(f"Número de Publicações por Mês em {ano_escolhido}")
+
+            # Salvar Gráfico como Imagem
+            grafico4 = f"publicacoesPorMesDe{ano_escolhido}.png"
+            plt.savefig(grafico4)
+            plt.close()
+    
+            with open("relatorio.md", "a", encoding="utf-8") as f:
+                f.write(f"\nNúmero de Publicações por Mês em {ano_escolhido}:\n")
+                for mes, publicacoes in contagem_meses.items():
+                    f.write(f"- {mes}: {publicacoes}\n")
+                f.write("\n")
+                f.write(f"Gráfico de Distribuição de Publicações por Mês em {ano_escolhido} \n")
+                f.write(f"![Gráfico de Distribuição de Publicações por Mês em {ano_escolhido}]({grafico4})\n")
+        
+            print(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico4}'.")
+
+        # Distribuição de Publicações de um Autor por Anos
+        elif comando == "5":
+            autor_escolhido = input("Autor: ")
+            contagem_anos = {}
+            for p in dados:
+                if p.get('authors') and p.get('publish_date'):
+                    ano = int(p["publish_date"].split("-")[0])
+                    for autor in p["authors"]:
+                        if autor.get("name").lower() == autor_escolhido.lower():
+                            if ano not in contagem_anos:
+                                contagem_anos[ano] = 1
+                            else:
+                                contagem_anos[ano] = contagem_anos[ano] + 1
+
+            anos_ordenados = sorted(contagem_anos.items(), key=lambda x: x[0])
+            anos = [x[0] for x in anos_ordenados]
+            quantidades = [x[1] for x in anos_ordenados]
+
+            # Gerar Gráfico de Barras Verticais
+            plt.bar(anos, quantidades, color="darkseagreen")
+            plt.xlabel("Anos", labelpad=10)  # labelpad aumenta o espaço entre o rótulo e o eixo
+            plt.ylabel("Número de Publicações", labelpad=15)
+            plt.title(f"Distribuição de Publicações de {autor_escolhido} por Anos")
+            plt.xticks(anos, rotation=45)
+            plt.yticks(range(0, max(quantidades) + 2))  # Ajusta os valores do eixo y
+        
+            # Salvar o gráfico como imagem
+            grafico5 = f"publicacoesPorAnosDe{autor_escolhido}.png"
+            plt.savefig(grafico5)
+            plt.close()
+
+            with open("relatorio.md", "a", encoding="utf-8") as f:
+                f.write(f"\nNúmero de Publicações por Anos de {autor_escolhido}:\n")
+                for anos, quantidades in anos_ordenados:
+                    f.write(f"- {anos}: {quantidades}\n")
+                f.write("\n")
+                f.write(f"Gráfico de Distribuição de Publicações por Anos de {autor_escolhido}\n")
+                f.write(f"![Gráfico de Distribuição de Publicações por Anos de {autor_escolhido}]({grafico5})\n")
+        
+            print(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico5}'.")
+    
+
+        # Distribuição de Palavra-Chave Mais Frequente por Ano:
+        elif comando == "6":
+            palavras_chave_ano = {}
+            for p in dados:
+                if p.get('keywords') and p.get('publish_date'):
+                    ano = int(p["publish_date"].split("-")[0])
+                    lista_palavras = [palavra.strip(". ") for palavra in p['keywords'].split(", ")]
+
+                    if ano not in palavras_chave_ano:
+                        palavras_chave_ano[ano] = {}
+                
+                    for palavra in lista_palavras:
+                        if palavra not in palavras_chave_ano[ano]:
+                            palavras_chave_ano[ano][palavra] = 1
+                        else:
+                            palavras_chave_ano[ano][palavra] = palavras_chave_ano[ano][palavra] + 1
+                
+            # Encontrar a palavra-chave + frequente por ano
+            palavras_frequentes_por_ano = {}
+            for ano, palavras in palavras_chave_ano.items():
+                palavra_mais_frequente = max(palavras.items(), key=lambda x: x[1])  # Escolhe a palavra com + frequência
+                palavras_frequentes_por_ano[ano] = palavra_mais_frequente
+
+            # Ordenar os anos
+            anos_ordenados = sorted(palavras_frequentes_por_ano.items(), key=lambda x: x[0], reverse=True)
+            anos = [x[0] for x in anos_ordenados]
+            palavras = [x[1][0] for x in anos_ordenados]
+            frequencias = [x[1][1] for x in anos_ordenados]
+
+            # Gerar Gráfico de Linhas com Marcadores ----------------------------------- (rascunho)
+            plt.figure(figsize=(10, 6))
+            plt.plot(anos, frequencias, marker='o', color="teal", linestyle='-', linewidth=2, markersize=6)
+
+            labels = [(ano, palavra) for ano, palavra in zip(anos, palavras)]
+            plt.legend(f"{ano}: {palavra}", ncol=3, loc="lower left", fontsize=9, title="Palavra Mais Frequente por Ano")
+
+            # Configurar títulos e rótulos
+            plt.xlabel("Ano", labelpad=10)
+            plt.ylabel("Frequência da Palavra-Chave", labelpad=10)
+            plt.title("Palavra-Chave Mais Frequente por Ano")
+            plt.xticks(anos, rotation=45)
+            plt.grid(True, linestyle='--', alpha=0.7)
+
+            # Salvar o gráfico como imagem
+            grafico6 = "palavraMaisFrequentePorAno.png"
+            plt.savefig(grafico6)
+            plt.close()
+
+            # ----------------------------------------------------------------
+
+            # Escrever no relatório
+            with open("relatorio.md", "a", encoding="utf-8") as f:
+                f.write("\nPalavra-chave mais frequente por ano:\n")
+                for ano, (palavra, frequencia) in palavras_frequentes_por_ano.items():
+                    f.write(f"- {ano}: {palavra} ({frequencia} ocorrências)\n")
+                f.write("\n")
+                f.write("Gráfico de Palavra-Chave Mais Frequente por Ano\n")
+                f.write(f"![Gráfico de Palavra-Chave Mais Frequente por Ano]({grafico6})\n")
+        
+            print(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico6}'.")
+    
+        elif comando == "7":
+            cond = False
+            print("Relatórios de estatísticas terminados.")
+        else:
+            print("Comando inválido! Insira um número entre 1 e 7. \n")
+
+
+# REQUISITOS DO SISTEMA
+
+# ----------------------------------------------------------------------
+# Função para análise de PUBLICAÇÕES por AUTOR
+def analisePorAutor(dados):
     dicionario_autores = {}
 
-    # Contar publicações de cada autor
-    for p in publicacoes:
-        for autor in p["Autores"]:
-            nome_autor = autor["Nome"]
+    for p in dados:
+        for autor in p["authors"]:
+            nome_autor = autor["name"]
             if nome_autor not in dicionario_autores:
                 dicionario_autores[nome_autor] = [] # se o nome do autor não for uma chave no dicionario_autores, inseri-lo como chave com o valor de uma lista vazia
-            dicionario_autores[nome_autor].append(p) # se ele já for chave, adicionar a publicação p à lista de publicações do autor
+            else:
+                dicionario_autores[nome_autor].append(p) # se ele já for chave, adicionar a publicação p à lista de publicações do autor
 
     # Perguntar ao utilizador o tipo de ordenação
     print("--- ANÁLISE DE PUBLICAÇÕES POR AUTOR ---")
@@ -232,25 +637,22 @@ def analisePorAutor(publicacoes):
         print("Opção inválida! Exibindo autores em ordem aleatória.")
         autores_ordenados = dicionario_autores.items()
 
-    print("--- RESULTADOS ---")
+    print("\n------ RESULTADOS ------")
     for autor, artigos in autores_ordenados:
         print(f"Autor: {autor}: ({len(artigos)} artigos publicados)")
         for i, p in enumerate(artigos, start=1):
-            print(f"{i}. {p['Título']} (Publicado em {p['Data da Publicação']})")
+            print(f"{i}. {p['title']} (Publicado em {p['publish_date']})")
 
-    return dict(autores_ordenados)
-
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 6. ANÁLISE DE PUBLICAÇÕES POR PALAVRA-CHAVE: O sistema deve permitir a pesquisa e visualização das palavras-chave do dataset. As palavras-chave devem estar ordenadas pelo seu número de ocorrências nos artigos e/ou por ordem alfabética. O sistema deve também permitir visualizar a lista das publicações associadas a cada palavra-chave;
-
-def analisePorPalavraChave(publicacoes):
+# ----------------------------------------------------------------------
+# Função para análise de PUBLICAÇÕES por PALAVRA-CHAVE
+def analisePorPalavraChave(dados):
     
     # Dicionário para contar palavras-chave e associar as publicações
     dicionario_palavras = {}
 
-    for p in publicacoes:
-        for palavra in p["Palavras-Chave"]:
+    for p in dados:
+        listaKeywords = [palavra.strip(". ") for palavra in p['keywords'].split(", ")]
+        for palavra in listaKeywords:
             palavra = palavra.lower()
             if palavra not in dicionario_palavras:
                 dicionario_palavras[palavra] = []
@@ -276,162 +678,61 @@ def analisePorPalavraChave(publicacoes):
             print(f"{i}. {p['Título']} (Publicado em {p['Data da Publicação']})")
 
 
+# ----------------------------------------------------------------------
+# Função para exibir a mensagem de ajuda
+def exibirAjuda():
+    print("""
+Comandos disponíveis:
+(1) Criar Publicação - Criar uma nova publicação
+(2) Consultar Publicação - Consultar uma publicação através do seu índice
+(3) Filtrar Publicações - Listar publicações que obedeçam a filtros
+(4) Atualizar Publicação - Atualizar uma publicação existente
+(5) Eliminar Publicação - Eliminar uma publicação existente
+(6) Listar Autores - Listar todos os autores e as suas publicações
+(7) Importar Publicações - Importar publicações de um arquivo JSON
+(8) Relatório de Estatísticas - Gerar relatórios de estatísticas
+(9) Analisar Publicações por Autor - 
+(10)        
+(11) Help - Exibir esta mensagem de ajuda
+(12) Sair - Sair do programa
+""")
 
-# --------------------------------------------------------------------------------------------------------------------------
-
-# 7. ESTATÍSTICAS DE PUBLICAÇÃO: O sistema deve apresentar relatórios que incluam os seguintes gráficos:
-
-import matplotlib.pyplot as plt
-
-# - Distribuição de publicações por ano:
-
-def distPublicacoesPorAno(publicacoes):
-    contagem_anos = {}
-    for publicacao in publicacoes:
-        ano = int(publicacao["Data da Publicação"].split("-")[0])  # Extrair o 1º elemento da lista resultante, se fatiarmos a data pelo "-" = ano
-        if ano not in contagem_anos:
-            contagem_anos[ano] = 1
+# ----------------------------------------------------------------------
+# Função principal para o menu de linha de comando
+def menu():
+    cond = True
+    while cond:
+        comando = input("Digite um comando (ou 'Help' para ver os comandos disponíveis): ").strip().lower()
+        if comando == "criar publicação" or comando == "1":
+            criarPublicacao()
+        elif comando == "consulta de publicação" or comando == "2":
+            indice = int(input("Digite o índice da publicação: ").strip())
+            consultarPublicacao(indice)
+        elif comando == "consultar publicações" or comando == "3":
+            consultarPublicacoes()
+        elif comando == "atualizar publicação" or comando == "4":
+            indice = int(input("Digite o índice da publicação: ").strip())
+            atualizarPublicacao(dados, indice)
+        elif comando == "eliminar publicação" or comando == "5":
+            indice = int(input("Digite o índice da publicação: ").strip())
+            eliminarPublicacao(indice)
+        elif comando == "listar autores" or comando == "6":
+            listarAutores()
+        elif comando == "importar publicações" or comando == "7":
+            ficheiro = input("Digite o caminho do arquivo JSON: ").strip()
+            importarDados(ficheiro)
+        elif comando == "relatório de estatísticas" or comando == "8":
+            gerarRelatorios()
+        elif comando == "análise de publicações" or comando == "9":
+            analisePorAutor(dados)
+        elif comando == "help" or comando == "10":
+            exibirAjuda()
+        elif comando == "sair" or comando == "11":
+            cond = False
+            print("Até à próxima...")
         else:
-            contagem_anos[ano] = contagem_anos[ano] + 1
+            print("Comando inválido! Digite 'Help' para ver os comandos disponíveis.\n")
 
-    # - Converte o dicionário "anos_ordenados" numa lista de tuplos (ano, nº de publicações)
-    # - Ordena os tuplos com base no seu 1º elemento = ano
-    anos_ordenados = sorted(contagem_anos.items(), key=lambda x: x[0])
-    for x in anos_ordenados:
-        ano, contagem_publicacoes = x
-
-    # Gráfico
-    plt.bar(ano, contagem_publicacoes, color="skyblue")
-    plt.xlabel("Ano")
-    plt.ylabel("Número de Publicações")
-    plt.title("Distribuição de Publicações por Ano")
-    plt.show()
-
-
-# - Distribuição de publicações por mês de um determinado ano:
-
-def distPublicacoesPorMes(publicacoes, ano_escolhido):
-    # Contar publicações por mês no ano escolhido
-    contagem_meses = {mes: 0 for mes in range(1, 13)} # dicionário em compreensão --> criar um dicionário que tenha como chave todos os números de 1 até 12 (meses) e o respetivos valores começam a zero
-    # contagem_meses = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 }
-
-    for p in publicacoes:
-        ano, mes, _ = map(int, p["Data da Publicação"].split("-")) # map --> aplica a função int a cada elemento da lista resultante de p["Data da Publicação"].split("-")
-        if ano == ano_escolhido:
-            contagem_meses[mes] = contagem_meses[mes] + 1
-
-    # Gráfico
-    meses = list(contagem_meses.keys())
-    numero_publicacoes = list(contagem_meses.values())
-
-    plt.bar(meses, numero_publicacoes, color="lightgreen")
-    plt.xlabel("Mês")
-    plt.ylabel("Número de Publicações")
-    plt.title(f"Distribuição de Publicações por Mês em {ano_escolhido}")
-    plt.xticks(meses) # ???
-    plt.show()
-
-
-# - Número de publicações por autor (top 20 autores):
-
-def distPublicacoesPorAutor(publicacoes):
-    contagem_autores = {}
-    for p in publicacoes:
-        for autor in p["Autores"]:
-            nome = autor["Nome"]
-            if nome not in contagem_autores:
-                contagem_autores[nome] = 1
-            else:
-                contagem_autores[nome] = contagem_autores[nome] + 1
-
-    autores_ordenados = sorted(contagem_autores.items(), key=lambda x: x[1], reverse=True)
-    top20_autores = autores_ordenados[:20]
-    for y in top20_autores:
-        nomes, n_publicacoes = y
-
-    # Gráfico
-    plt.barh(nomes, n_publicacoes, color="pink")
-    plt.xlabel("Número de Publicações")
-    plt.ylabel("Autores")
-    plt.title("Top 20 Autores por Número de Publicações")
-    plt.gca().invert_yaxis()  # Inverte para o maior no topo # ??????????
-    plt.show()
-
-
-# - Distribuição de publicações de um autor por anos:
-
-def distPublicacoesAutorPorAnos(publicacoes, nome_autor):
-    contagem_anos = {}
-    for p in publicacoes:
-        ano = int(p["Data da Publicação"].split("-")[0])
-        for autor in p["Autores"]:
-            if autor["Nome"].lower() == nome_autor.lower():
-                if ano not in contagem_anos:
-                    contagem_anos[ano] = 1
-                else:
-                    contagem_anos[ano] = contagem_anos[ano] + 1
-
-    anos_ordenados = sorted(contagem_anos.items(), key=lambda x: x[0])
-    for z in anos_ordenados:
-        anos, quantidades = z
-
-    # Gráfico
-    plt.bar(anos, quantidades, color="purple")
-    plt.xlabel("Ano")
-    plt.ylabel("Número de Publicações")
-    plt.title(f"Distribuição de Publicações de {nome_autor} por Anos")
-    plt.show()
-
-
-# - Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave):
-
-def distPalavrasChavePorFrequencia(publicacoes):
-    contagem_palavras = {}
-    for p in publicacoes:
-        for palavra in p["Palavras-Chave"]:
-            palavra = palavra.lower()
-            if palavra not in contagem_palavras:
-                contagem_palavras[palavra] = 1
-            contagem_palavras[palavra] = contagem_palavras[palavra] + 1
-
-    palavras_ordenadas = sorted(contagem_palavras.items(), key=lambda x: x[1], reverse=True)
-    top20_palavras = palavras_ordenadas[:20]
-    for w in top20_palavras:
-        palavra, frequencia = w
-
-    # Gráfico
-    plt.barh(palavra, frequencia, color="red") # ???
-    plt.xlabel("Frequência")
-    plt.ylabel("Palavras-Chave")
-    plt.title("Top 20 Palavras-Chave por Frequência")
-    plt.gca().invert_yaxis()  # Inverte para a mais frequente no topo # ?????
-    plt.show()
-    
-# - Distribuição de palavras-chave mais frequente por ano:
-
-def distPalavrasChavePorAno(publicacoes, palavra_chave):
-    contagem_anos = {}
-    for p in publicacoes:
-        if palavra_chave.lower() in [palavra.lower() for palavra in p["Palavras-Chave"]]:
-            ano = int(p["Data da Publicação"].split("-")[0])
-            if ano not in contagem_anos:
-                contagem_anos[ano] = 1
-            contagem_anos[ano] = contagem_anos[ano] + 1
-
-    anos_ordenados = sorted(contagem_anos.items(), key=lambda x: x[0])
-    for a in anos_ordenados:
-        anos, quantidades = a
-
-    # Gráfico
-    plt.bar(anos, quantidades, color="orange")
-    plt.xlabel("Ano")
-    plt.ylabel(f"Frequência de '{palavra_chave}'")
-    plt.title(f"Frequência de '{palavra_chave}' por Ano")
-    plt.show()
-
-
-# 8. ARMAZENAMENTO DOS DADOS: Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte;
-
-# 9. IMPORTAÇÃO DE DADOS: Em qualquer momento, deverá ser possível importar novos registos dum outro ficheiro que tenha a mesma estrutura do ficheiro de suporte;
-
-# 10. EXPORTAÇÃO PARCIAL DE DADOS: Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa (apenas o subconjunto retornado pela pesquisa).
+# Executar o menu de linha de comando
+if __name__ == "__main__":
+    menu()
