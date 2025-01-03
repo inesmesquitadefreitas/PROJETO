@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # ----------------------------------------------------------------------
-# Carregar dados do arquivo JSON
+# Carregar dados do arquivo JSON ✔
 def carregaDADOS(fnome):
     with open(fnome, encoding='utf-8') as f:
         return json.load(f)
@@ -21,7 +21,7 @@ def salvarDados(dados, ficheiro="ataMedicaPapers.json"):
 # Carregar dados no início do programa
 dados = carregaDADOS("C:/Users/Inês Mesquita/Documents/Eng_Biomédica/Programação/Projeto/ataMedicaPapers.json")
 # ----------------------------------------------------------------------
-# Função para CRIAR uma nova publicação
+# Função para CRIAR uma nova publicação ✔
 def criarPublicacao():
     layout = [
         [sg.Text("Título:"), sg.InputText(key="titulo")],
@@ -74,7 +74,7 @@ def criarPublicacao():
     janela.close()
 
 # ----------------------------------------------------------------------
-# Função para CONSULTAR uma publicação específica
+# Função para CONSULTAR uma publicação específica ✔
 def consultarPublicacao():
     sg.theme('LightGrey1')
     layout = [
@@ -113,7 +113,7 @@ def consultarPublicacao():
     janela.close()
 
 # ----------------------------------------------------------------------
-# Função para FILTRAR publicações
+# Função para FILTRAR publicações ✔
 def filtrarPublicacoes():
     sg.theme("LightBlue2")
     layout = [
@@ -167,47 +167,51 @@ def filtrarPublicacoes():
     janela.close()
 
 # ----------------------------------------------------------------------
-# Função para ATUALIZAR uma publicação existente
+# Função para ATUALIZAR uma publicação existente ✔
 def atualizarPublicacao():
-    layout = [
+    layout_consulta = [
         [sg.Text("Índice da publicação a atualizar:"), sg.InputText(key="indice")],
-        [sg.Button("Atualizar", button_color=("black", "pink")), sg.Button("Cancelar", button_color=("black", "pink"))]
+        [sg.Button("Atualizar", button_color=("black", "pink")), sg.Button("Cancelar", button_color=("black", "pink"))],
     ]
 
-    janela = sg.Window("Atualizar Publicação", layout)
+    janela_consulta = sg.Window("Consultar Publicação", layout_consulta)
 
-    cond=True
-    while cond:
-        event, values = janela.read()
+    continuar_consulta = True
+    while continuar_consulta:
+        event, values = janela_consulta.read()
 
-        if event in (sg.WINDOW_CLOSED, "Cancelar"):
-            janela.close()
+        if event in (sg.WINDOW_CLOSED, "Cancelar"): # sg.WINDOW_CLOSED --> utilizador clicar no X (canto superior direito)
+            continuar_consulta = False
+            janela_consulta.close()
 
         elif event == "Atualizar":
             try:
                 indice = int(values["indice"])
                 if 0 <= indice < len(dados):
                     publicacao = dados[indice]
-                    
+
+                    janela_consulta.close() # Fechar a janela de consulta antes de abrir a próxima
+                    continuar_consulta = False
+
                     layout_atualizar = [
                         [sg.Text("Título:"), sg.InputText(publicacao.get("title", ""), key="titulo")],
                         [sg.Text("Resumo:"), sg.Multiline(publicacao.get("abstract", ""), key="resumo")],
                         [sg.Text("Palavras-chave (separadas por vírgulas):"), sg.InputText(publicacao.get("keywords", ""), key="palavras_chave")],
                         [sg.Text("Data de Publicação (YYYY-MM-DD):"), sg.InputText(publicacao.get("publish_date", ""), key="data_publicacao")],
-                        [sg.Button("Salvar"), sg.Button("Cancelar")],
+                        [sg.Button("Salvar", button_color=("black", "green")), sg.Button("Cancelar", button_color=("black", "pink"))],
                     ]
 
                     janela_atualizar = sg.Window("Atualizar Publicação", layout_atualizar)
 
-                    cond=True
-                    while cond:
+                    continuar_atualizar = True
+                    while continuar_atualizar:
                         event_atualizar, values_atualizar = janela_atualizar.read()
 
                         if event_atualizar in (sg.WINDOW_CLOSED, "Cancelar"):
+                            continuar_atualizar = False
                             janela_atualizar.close()
 
                         elif event_atualizar == "Salvar":
-                            # Atualizar os dados da publicação
                             publicacao["title"] = values_atualizar["titulo"]
                             publicacao["abstract"] = values_atualizar["resumo"]
                             publicacao["keywords"] = values_atualizar["palavras_chave"]
@@ -215,8 +219,8 @@ def atualizarPublicacao():
 
                             salvarDados(dados)
                             sg.popup("Publicação atualizada com sucesso!")
+                            continuar_atualizar = False
                             janela_atualizar.close()
-                            
                 else:
                     sg.popup_error("Índice inválido!")
             except ValueError:
@@ -224,14 +228,36 @@ def atualizarPublicacao():
 
 
 # ----------------------------------------------------------------------
-# Função para ELIMINAR uma publicação
-def eliminarPublicacao(indice):
-    if 0 <= indice < len(dados):
-        dados.pop(indice) # pop --> remover um elemento
-        salvarDados(dados)
-        print(f"Publicação de índice {indice} eliminada com sucesso!\n")
-    else:
-        print("Erro: Índice da publicação inválido!\n")
+# Função para ELIMINAR uma publicação ✔
+def eliminarPublicacao():
+    layout = [
+        [sg.Text("Índice da publicação a eliminar:"), sg.InputText(key="indice")],
+        [sg.Button("Eliminar", button_color=("white", "red")), sg.Button("Cancelar", button_color=("black", "pink"))],
+    ]
+
+    janela = sg.Window("Eliminar Publicação", layout)
+
+    continuar = True
+    while continuar:
+        event, values = janela.read()
+
+        if event in (sg.WINDOW_CLOSED, "Cancelar"):
+            continuar = False
+            janela.close()
+
+        elif event == "Eliminar":
+            try:
+                indice = int(values["indice"])
+                if 0 <= indice < len(dados):
+                    dados.pop(indice)  # .pop() --> função para remover 1 elemento de uma base de dados
+                    salvarDados(dados)
+                    sg.popup(f"Publicação de índice {indice} eliminada com sucesso!")
+                    continuar = False
+                    janela.close()
+                else:
+                    sg.popup_error("Erro: Índice da publicação inválido!")
+            except ValueError:
+                sg.popup_error("Por favor, insira um número válido para o índice!")
 
 # ----------------------------------------------------------------------
 # Função para listar AUTORES e as suas PUBLICAÇÕES
@@ -736,7 +762,7 @@ def gui():
         elif event == "Atualizar Publicação":
             atualizarPublicacao()
         elif event == "Eliminar Publicação":
-            sg.popup("Função 'Eliminar Publicação' ainda não implementada.")
+            eliminarPublicacao()
         elif event == "Listar Autores e suas Publicações":
             listarAutores()
         elif event == "Importar Publicações":
