@@ -85,7 +85,7 @@ def criarPublicacao():
 def consultarPublicacao(indice):
     if 0 <= indice < len(dados):
         publicacao = dados[indice]
-        print(f"--- Publicação de índice {indice} ---\n")
+        print(f"\n-------- PUBLICAÇÃO DE ÍNDICE {indice} --------\n")
         if publicacao.get('title'):
             print(f"Título: {publicacao['title']}\n")
         if publicacao.get('abstract'):
@@ -113,7 +113,7 @@ def consultarPublicacao(indice):
 # ----------------------------------------------------------------------
 # (3) Função para FILTRAR publicações
 def consultarPublicacoes():
-    print("--- CONSULTA DE PUBLICAÇÕES ---")
+    print("\n-------- CONSULTA DE PUBLICAÇÕES --------")
     print("1. Título")
     print("2. Autor")
     print("3. Afiliação")
@@ -142,28 +142,66 @@ def consultarPublicacoes():
 
     publicacoes_encontradas = []
     for p in dados:
-        if chave_filtro == "Título" and filtro.lower() in p.get('title').lower() and p not in publicacoes_encontradas:
-            publicacoes_encontradas.append(p)
-        elif chave_filtro == "Nome do Autor":
-            for autor in p.get('authors'): # p.get('authors') --> pode have publicações sem a chave 'authors' (prevenimos erros)
-                if filtro.lower() in autor.get('name').lower() and p not in publicacoes_encontradas:
+        if chave_filtro == "Título": # p.get('title') --> pode have publicações sem a chave 'title' (prevenimos erros)
+            if p.get('title'):
+                if filtro.lower() in p['title'].lower() and p not in publicacoes_encontradas:
                     publicacoes_encontradas.append(p)
+        elif chave_filtro == "Nome do Autor":
+            for autor in p.get('authors'):
+                if autor.get('name'):
+                    if filtro.lower() in autor['name'].lower() and p not in publicacoes_encontradas:
+                        publicacoes_encontradas.append(p)
         elif chave_filtro == "Afiliação":
             for autor in p.get("authors"):
-                if filtro.lower() in autor.get('affiliation').lower() and p not in publicacoes_encontradas:
-                    publicacoes_encontradas.append(p)
-        elif chave_filtro == "Data da Publicação" and p.get('publish_date') == filtro and p not in publicacoes_encontradas:
-            publicacoes_encontradas.append(p)
+                if autor.get('affiliation'):
+                    if filtro.lower() in autor['affiliation'].lower() and p not in publicacoes_encontradas:
+                        publicacoes_encontradas.append(p)
+        elif chave_filtro == "Data da Publicação":
+            if p.get('publish_date') == filtro and p not in publicacoes_encontradas:
+                publicacoes_encontradas.append(p)
         elif chave_filtro == "Palavras-Chave":
-            for palavra in p.get('keywords').split(", "):
-                palavra = palavra.strip('. ')
-                if filtro in palavra.lower() and p not in publicacoes_encontradas:
-                   publicacoes_encontradas.append(p)
+            if p.get('keywords'):
+                for palavra in p['keywords'].split(", "):
+                    palavra = palavra.strip('. ')
+                    if filtro in palavra.lower() and p not in publicacoes_encontradas:
+                        publicacoes_encontradas.append(p)
     
-    # Ordenar os resultados por data e título
-    publicacoes_encontradas.sort(key=lambda x: (x.get("publish_date"), x.get("title").lower()))
+    print("\n-------- EXIBIR RESULTADOS --------")
+    print("1. Ordenar artigos por data de publicação (da mais recente à mais antiga).")
+    print("2. Ordenar artigos por ordem alfabética dos títulos.")
+    opcao = input("Escolha o tipo de ordenação (1/2): ").strip()
+
+    # ----------------------------------
+
+    if opcao == "1":
+        sem_data = [p for p in publicacoes_encontradas if not p.get("publish_date")]
+        com_data = [p for p in publicacoes_encontradas if p.get("publish_date")]
+
+        if sem_data:
+            print("Publicação sem data encontrada:")
+            for pub in sem_data:
+                print(f"- {pub.get('title', 'Título desconhecido')}")
+
+        com_data.sort(key=lambda x: x["publish_date"], reverse=True)
+        publicacoes_encontradas = com_data + sem_data
+
+    elif opcao == "2":
+        sem_titulo = [p for p in publicacoes_encontradas if not p.get("title")]
+        com_titulo = [p for p in publicacoes_encontradas if p.get("title")]
+
+        if sem_titulo:
+            print("Publicação sem título encontrada:")
+            for pub in sem_titulo:
+                print(f"- Publicação de {pub.get('publish_date', 'Data desconhecida')}")
+
+        com_titulo.sort(key=lambda x: x["title"].lower())
+        publicacoes_encontradas = com_titulo + sem_titulo  # Unir listas (sem título ao final)
     
-    # Exibir os resultados
+    else:
+        print("Opção inválida! Exibindo autores em ordem aleatória.")
+
+    # ----------------------------------
+
     if publicacoes_encontradas:
         print("\n------ RESULTADOS DA PESQUISA ------\n")
         for i, pub in enumerate(publicacoes_encontradas, start=1):
@@ -177,10 +215,17 @@ def consultarPublicacoes():
                 print(f"Palavras-Chave: {', '.join(listaKeywords)}\n")
             if pub.get('authors'):
                 listaAutores = []
+                listaAfiliacoes = []
                 for p in pub['authors']:
-                    nomeAutor = p['name']
-                    listaAutores.append(nomeAutor)
+                    if p.get('name'):
+                        nomeAutor = p['name']
+                        listaAutores.append(nomeAutor)
+                    if p.get('affiliation'):
+                        afiliacaoAutor = p['affiliation']
+                        if afiliacaoAutor not in listaAfiliacoes:
+                            listaAfiliacoes.append(afiliacaoAutor)
                 print(f"Autores: {', '.join(listaAutores)}\n")
+                print(f"Afiliações: {', '.join(listaAfiliacoes)}\n")
             if pub.get('doi'):
                 print(f"DOI: {pub['doi']}\n")
             if pub.get('publish_date'):
@@ -209,13 +254,17 @@ def atualizarPublicacao(dados, indice):
             publicacao['abstract'] = resumo
 
         if publicacao.get('keywords'):
-            palavras_chave = input(f"Novas palavras-chave, separadas por uma vírgula (atuais: {publicacao['keywords']}): ")
-            if palavras_chave:
-                palavras_chave = [palavra.strip('. ') for palavra in palavras_chave.split(",")]
-            else:
-                palavras_chave = publicacao['keywords']
+            lista_palavras_chave = []
+            cond = True
+            while cond:
+                palavra_chave = input("Palavra-chave (deixe em branco para terminar): ").strip()
+                if palavra_chave:
+                    lista_palavras_chave.append(palavra_chave)
+                else:
+                    cond = False
+            palavras_chave = ", ".join(lista_palavras_chave)
             publicacao['keywords'] = palavras_chave
-        
+
         if publicacao.get('authors'):
             for autor in publicacao["authors"]:
                 nomeAutor = input(f"Novo nome para o autor '{autor['name']}': ").strip()
@@ -262,27 +311,35 @@ def eliminarPublicacao(indice):
 # ----------------------------------------------------------------------
 # Função para listar AUTORES e as suas PUBLICAÇÕES
 def listarAutores():
-    lista = {}
+    autor_publicacoes = {}
     for p in dados:
         if "authors" in p:
             for autor in p["authors"]:
-                nome_autor = autor["name"]
-                if nome_autor not in lista:
-                    lista[nome_autor] = []
-                if p.get('title'):
-                    (lista[nome_autor]).append(p['title'])
-                elif p.get('abstract'):
-                    (lista[nome_autor]).append(f"Publicação sem Título. Abstract: {p['abstract']}")
-                else:
-                    (lista[nome_autor]).append('Publicação sem Título.')
+                if autor.get('name'):
+                    nome_autor = autor["name"]
+                    if nome_autor not in autor_publicacoes:
+                        autor_publicacoes[nome_autor] = []
+                        if p.get('title'):
+                            (autor_publicacoes[nome_autor]).append(p['title'])
+                        else:
+                            (autor_publicacoes[nome_autor]).append("Publicação sem Título.")
+                    else:
+                        if p.get('title'):
+                            (autor_publicacoes[nome_autor]).append(p['title'])
+                        else:
+                            (autor_publicacoes[nome_autor]).append("Publicação sem Título.")
   
-    print("------ AUTORES E RESPETIVAS PUBLICAÇÕES ------\n")
-    for autor, publicacoes in lista.items():
-        print(f"Autor: {autor}\n")
-        print(f"Publicações:")
-        for pub in publicacoes:
-            print(f"  - {pub}")
-        print("-------------------------------------------")
+    with open("listaAutoresPublicacoes.txt", "w", encoding="utf-8") as f:
+        f.write("------ AUTORES E RESPETIVAS PUBLICAÇÕES ------\n")
+        for autor, publicacoes in autor_publicacoes.items():
+            f.write("\n")
+            f.write(f"Autor: {autor}\n")
+            f.write(f"Publicações:\n")
+            for pub in publicacoes:
+                f.write(f"  - {pub}\n")
+            f.write("\n")
+    
+    print("Lista de autores e as suas respetivas publicações gerada com sucesso em 'listaAutoresPublicacoes.txt'.")
 
 # ----------------------------------------------------------------------
 # Função para IMPORTAR dados de outro arquivo JSON
@@ -297,7 +354,7 @@ def importarDados(ficheiro):
         print(f"Erro ao importar dados: {e}\n")
     
 # ----------------------------------------------------------------------
-# Função para gerar RELATÓRIOS de estatísticas
+# Função para gerar RELATÓRIOS de ESTATÍSTICAS
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -315,13 +372,13 @@ Gerar Relatórios:
 """)
     
     with open("relatorio.md", "w", encoding="utf-8") as f: # .md --> markdown --> suporta texto e imagens(gráfico)
-        f.write("----- RELATÓRIO DE ESTATÍSTICAS -----\n")
+        f.write("RELATÓRIO DE ESTATÍSTICAS\n")
 
     cond = True
     while cond:
         comando = input("Digite um comando para gerar o seu relatório (1-7): ")
 
-        # Distribuição de Publicações por Ano
+        # Distribuição de Publicações por Ano :)
         if comando == "1":
             publicacoes_por_ano = {}
             for p in dados:
@@ -341,13 +398,25 @@ Gerar Relatórios:
 
             # Gerar Gráfico de Barras Verticais
             plt.bar(ano, contagem_publicacoes, color="tomato")
-            plt.xlabel("Ano")
-            plt.ylabel("Número de Publicações")
-            plt.title("Distribuição de Publicações por Ano")
+            plt.xlabel("Anos", weight='bold', labelpad = 10)
+            plt.ylabel("Número de Publicações", weight='bold', labelpad = 10)
+            plt.title("Distribuição de Publicações por Ano", weight='bold')
             plt.xticks(rotation=45, ha='right')  # Rotaciona os anos em 45 graus e alinha à direita
             plt.tight_layout() # Ajusta automaticamente os elementos do gráfico para evitar sobreposição
 
-            # Salvar o gráfico como imagem
+            for i in range(len(ano)):
+            # Ajusta posição do texto dinamicamente
+                posicao_y = contagem_publicacoes[i] + 2
+                plt.text(
+                    x=ano[i], 
+                    y=posicao_y,  # Posição ajustada
+                    s=str(contagem_publicacoes[i]),  # Texto a ser exibido
+                    ha='center',  # Alinhamento horizontal
+                    fontsize=8,
+                    color="black"
+                )
+
+            # Salvar Gráfico como Imagem
             grafico1 = "publicacoesPorAno.png"
             plt.savefig(grafico1)
             plt.close()
@@ -382,17 +451,16 @@ Gerar Relatórios:
             frequencia = [x[1] for x in top20_palavras]
 
             # Gerar Gráfico de Barras Horizontais
-            bars = plt.barh(palavra, frequencia, color="plum") # barras
-
+            bars = plt.barh(palavra, frequencia, color="plum")
             for bar in bars:
                 if bar.get_width() > 22:  # Se o comprimento da barra > 22, colocar o texto dentro da barra
                     plt.text(bar.get_width() - 5, bar.get_y() + bar.get_height() / 2, str(int(bar.get_width())), va='center', ha='right', color='black', fontsize=9)
                 else:  # Caso contrário, colocar o texto fora
                     plt.text(bar.get_width() + 5, bar.get_y() + bar.get_height() / 2, str(int(bar.get_width())), va='center', ha='left', color='black', fontsize=9)
 
-            plt.xlabel("Frequência", fontsize=10, weight='bold', color="indigo")
-            plt.ylabel("Palavras-Chave", fontsize=10, weight='bold', color="indigo")
-            plt.title("Top 20 Palavras-Chave por Frequência", fontsize=12, weight='bold', color="indigo")
+            plt.xlabel("Frequência", fontsize=10, weight='bold', labelpad=10)
+            plt.ylabel("Palavras-Chave", fontsize=10, weight='bold', labelpad=10)
+            plt.title("Top 20 Palavras-Chave por Frequência", fontsize=12, weight='bold')
             plt.gca().invert_yaxis() # Inverte para a + frequente no topo
             plt.tight_layout()
 
@@ -411,7 +479,7 @@ Gerar Relatórios:
         
             print(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico2}'.")
             
-        # Distribuição de Publicações Por Autor
+        # Distribuição de Publicações Por Autor (AINDA NAO ESTA DIREITO)
         elif comando == "3":
             publicacoes_por_autor = {}
             for p in dados:
@@ -429,11 +497,14 @@ Gerar Relatórios:
             n_publicacoes = [x[1] for x in top20_autores]
 
             # Gerar Gráfico
-            plt.barh(nomes, n_publicacoes, color="pink")
-            plt.xlabel("Número de Publicações")
-            plt.ylabel("Autores")
-            plt.title("Top 20 Autores por Número de Publicações")
+            bars = plt.barh(nomes, n_publicacoes, color="pink")
+            for bar in bars:
+                plt.text(bar.get_width() - 1, bar.get_y() + bar.get_height() / 2, str(int(bar.get_width())), va='center', ha='right', color='black', fontsize=9)
+            plt.xlabel("Número de Publicações", fontsize=10, weight='bold', labelpad=10)
+            plt.ylabel("Autores", fontsize=10, weight='bold', labelpad=10)
+            plt.title("Top 20 Autores por Número de Publicações", fontsize=10, weight='bold')
             plt.gca().invert_yaxis()  # Inverte para o maior no topo
+            plt.tight_layout()
 
             # Salvar o gráfico como imagem
             grafico3 = "publicacoesPorAutor.png"
@@ -476,7 +547,7 @@ Gerar Relatórios:
             # Quando iteramos em zip, podemos aplicar condições aos pares, garantindo que valores e rótulos correspondam
         
             fig, ax = plt.subplots()
-            ax.pie(sizes_filtrados, labels=labels_filtrados, autopct=lambda p: f'{int(p/100.*sum(sizes_filtrados))}', startangle=90, colors = ['lightpink', 'plum', 'skyblue'])
+            ax.pie(sizes_filtrados, labels=labels_filtrados, autopct=lambda p: f'{int(p/100.*sum(sizes_filtrados))}', startangle=90, colors = ['lightpink', 'skyblue', 'plum'])
             # autopct=lambda p: f'{int(p/100.*sum(sizes_filtrados))}'
             # - Define uma função sem nome (lambda) que recebe um argumento p (no contexto do ax.pie(), o p é a % calculada automaticamente pelo Matplotlib para cada fatia do gráfico)
             # - Converte X% para 0,0X
@@ -516,19 +587,21 @@ Gerar Relatórios:
             anos = [x[0] for x in anos_ordenados]
             quantidades = [x[1] for x in anos_ordenados]
 
-            # Gerar Gráfico de Barras Verticais
-            plt.bar(anos, quantidades, color="darkseagreen")
-            plt.xlabel("Anos", labelpad=10)  # labelpad aumenta o espaço entre o rótulo e o eixo
-            plt.ylabel("Número de Publicações", labelpad=15)
-            plt.title(f"Distribuição de Publicações de {autor_escolhido} por Anos")
-            plt.xticks(anos, rotation=45)
-            plt.yticks(range(0, max(quantidades) + 2))  # Ajusta os valores do eixo y
-        
+            # Gerar Gráfico de Pizza (Pie Chart)
+            
+            labels = anos
+            sizes = quantidades
+            
+            fig, ax = plt.subplots()
+            ax.pie(sizes, labels=labels, autopct=lambda p: f'{int(p/100.*sum(sizes))}', startangle=90, colors = ['lightskyblue', 'lightgreen', 'khaki'])
+            ax.set_title(f"Número de Publicações de {autor_escolhido} por Anos")
+
             # Salvar o gráfico como imagem
             grafico5 = f"publicacoesPorAnosDe{autor_escolhido}.png"
             plt.savefig(grafico5)
             plt.close()
 
+            # Escrever Relatório
             with open("relatorio.md", "a", encoding="utf-8") as f:
                 f.write(f"\nNúmero de Publicações por Anos de {autor_escolhido}:\n")
                 for anos, quantidades in anos_ordenados:
@@ -569,28 +642,28 @@ Gerar Relatórios:
             palavras = [x[1][0] for x in anos_ordenados]
             frequencias = [x[1][1] for x in anos_ordenados]
 
-            # Gerar Gráfico de Linhas com Marcadores ----------------------------------- (rascunho)
+            # Gerar Gráfico de Linhas com Marcadores
             plt.figure(figsize=(10, 6))
-            plt.plot(anos, frequencias, marker='o', color="teal", linestyle='-', linewidth=2, markersize=6)
+            plt.plot(anos, frequencias, marker='o', color="maroon", linestyle='-', linewidth=2, markersize=6)
 
-            labels = [(ano, palavra) for ano, palavra in zip(anos, palavras)]
-            plt.legend(f"{ano}: {palavra}", ncol=3, loc="lower left", fontsize=9, title="Palavra Mais Frequente por Ano")
+            labels = [f"{ano}: {palavra}" for ano, palavra in zip(anos, palavras)]
+            handles = [plt.Line2D([0], [0], color='maroon', marker='o', linestyle='-', markersize=6, label=label) for label in labels]
+            plt.legend(handles=handles, ncol=3, loc="lower left", fontsize=10, title="Palavra Mais Frequente por Ano")
 
             # Configurar títulos e rótulos
-            plt.xlabel("Ano", labelpad=10)
-            plt.ylabel("Frequência da Palavra-Chave", labelpad=10)
-            plt.title("Palavra-Chave Mais Frequente por Ano")
+            plt.xlabel("Anos", fontsize=12, weight='bold', labelpad=12)
+            plt.ylabel("Frequência da Palavra-Chave", fontsize=12, weight='bold', labelpad=12)
+            plt.title("Palavra-Chave Mais Frequente por Ano", fontsize=14, weight='bold')
             plt.xticks(anos, rotation=45)
             plt.grid(True, linestyle='--', alpha=0.7)
+            plt.tight_layout()
 
             # Salvar o gráfico como imagem
             grafico6 = "palavraMaisFrequentePorAno.png"
             plt.savefig(grafico6)
             plt.close()
 
-            # ----------------------------------------------------------------
-
-            # Escrever no relatório
+            # Escrever o relatório
             with open("relatorio.md", "a", encoding="utf-8") as f:
                 f.write("\nPalavra-chave mais frequente por ano:\n")
                 for ano, (palavra, frequencia) in palavras_frequentes_por_ano.items():
@@ -612,19 +685,22 @@ Gerar Relatórios:
 
 # ----------------------------------------------------------------------
 # Função para análise de PUBLICAÇÕES por AUTOR
-def analisePorAutor(dados):
+def analisePorAutor():
     dicionario_autores = {}
 
     for p in dados:
-        for autor in p["authors"]:
-            nome_autor = autor["name"]
-            if nome_autor not in dicionario_autores:
-                dicionario_autores[nome_autor] = [] # se o nome do autor não for uma chave no dicionario_autores, inseri-lo como chave com o valor de uma lista vazia
-            else:
-                dicionario_autores[nome_autor].append(p) # se ele já for chave, adicionar a publicação p à lista de publicações do autor
+        if p.get('authors'):
+            for autor in p["authors"]:
+                if autor.get('name'):
+                    nome_autor = autor["name"]
+                    if nome_autor not in dicionario_autores:
+                        dicionario_autores[nome_autor] = []
+                        dicionario_autores[nome_autor].append(p)
+                    else:
+                        dicionario_autores[nome_autor].append(p)
+                        
 
-    # Perguntar ao utilizador o tipo de ordenação
-    print("--- ANÁLISE DE PUBLICAÇÕES POR AUTOR ---")
+    print("\n------------- ANÁLISE DE PUBLICAÇÕES POR AUTOR -------------")
     print("1. Ordenar por frequência de artigos publicados (ordem decrescente).")
     print("2. Ordenar por ordem alfabética dos nomes dos autores.")
     opcao = input("Escolha o tipo de ordenação (1/2): ").strip()
@@ -637,28 +713,38 @@ def analisePorAutor(dados):
         print("Opção inválida! Exibindo autores em ordem aleatória.")
         autores_ordenados = dicionario_autores.items()
 
-    print("\n------ RESULTADOS ------")
-    for autor, artigos in autores_ordenados:
-        print(f"Autor: {autor}: ({len(artigos)} artigos publicados)")
-        for i, p in enumerate(artigos, start=1):
-            print(f"{i}. {p['title']} (Publicado em {p['publish_date']})")
+    with open("analisePublicacoesAutores.txt", "w", encoding="utf-8") as f:
+        f.write("------ AUTORES E ARTIGOS PUBLICADOS ------\n")
+        for autor, artigos in autores_ordenados:
+            f.write(f"\nAutor: {autor} ({len(artigos)} artigos publicados)\n")
+            for i, p in enumerate(artigos, start=1):
+                if p.get('title'):
+                    if p.get('publish_date'):
+                        f.write(f"({i}) {p['title']} (Publicado em {p['publish_date']})\n")
+                    else:
+                        f.write(f"({i}) {p['title']} (Publicação sem data referida)\n")
+                else:
+                    f.write(f"({i}) Publicação sem título.\n")
+            f.write("\n")
+    
+    print(f"Análise de publicações por autor gerada com sucesso em 'analisePublicacoesAutores'.")
 
 # ----------------------------------------------------------------------
 # Função para análise de PUBLICAÇÕES por PALAVRA-CHAVE
-def analisePorPalavraChave(dados):
-    
-    # Dicionário para contar palavras-chave e associar as publicações
+def analisePorPalavraChave():
     dicionario_palavras = {}
 
     for p in dados:
-        listaKeywords = [palavra.strip(". ") for palavra in p['keywords'].split(", ")]
-        for palavra in listaKeywords:
-            palavra = palavra.lower()
-            if palavra not in dicionario_palavras:
-                dicionario_palavras[palavra] = []
-            dicionario_palavras[palavra].append(p)
+        if p.get('keywords'):
+            listaKeywords = [palavra.strip(". ") for palavra in p['keywords'].split(", ")]
+            for palavra in listaKeywords:
+                if palavra not in dicionario_palavras:
+                    dicionario_palavras[palavra] = []
+                    dicionario_palavras[palavra].append(p)
+                else:
+                    dicionario_palavras[palavra].append(p)
 
-    print("--- ANÁLISE DE PUBLICAÇÕES POR PALAVRA-CHAVE ---")
+    print("------------- ANÁLISE DE PUBLICAÇÕES POR PALAVRA-CHAVE -------------")
     print("1. Ordenar palavras-chave pela frequência de ocorrências (ordem decrescente).")
     print("2. Ordenar palavras-chave por ordem alfabética.")
     opcao = input("Escolha o tipo de ordenação (1/2): ").strip()
@@ -671,12 +757,21 @@ def analisePorPalavraChave(dados):
         print("Opção inválida! Exibindo palavras-chave em ordem aleatória.")
         palavras_ordenadas = dicionario_palavras.items()
 
-    print("--- RESULTADOS ---")
-    for palavra, artigos in palavras_ordenadas:
-        print(f"Palavra-chave: '{palavra}': ({len(artigos)} ocorrências)")
-        for i, p in enumerate(artigos, start=1):
-            print(f"{i}. {p['Título']} (Publicado em {p['Data da Publicação']})")
-
+    with open("analisePublicacoesPalavrasChave.txt", "w", encoding="utf-8") as f:
+        f.write("------ PALAVRAS-CHAVE E ARTIGOS PUBLICADOS ------\n")
+        for palavra, artigos in palavras_ordenadas:
+            f.write(f"\nPalavra-chave: '{palavra}' ({len(artigos)} ocorrências)\n")
+            for i, p in enumerate(artigos, start=1):
+                if p.get('title'):
+                    if p.get('publish_date'):
+                        f.write(f"({i}) {p['title']} (Publicado em {p['publish_date']})\n")
+                    else:
+                        f.write(f"({i}) {p['title']} (Publicação sem data referida)\n")
+                else:
+                    f.write(f"({i}) Publicação sem título.\n")
+            f.write("\n")
+    
+    print(f"Análise de publicações por palavra-chave gerada com sucesso em 'analisePublicacoesPalavrasChave'.")
 
 # ----------------------------------------------------------------------
 # Função para exibir a mensagem de ajuda
@@ -691,8 +786,8 @@ Comandos disponíveis:
 (6) Listar Autores - Listar todos os autores e as suas publicações
 (7) Importar Publicações - Importar publicações de um arquivo JSON
 (8) Relatório de Estatísticas - Gerar relatórios de estatísticas
-(9) Analisar Publicações por Autor - 
-(10)        
+(9) Analisar Publicações por Autor - Listar publicações que contenham um determinado autor
+(10) Analisar Publicações por Palavra-Chave - Listar publicações que contenham uma certa palavra-chave
 (11) Help - Exibir esta mensagem de ajuda
 (12) Sair - Sair do programa
 """)
@@ -723,11 +818,13 @@ def menu():
             importarDados(ficheiro)
         elif comando == "relatório de estatísticas" or comando == "8":
             gerarRelatorios()
-        elif comando == "análise de publicações" or comando == "9":
-            analisePorAutor(dados)
-        elif comando == "help" or comando == "10":
+        elif comando == "analisar publicações por autor" or comando == "9":
+            analisePorAutor()
+        elif comando == "analisar publicações por palavra-chave" or comando == "10":
+            analisePorPalavraChave()
+        elif comando == "help" or comando == "11":
             exibirAjuda()
-        elif comando == "sair" or comando == "11":
+        elif comando == "sair" or comando == "12":
             cond = False
             print("Até à próxima...")
         else:
