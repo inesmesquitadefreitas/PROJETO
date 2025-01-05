@@ -77,6 +77,7 @@ Um utilizador da interface de linha de comandos poderá executar as seguintes op
 * Sair: termina o programa.
 
 #### Explicação do Código
+
 Função para Carregar os Dados:
 - A função **carregaDados** tem como propósito carregar os dados armazenados num arquivo JSON para o uso no programa. Relativamente ao parâmetro *fnome*, este representa o nome ou o caminho JSON, com um valor padrão, neste caso, definido como “ata_medica_papers.json”. Isto permite que a função seja usada sem a necessidade de especificar o arquivo sempre que seja necessário utilizá-la.
 - Quanto ao funcionamento desta função, esta abre o arquivo JSON no modo de leitura com a codificação “utf-8” para garantir a compatibilidade com caracteres especiais e, de seguida, utiliza o métodos json.load para converter o conteúdo do arquivo JSON num objeto Python, como um dicionário ou uma lista.
@@ -98,7 +99,7 @@ Função do Menu Principal
 - A função **menu_principal** é responsável por criar e retornar a interface gráfica de um menu principal, utilizando a biblioteca FreeSimpleGUI. Esta função organiza a interface através de um conjunto de botões, cada um com uma funcionalidade específica, e elementos, para facilitar a interação do utilizador com o programa.
 
 Função principal GUI:
-- A função *gui* encarrega-se por implementar a interface gráfica do usuário (GUI) principal do programa;
+- A função **gui** encarrega-se por implementar a interface gráfica do usuário (GUI) principal do programa;
 - Esta utiliza o FreeSimpleGUI para exibir a janela inicial e gerir as interações do usuário com o menu principal;
 - A função chama a função menu_principal para criar o layout e retornar a janela do menu principal;
 - O programa entra num loop contínuo que processa as ações geradas pelo utilizador, como os cliques nos botões das opções do menu;
@@ -118,7 +119,6 @@ Função para Consultar uma Publicação Específica:
 - Se o índice for válido (ou seja, estiver dentro dos limites da lista de publicações), a função recupera os dados da publicação correspondente e constrói uma string formatada com as informações, como o título, resumo, palavras-chave, DOI, autores e data de publicação, sendo estas informações apresentadas na área de texto da janela. Caso o índice seja inválido ou o valor introduzido não for um número, a função exibe uma mensagem de erro. 
 - Por fim, quando o utilizador termina a consulta, a janela é fechada e a função encerra. Esta função é útil para explorar rapidamente os detalhes de uma publicação específica, utilizando uma interface amigável e mensagens claras para lidar com erros.
 
-
 Função para Filtrar Publicações:
 - A função **filtrarPublicacoes** permite que o utilizador pesquise publicações na base de dados com base em critérios específicos, utilizando uma interface gráfica criada com o *FreeSimpleGUI*. 
 - A função inicia configurando o tema da janela e definindo um layout que inclui uma mensagem explicativa, botões para selecionar os critérios de filtro (como "Título", "Autor", "Afiliação", "Data da Publicação" e "Palavra-Chave") e uma área de texto para exibir os resultados. Um botão "Cancelar" também está disponível para sair do processo de filtragem.
@@ -126,24 +126,24 @@ Função para Filtrar Publicações:
 - Com base no filtro selecionado, a função percorre a lista de publicações (dados) e verifica se os critérios correspondem. As publicações que atendem ao critério são guardadas numa lista chamada publicacoes_encontradas. Caso sejam encontradas as publicações pretendidas, a função exibe os resultados formatados na área de texto da janela, incluindo o título, os nomes dos autores e a data de publicação. Se nenhuma publicação for encontrada, uma mensagem de aviso é exibida.
 - Por fim, quando o utilizador termina a filtragem ou fecha a janela, o ciclo é encerrado, e a janela é fechada. Esta função é útil para localizar rapidamente publicações específicas na base de dados, fornecendo uma interface acessível e várias opções de pesquisa.
 
-Função para atualizar uma publicação existente
+Função para Atualizar uma Publicação Existente
 - A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados. Esta função utiliza a biblioteca FreeSimpleGUI para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação.
 - Um layout (layout_consulta) é definido com um campo de entrada de texto para se inserir o índice da publicação que se deseja atualizar, e também os botões “Atualizar” e “Cancelar”. Caso o índice introduzido esteja dentro do intervalo válido de publicações na lista dados, a janela de consulta é fechada e um novo layout é criado para exibir os detalhes da publicação (título, resumo, palavras-chave, data de publicação), permitindo que o usuário atualize os campos.
 - Os valores dos campos preenchidos pelo utilizador são capturados e usados para atualizar os detalhes da publicação no dicionário correspondente. Uma mensagem de confirmação de sucesso é exibida no ecrã.
 
-Função para eliminar uma publicação existente:
+Função para Eliminar uma Publicação Existente:
 - A função **eliminarPublicacao** permite ao utilizador eliminar uma publicação específica da lista de publicações, identificada pelo seu índice. A interface gráfica, criada com FreeSimpleGUI, guia o utilizador no processo de remoção.
 - A função começa por definir o layout da janela, que inclui um campo de entrada para o índice da publicação a eliminar e dois botões: "Eliminar" e "Cancelar". Quando a janela é aberta, a função entra num ciclo onde lê os eventos e os valores introduzidos pelo utilizador.
 - Se o utilizador clicar em "Cancelar" ou fechar a janela, o ciclo é terminado, e a janela é encerrada. Caso clique em "Eliminar", a função tenta converter o valor introduzido no campo de índice para um número inteiro. Em seguida, verifica se o índice é válido, ou seja, se está dentro do intervalo da lista de publicações (dados).
 - Se o índice for válido, a função utiliza o método pop para remover a publicação correspondente da lista. Após a remoção, os dados atualizados são salvos no ficheiro JSON utilizando a função salvarDados, e uma mensagem de sucesso é exibida ao utilizador. Por outro lado, se o índice for inválido, ou se o valor introduzido não for um número, uma mensagem de erro é apresentada. Por fim, a janela é encerrada ao concluir a operação.
 
-Função para listar autores e as suas publicações
+Função para Listar Autores e as suas Publicações
 - A função **listarAutores** tem como intuito criar um arquivo de texto que contenha uma lista de autores e as respetivas publicações registadas na estrutura de dados;
 - A função percorre os dados, organiza as informações de cada autor e salva tudo num arquivo denominado por “listaAutoresPublicacoes.txt";
 - O arquivo é aberto no modo de escrita (“w”) com a codificação UTF-8, para garantir a compatibilidade com caracteres especiais;
 - Após gerar o arquivo, a função imprime a mensagem: "Lista de autores e as suas respetivas publicações gerada com sucesso em 'listaAutoresPublicacoes.txt'."
 
-Função para importar dados:
+Função para Importar Dados:
 - A função **importarDados** permite adicionar publicações de outro ficheiro JSON à base de dados existente. 
 - A função recebe como parâmetro o nome ou o caminho de um ficheiro JSON (ficheiro);
 - Utiliza um bloco try para lidar com possíveis erros durante o processo;
