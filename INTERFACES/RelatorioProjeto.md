@@ -203,6 +203,12 @@ Função para Exibir *Help*:
 (2) Após selecionar “Criar Publicação”, este preenche os campos necessários:
   
   ![Captura de ecrã 2025-01-05 184300](https://github.com/user-attachments/assets/589a75ff-6a78-4500-9560-3e4f5bea5a5a)
+  
+(3) Ao escolher “Consultar Publicação”, o usuário introduz o índice da publicação a consultar e surge a informação completa sobre a respetiva publicação:
+(4) Depois de selecionar a opção “Filtrar Publicação”, o utilizador escolhe um dos filtros que são apresentados, devendo preencher a informação no campo devido. No seguinte exemplo, escolheu-se “Autor” e “Ordenar por ordem alfabética dos títulos”:
+(5) Ao optar por “Atualizar Publicação”, primeiro o usuário introduz o índice da publicação que deseja alterar e, posteriormente, altera a informação que pretende:
+(6) Na opção “Eliminar publicação”, o utilizador introduz o índice da publicação que pretende apagar:
+
 
 
 ### Conclusão
