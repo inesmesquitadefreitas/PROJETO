@@ -319,4 +319,13 @@ Função para Exibir *Help*:
 <img width="477" alt="Captura de ecrã 2025-01-05, às 21 56 08" src="https://github.com/user-attachments/assets/3e53c047-93d2-46f9-a165-3bc3a6708321" />
 
 ### Conclusão
-Para conseguirmos desenvolver o “Sistema de Consulta e Análise de Publicações Científicas”, foi necessária a utilização de todos os conhecimentos previamente adquiridos, assim como a utilização de diversas informações disponibilizadas na internet (por exemplo: https://matplotlib.org/devdocs/plot_types/index.html) para o cumprimento dos objetivos do projeto. 
+Para conseguirmos desenvolver o “Sistema de Consulta e Análise de Publicações Científicas”, foi necessária a utilização de todos os conhecimentos previamente adquiridos, assim como a utilização de diversas informações disponibilizadas na internet:
+•⁠  ⁠para a criação dos gráficos presentes nos relatórios de estatísticas:
+https://matplotlib.org/devdocs/plot_types/index.html
+https://matplotlib.org/stable/gallery/index.html
+https://matplotlib.org/stable/gallery/color/named_colors.html
+•⁠  ⁠para a criação da interface gráfica e manuseamento das funcionalidades do FreeSimpleGui:
+https://freesimplegui.readthedocs.io/en/stable/
+https://docs.pysimplegui.com/en/latest/documentation/module/themes/
+•⁠  ⁠para a escrita do relatório em Markdown
+https://docs.github.com/pt/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
