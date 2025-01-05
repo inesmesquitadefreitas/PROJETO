@@ -10,7 +10,6 @@
 #### Inês Mesquita de Freitas, A108959 (a108959@uminho.pt)
 
 ### Introdução
-
 O presente relatório descreve a elaboração de um projeto realizado no âmbito da unidade curricular “Algoritmos e Técnicas de Programação”, cujo objetivo é desenvolver, em Python, um “Sistema de Consulta e Análise de Publicações Científicas”. 
 Para tal, foram utilizadas estruturas de dados apropriadas e as bibliotecas necessárias para o correto funcionamento da aplicação. Para uma interação mais intuitiva, foi ainda utilizada uma interface gráfica, o FreeSimpleGUI, que permite a visualização de um menu que apresenta as funções disponíveis.
 
@@ -94,10 +93,10 @@ Função Main:
 - Em primeiro lugar, utiliza a função **carregaDADOS** para carregar os dados de um ficheiro JSON localizado no caminho especificado, armazenando-os na variável dados.
 - De seguida, exibe os dados carregados com o comando *print*, permitindo verificar se estes foram carregados corretamente. Por fim, chama a função **salvarDados** para gravar os dados no ficheiro JSON. 
 
-Função do Menu Principal
+Função do Menu Principal:
 - A função **menu_principal** é responsável por criar e retornar a interface gráfica de um menu principal, utilizando a biblioteca FreeSimpleGUI. Esta função organiza a interface através de um conjunto de botões, cada um com uma funcionalidade específica, e elementos, para facilitar a interação do utilizador com o programa.
 
-Função principal GUI:
+Função Principal GUI:
 - A função **gui** encarrega-se por implementar a interface gráfica do usuário (GUI) principal do programa;
 - Esta utiliza o FreeSimpleGUI para exibir a janela inicial e gerir as interações do usuário com o menu principal;
 - A função chama a função menu_principal para criar o layout e retornar a janela do menu principal;
@@ -106,8 +105,12 @@ Função principal GUI:
 - Independentemente da ação, a função executa a atividade correspondente;
 - Caso o usuário selecione a opção "Sair" ou feche a janela no canto superior direito, o programa encerra o loop e fecha a janela.
 
-Função para Criar uma Publicação
-- A função **criarPublicacao** tem o intuito de permitir ao usuário criar uma nova publicação com detalhes como o título, resumo, palavras-chave, autores, DOI, links e data de publicação. Estes dados introduzidos pelo utilizador são então salvos e armazenados na lista de publicações do arquivo JSON, *ataMmedicaPapers.json*.
+Função para Criar uma Publicação:
+- A função **criarPublicacao** tem o intuito de permitir ao usuário criar uma nova publicação com detalhes como o título, resumo, palavras-chave, autores, DOI, url do pdf e do artigo e data de publicação;
+- Esta começa por apresentar um layout, que permite ao utilizador inserir as informações em cada campo da nova publicação;
+- Neste layout, visualizamos botões, que permitem, por exemplo que o utilizador cancele a operação, fechando a janela (sg.Button("Cancelar", button_color=("black", "pink")). Neste caso, o botão foi personalizado para apresentar cor de texto preta e fundo cor de rosa.
+- Estão presentes também caixas de texto, que permitirão ao usuário escrever a informação pedida, como [sg.Text("Título:", text_color='black'), sg.InputText(key="titulo")], no qual será inserida a informação para o título;
+- Estes dados introduzidos pelo utilizador são então salvos e armazenados na lista de publicações do arquivo JSON, *ataMmedicaPapers.json*.
 - Para tal, seleciona-se na janela do Menu Principal a opção “Criar Publicação”, que abre uma nova janela, onde é possível inserir as informações necessárias.
 - Por fim, uma mensagem *pop-up* confirma que a publicação foi salva com sucesso.
 
@@ -193,22 +196,6 @@ Função para Análise de Publicações por Palavra-Chave:
   
 Função para Exibir *Help*:
 - A função **exibirHelp** fornece uma descrição detalhada dos comandos disponíveis no programa, facilitando o uso por novos usuários ou para referência rápida.
-
-### Exemplo de Execução do Sistema
-
-(1) O utilizador seleciona, no menu, a funcionalidade que deseja implementar:
-  
-  ![Captura de ecrã 2025-01-05 181829](https://github.com/user-attachments/assets/83f7127a-2235-424a-abae-fa4d50897ea9)
-
-(2) Após selecionar “Criar Publicação”, este preenche os campos necessários:
-  
-  ![Captura de ecrã 2025-01-05 184300](https://github.com/user-attachments/assets/589a75ff-6a78-4500-9560-3e4f5bea5a5a)
-  
-(3) Ao escolher “Consultar Publicação”, o usuário introduz o índice da publicação a consultar e surge a informação completa sobre a respetiva publicação:
-(4) Depois de selecionar a opção “Filtrar Publicação”, o utilizador escolhe um dos filtros que são apresentados, devendo preencher a informação no campo devido. No seguinte exemplo, escolheu-se “Autor” e “Ordenar por ordem alfabética dos títulos”:
-(5) Ao optar por “Atualizar Publicação”, primeiro o usuário introduz o índice da publicação que deseja alterar e, posteriormente, altera a informação que pretende:
-(6) Na opção “Eliminar publicação”, o utilizador introduz o índice da publicação que pretende apagar:
-
 
 
 ### Conclusão
