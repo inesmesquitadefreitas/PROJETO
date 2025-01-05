@@ -9,11 +9,9 @@
 #### Beatriz Maia Oliveira, A107281 (a107281@uminho.pt)
 #### Inês Mesquita de Freitas, A108959 (a108959@uminho.pt)
 
-#
-
 ### Introdução
 
-O presente relatório descreve a elaboração de um projeto realizado no âmbito da unidade curricular “Algoritmos e Técnicas de Programação”, cujo objetivo é desenvolver, em Python,  um “ Sistema de Consulta e Análise de Publicações Científicas”. 
+O presente relatório descreve a elaboração de um projeto realizado no âmbito da unidade curricular “Algoritmos e Técnicas de Programação”, cujo objetivo é desenvolver, em Python, um “Sistema de Consulta e Análise de Publicações Científicas”. 
 Para tal, foram utilizadas estruturas de dados apropriadas e as bibliotecas necessárias para o correto funcionamento da aplicação. Para uma interação mais intuitiva, foi ainda utilizada uma interface gráfica, o FreeSimpleGUI, que permite a visualização de um menu que apresenta as funções disponíveis.
 
 ### Descrição do Projeto
@@ -48,7 +46,6 @@ O sistema deve incorporar as seguintes funções:
 
 10. Exportação parcial de dados: Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa.
 
-
 #### Requisitos Técnicos
 Os principais objetivos deste projeto incluem:
 - Implementar o sistema da aplicação em Python;
@@ -56,7 +53,6 @@ Os principais objetivos deste projeto incluem:
 - Desenvolver duas interfaces: uma de linha de comando (CLI) e uma gráfica (GUI);
 - Integrar bibliotecas Python para funcionalidades gráficas, como Matplotlib;
 - Implementar um mecanismo de armazenamento persistente, como um ficheiro JSON.
-
 
 
 ### Desenvolvimento da Aplicação
@@ -67,18 +63,18 @@ Por fim, a utilização do FreeSimpleGUI facilitou a criação de interfaces gr�
 
 #### Linhas de Comando
 Um utilizador da interface de linha de comandos poderá executar as seguintes opções presentes no menu:
-Criar publicação: adiciona uma nova publicação, com a introdução de todas as informações inerentes à mesma;
-Consultar publicação: encontra uma publicação através do seu índice;
-Filtrar publicações: lista publicações que obedecem a determinados filtros, entre eles, o título, autor, afiliação, palavras-chave e data de publicação;
-Atualizar publicação: atualiza uma publicação existente, substituindo a informação por uma nova que foi introduzida;
-Eliminar publicação: apaga uma publicação existente;
-Listar autores e as suas publicações: lista autores e as suas respectivas publicações;
-Importar publicações: importa publicações de um arquivo JSON;
-Gerar relatórios: elabora relatórios de estatísticas;
-Analisar publicações por autor: lista as publicações de um determinado autor;
-Analisar publicações por palavra-chave: lista as publicações que contenham uma determinada palavra-chave;
-Help: exibe uma mensagem de ajuda com os comandos disponíveis;
-Sair: termina o programa.
+* Criar Publicação: adiciona uma nova publicação, com a introdução de todas as informações inerentes à mesma;
+* Consultar Publicação: encontra uma publicação através do seu índice;
+* Filtrar Publicações: lista publicações que obedecem a determinados filtros, entre eles, o título, autor, afiliação, palavras-chave e data de publicação;
+* Atualizar Publicação: atualiza uma publicação existente, substituindo a informação por uma nova que foi introduzida;
+* Eliminar Publicação: apaga uma publicação existente;
+* Listar Autores e as suas Publicações: lista autores e as suas respectivas publicações;
+* Importar Publicações: importa publicações de um arquivo JSON;
+* Gerar Relatórios: elabora relatórios de estatísticas;
+* Analisar Publicações por autor: lista as publicações de um determinado autor;
+* Analisar Publicações por palavra-chave: lista as publicações que contenham uma determinada palavra-chave;
+* Help: exibe uma mensagem de ajuda com os comandos disponíveis;
+* Sair: termina o programa.
 
 #### Explicação do Código
 Função para Carregar os Dados:
@@ -124,44 +120,61 @@ Função para Filtrar Publicações:
 - Por fim, quando o utilizador termina a filtragem ou fecha a janela, o ciclo é encerrado, e a janela é fechada. Esta função é útil para localizar rapidamente publicações específicas na base de dados, fornecendo uma interface acessível e várias opções de pesquisa.
 
 Função para atualizar uma publicação existente
-- A função atualizarPublicacao é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados. Esta função utiliza a biblioteca FreeSimpleGUI para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação.
+- A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados. Esta função utiliza a biblioteca FreeSimpleGUI para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação.
 - Um layout (layout_consulta) é definido com um campo de entrada de texto para se inserir o índice da publicação que se deseja atualizar, e também os botões “Atualizar” e “Cancelar”. Caso o índice introduzido esteja dentro do intervalo válido de publicações na lista dados, a janela de consulta é fechada e um novo layout é criado para exibir os detalhes da publicação (título, resumo, palavras-chave, data de publicação), permitindo que o usuário atualize os campos.
 - Os valores dos campos preenchidos pelo utilizador são capturados e usados para atualizar os detalhes da publicação no dicionário correspondente. Uma mensagem de confirmação de sucesso é exibida no ecrã.
 
 Função para eliminar uma publicação existente:
-A função eliminarPublicacao permite ao utilizador eliminar uma publicação específica da lista de publicações, identificada pelo seu índice. A interface gráfica, criada com FreeSimpleGUI, guia o utilizador no processo de remoção.
-
-A função começa por definir o layout da janela, que inclui um campo de entrada para o índice da publicação a eliminar e dois botões: "Eliminar" e "Cancelar". Quando a janela é aberta, a função entra num ciclo onde lê os eventos e os valores introduzidos pelo utilizador.
-
-Se o utilizador clicar em "Cancelar" ou fechar a janela, o ciclo é terminado, e a janela é encerrada. Caso clique em "Eliminar", a função tenta converter o valor introduzido no campo de índice para um número inteiro. Em seguida, verifica se o índice é válido, ou seja, se está dentro do intervalo da lista de publicações (dados).
-
-Se o índice for válido, a função utiliza o método pop para remover a publicação correspondente da lista. Após a remoção, os dados atualizados são salvos no ficheiro JSON utilizando a função salvarDados, e uma mensagem de sucesso é exibida ao utilizador. Por outro lado, se o índice for inválido, ou se o valor introduzido não for um número, uma mensagem de erro é apresentada. Por fim, a janela é encerrada ao concluir a operação.
-
+- A função **eliminarPublicacao** permite ao utilizador eliminar uma publicação específica da lista de publicações, identificada pelo seu índice. A interface gráfica, criada com FreeSimpleGUI, guia o utilizador no processo de remoção.
+- A função começa por definir o layout da janela, que inclui um campo de entrada para o índice da publicação a eliminar e dois botões: "Eliminar" e "Cancelar". Quando a janela é aberta, a função entra num ciclo onde lê os eventos e os valores introduzidos pelo utilizador.
+- Se o utilizador clicar em "Cancelar" ou fechar a janela, o ciclo é terminado, e a janela é encerrada. Caso clique em "Eliminar", a função tenta converter o valor introduzido no campo de índice para um número inteiro. Em seguida, verifica se o índice é válido, ou seja, se está dentro do intervalo da lista de publicações (dados).
+- Se o índice for válido, a função utiliza o método pop para remover a publicação correspondente da lista. Após a remoção, os dados atualizados são salvos no ficheiro JSON utilizando a função salvarDados, e uma mensagem de sucesso é exibida ao utilizador. Por outro lado, se o índice for inválido, ou se o valor introduzido não for um número, uma mensagem de erro é apresentada. Por fim, a janela é encerrada ao concluir a operação.
 
 Função para listar autores e as suas publicações
-A função listarAutores tem como intuito criar um arquivo de texto que contenha uma lista de autores e as respetivas publicações registadas na estrutura de dados. A função percorre os dados, organiza as informações de cada autor e salva tudo num arquivo denominado por “listaAutoresPublicacoes.txt". O arquivo é aberto no modo de escrita (“w”) com a codificação UTF-8, para garantir a compatibilidade com caracteres especiais.
-Após gerar o arquivo, a função imprime a mensagem: "Lista de autores e as suas respetivas publicações gerada com sucesso em 'listaAutoresPublicacoes.txt'."
+- A função **listarAutores** tem como intuito criar um arquivo de texto que contenha uma lista de autores e as respetivas publicações registadas na estrutura de dados;
+- A função percorre os dados, organiza as informações de cada autor e salva tudo num arquivo denominado por “listaAutoresPublicacoes.txt";
+- O arquivo é aberto no modo de escrita (“w”) com a codificação UTF-8, para garantir a compatibilidade com caracteres especiais;
+- Após gerar o arquivo, a função imprime a mensagem: "Lista de autores e as suas respetivas publicações gerada com sucesso em 'listaAutoresPublicacoes.txt'."
 
 Função para importar dados:
-A função importarDados permite adicionar publicações de outro ficheiro JSON à base de dados existente. 
-
-A função recebe como parâmetro o nome ou o caminho de um ficheiro JSON (ficheiro). Utiliza um bloco try para lidar com possíveis erros durante o processo. Primeiro, abre o ficheiro especificado em modo de leitura, utilizando a codificação utf-8 para garantir compatibilidade com caracteres especiais. Em seguida, carrega os dados do ficheiro como um objeto Python (como uma lista ou dicionário) usando json.load.
-
-Os dados importados são adicionados à base de dados existente, representada pela variável dados, utilizando o método extend, que insere múltiplos elementos no final de uma lista. Após a adição, os dados atualizados são salvos no ficheiro principal, recorrendo à função salvarDados. Se a importação for bem-sucedida, uma mensagem de sucesso é exibida no console, indicando que os dados foram importados corretamente.
-
-Se ocorrer algum erro durante o processo, como o ficheiro não existir ou ter um formato inválido, a função captura a exceção e imprime uma mensagem de erro detalhada.
+- A função **importarDados** permite adicionar publicações de outro ficheiro JSON à base de dados existente. 
+- A função recebe como parâmetro o nome ou o caminho de um ficheiro JSON (ficheiro);
+- Utiliza um bloco try para lidar com possíveis erros durante o processo;
+- Primeiro, abre o ficheiro especificado em modo de leitura, utilizando a codificação utf-8 para garantir compatibilidade com caracteres especiais;
+- De seguida, carrega os dados do ficheiro como um objeto Python (como uma lista ou dicionário) usando json.load.
+- Os dados importados são adicionados à base de dados existente, representada pela variável dados, utilizando o método extend, que insere múltiplos elementos no final de uma lista;
+- Após a adição, os dados atualizados são salvos no ficheiro principal, recorrendo à função salvarDados;
+- Se a importação for bem-sucedida, uma mensagem de sucesso é exibida no console, indicando que os dados foram importados corretamente;
+- Se ocorrer algum erro durante o processo, como o ficheiro não existir ou ter um formato inválido, a função captura a exceção e imprime uma mensagem de erro detalhada.
 
 Função para Gerar Relatórios de Estatísticas
- Função para análise de publicações por autor
- Função para análise de publicações por palavra-chave
- Função para exibir “Help”
+Função para Análise de Publicações por Autor
+- A função **analisePublicacoesAutor** agrupa e analisa publicações com base nos autores listados no campo authors;
+- Cria um dicionário onde cada autor é uma chave associada a uma lista de publicações que ele escreveu;
+- A interface gráfica, implementada com PySimpleGUI, oferece duas opções de ordenação:
+  - Por frequência de publicações (em ordem decrescente);
+  - Por ordem alfabética dos nomes dos autores.
+- Após a ordenação, os resultados são exportados para o ficheiro "analisePublicacoesAutores.txt", incluindo os nomes dos autores, o respetivo número de publicações e detalhes de cada publicação (título e data, se disponíveis);
+- No fim, é exibida uma mensagem de sucesso é exibida ao finalizar a análise.
 
-4. Exemplo de Execução do Sistema
-- O utilizador seleciona, no menu, a funcionalidade que deseja implementar:
+Função para Análise de Publicações por Palavra-Chave
+- A função **analisePublicacoesPalavraChave** organiza e analisa publicações com base em palavras-chave extraídas do campo keywords;
+- Cria um dicionário onde cada palavra-chave é uma chave, associada a uma lista de publicações que a mencionam.
+- Permite ao usuário, via interface gráfica com PySimpleGUI, escolher a ordenação das palavras-chave:
+  - Por frequência de ocorrências (ordem decrescente);
+  - Por ordem alfabética.
+- Após a ordenação, os resultados são salvos no ficheiro "analisePublicacoesPalavrasChave.txt", incluindo as palavras-chave, o respetivo número de ocorrências e detalhes das publicações (título e data, se disponíveis);
+- No fim, é exibida uma mensagem de sucesso ao concluir a análise;
+  
+Função para Exibir “Help”
+- A função **exibirHelp** fornece uma descrição detalhada dos comandos disponíveis no programa, facilitando o uso por novos usuários ou para referência rápida.
+
+### Exemplo de Execução do Sistema
+(1) O utilizador seleciona, no menu, a funcionalidade que deseja implementar:
   
   ![Captura de ecrã 2025-01-05 181829](https://github.com/user-attachments/assets/83f7127a-2235-424a-abae-fa4d50897ea9)
 
-- Após selecionar “Criar Publicação”, este preenche os campos necessários:
+(2) Após selecionar “Criar Publicação”, este preenche os campos necessários:
   
   ![Captura de ecrã 2025-01-05 184300](https://github.com/user-attachments/assets/589a75ff-6a78-4500-9560-3e4f5bea5a5a)
 
