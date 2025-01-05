@@ -97,7 +97,14 @@ Função Main:
 Função do Menu Principal
 - A função **menu_principal** é responsável por criar e retornar a interface gráfica de um menu principal, utilizando a biblioteca FreeSimpleGUI. Esta função organiza a interface através de um conjunto de botões, cada um com uma funcionalidade específica, e elementos, para facilitar a interação do utilizador com o programa.
 
-Função principal da GUI
+Função principal GUI:
+- A função *gui* encarrega-se por implementar a interface gráfica do usuário (GUI) principal do programa;
+- Esta utiliza o FreeSimpleGUI para exibir a janela inicial e gerir as interações do usuário com o menu principal;
+- A função chama a função menu_principal para criar o layout e retornar a janela do menu principal;
+- O programa entra num loop contínuo que processa as ações geradas pelo utilizador, como os cliques nos botões das opções do menu;
+- Dentro do loop, a função verifica qual o botão que foi selecionado ou se a janela foi fechada;
+- Independentemente da ação, a função executa a atividade correspondente;
+- Caso o usuário selecione a opção "Sair" ou feche a janela no canto superior direito, o programa encerra o loop e fecha a janela.
 
 Função para Criar uma Publicação
 - A função **criarPublicacao** tem o intuito de permitir ao usuário criar uma nova publicação com detalhes como o título, resumo, palavras-chave, autores, DOI, links e data de publicação. Estes dados introduzidos pelo utilizador são então salvos e armazenados na lista de publicações do arquivo JSON, *ataMmedicaPapers.json*.
