@@ -21,19 +21,19 @@ O projeto permite criar, atualizar e analisar publicações científicas. Com ba
 #### Requisitos do Sistema
 O sistema deve incorporar as seguintes funções:
 
-1. Carregamento da Base de Dados: O programa deverá inicialmente carregar para memória o dataset guardado no ficheiro de suporte à aplicação (ataMedicaPapers.json);
+__1. Carregamento da Base de Dados:__ O programa deverá inicialmente carregar para memória o dataset guardado no ficheiro de suporte à aplicação (ataMedicaPapers.json);
 
-2. Criação de Publicações: O utilizador deverá conseguir criar um novo artigo, definindo um título, um resumo, as palavras-chave, o DOI (digital object identifier), uma lista de autores e a sua afiliação correspondente, o url para o ficheiro PDF do artigo, a data de publicação e o url do artigo; 
+__2. Criação de Publicações:__ O utilizador deverá conseguir criar um novo artigo, definindo um título, um resumo, as palavras-chave, o DOI (digital object identifier), uma lista de autores e a sua afiliação correspondente, o url para o ficheiro PDF do artigo, a data de publicação e o url do artigo; 
 
-3. Atualização de Publicações: O sistema deverá possibilitar a atualização da informação de uma publicação, nomeadamente a data de publicação, o resumo, as palavras-chave, os autores e as afiliações; 
+__3. Atualização de Publicações:__ O sistema deverá possibilitar a atualização da informação de uma publicação, nomeadamente a data de publicação, o resumo, as palavras-chave, os autores e as afiliações; 
 
-4. Consulta de Publicações: O sistema deverá permitir pesquisar publicações, através de filtros, sendo estes o título, um autor, uma afiliação, a data de publicação e as palavras-chave. Deverá ainda ser possível ordenar as publicações encontradas pelos títulos e pela data de publicação; 
+__4. Consulta de Publicações:__ O sistema deverá permitir pesquisar publicações, através de filtros, sendo estes o título, um autor, uma afiliação, a data de publicação e as palavras-chave. Deverá ainda ser possível ordenar as publicações encontradas pelos títulos e pela data de publicação; 
 
-5. Análise de Publicações por Autor : O sistema deverá facultar a listagem dos autores e aceder aos artigos de cada autor da lista. Os autores devem aparecer ordenados pela frequência dos seus artigos publicados e/ou por ordem alfabética; 
+__5. Análise de Publicações por Autor:__ O sistema deverá facultar a listagem dos autores e aceder aos artigos de cada autor da lista. Os autores devem aparecer ordenados pela frequência dos seus artigos publicados e/ou por ordem alfabética; 
 
-6. Análise de Publicações por Palavras-chave: O sistema deverá permitir a pesquisa e visualização das palavras-chave do dataset, devendo estas estar ordenadas pelo seu número de ocorrências nos artigos e/ou por ordem alfabética. Para além disso, o sistema deverá também permitir visualizar a lista das publicações associadas a cada palavra-chave; 
+__6. Análise de Publicações por Palavras-chave:__ O sistema deverá permitir a pesquisa e visualização das palavras-chave do dataset, devendo estas estar ordenadas pelo seu número de ocorrências nos artigos e/ou por ordem alfabética. Para além disso, o sistema deverá também permitir visualizar a lista das publicações associadas a cada palavra-chave; 
 
-7. Estatísticas de Publicação: O sistema deverá apresentar relatórios que incluam os seguintes gráficos: 
+__7. Estatísticas de Publicação:__ O sistema deverá apresentar relatórios que incluam os seguintes gráficos: 
 * Distribuição de publicações por ano;
 * Distribuição de publicações por mês de um determinado ano;
 * Número de publicações por autor (top 20 autores); 
@@ -41,11 +41,11 @@ O sistema deve incorporar as seguintes funções:
 * Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave); 
 * Distribuição de palavras-chave mais frequente por ano.
 
-8. Armazenamento dos Dados: Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte; 
+__8. Armazenamento dos Dados:__ Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte; 
 
-9. Importação de Dados: Em qualquer momento, deverá ser possível importar novos registos de um outro ficheiro que tenha a mesma estrutura do ficheiro de suporte; 
+__9. Importação de Dados:__ Em qualquer momento, deverá ser possível importar novos registos de um outro ficheiro que tenha a mesma estrutura do ficheiro de suporte; 
 
-10. Exportação parcial de dados: Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa.
+__10. Exportação parcial de dados:__ Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa.
 
 #### Requisitos Técnicos
 Os principais objetivos deste projeto incluem:
