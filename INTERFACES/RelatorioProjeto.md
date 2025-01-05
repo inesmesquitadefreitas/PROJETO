@@ -320,12 +320,12 @@ Função para Exibir *Help*:
 
 ### Conclusão
 Para conseguirmos desenvolver o “Sistema de Consulta e Análise de Publicações Científicas”, foi necessária a utilização de todos os conhecimentos previamente adquiridos, assim como a utilização de diversas informações disponibilizadas na internet:
-•⁠  ⁠para a criação dos gráficos presentes nos relatórios de estatísticas:
+- para a criação dos gráficos presentes nos relatórios de estatísticas:
 https://matplotlib.org/devdocs/plot_types/index.html
 https://matplotlib.org/stable/gallery/index.html
 https://matplotlib.org/stable/gallery/color/named_colors.html
-•⁠  ⁠para a criação da interface gráfica e manuseamento das funcionalidades do FreeSimpleGui:
+- ⁠para a criação da interface gráfica e manuseamento das funcionalidades do FreeSimpleGui:
 https://freesimplegui.readthedocs.io/en/stable/
 https://docs.pysimplegui.com/en/latest/documentation/module/themes/
-•⁠  ⁠para a escrita do relatório em Markdown
+- ⁠para a escrita do relatório em Markdown
 https://docs.github.com/pt/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
