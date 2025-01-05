@@ -114,9 +114,12 @@ Função para Criar uma Publicação:
 - Para tal, seleciona-se na janela do Menu Principal a opção “Criar Publicação”, que abre uma nova janela, onde é possível inserir as informações necessárias.
 - Por fim, uma mensagem *pop-up* confirma que a publicação foi salva com sucesso.
   
+  
   ![Captura de ecrã 2025-01-05 184300](https://github.com/user-attachments/assets/e004fa2e-d6f8-4bbd-85fe-f206a0174af3)
 
   ![Captura de ecrã 2025-01-05 184312](https://github.com/user-attachments/assets/bca93ad4-be33-40b3-b0fe-6d01914c9230)
+
+
 
 
 Função para Consultar uma Publicação Específica:
@@ -124,7 +127,21 @@ Função para Consultar uma Publicação Específica:
 - A função começa por definir o tema visual da janela como LightGrey1 e constrói um layout que inclui uma caixa de texto para introduzir o índice da publicação, botões para "Consultar" e "Cancelar", e uma área de texto, não editável, onde os detalhes da publicação serão exibidos, criando, em seguida, uma janela com este layout.
 - Assim, o programa entra num ciclo onde lê os eventos da janela e os valores inseridos pelo utilizador. Caso o utilizador clique no botão "Cancelar" ou feche a janela, o ciclo termina, encerrando a janela. Se o botão "Consultar" for clicado, a função tenta converter o valor introduzido na caixa de texto para um número inteiro, que será utilizado como índice para aceder à publicação.
 - Se o índice for válido (ou seja, estiver dentro dos limites da lista de publicações), a função recupera os dados da publicação correspondente e constrói uma string formatada com as informações, como o título, resumo, palavras-chave, DOI, autores e data de publicação, sendo estas informações apresentadas na área de texto da janela. Caso o índice seja inválido ou o valor introduzido não for um número, a função exibe uma mensagem de erro. 
-- Por fim, quando o utilizador termina a consulta, a janela é fechada e a função encerra. Esta função é útil para explorar rapidamente os detalhes de uma publicação específica, utilizando uma interface amigável e mensagens claras para lidar com erros.
+- Por fim, quando o utilizador termina a consulta, a janela é fechada e a função encerra. Esta função é útil para explorar rapidamente os detalhes de uma publicação específica, utilizando uma interface gráfica e mensagens claras para lidar com erros.
+
+
+  ![image](https://github.com/user-attachments/assets/db281a47-16f4-44c0-ad32-38b26de69256)
+
+
+  ![image](https://github.com/user-attachments/assets/758dd450-28e7-40c5-849b-96916df659f1)
+
+
+
+
+  ![image](https://github.com/user-attachments/assets/5a06d67b-691d-4127-ae27-6fd190a90fc1)
+  
+
+
 
 Função para Filtrar Publicações:
 - A função **filtrarPublicacoes** permite que o utilizador pesquise publicações na base de dados com base em critérios específicos, utilizando uma interface gráfica criada com o *FreeSimpleGUI*. 
