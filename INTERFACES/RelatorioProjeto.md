@@ -295,6 +295,8 @@ Função para Análise de Publicações por Autor:
 - Quando terminada a análise, é exibida uma mensagem de sucesso.
 
 <img width="463" alt="Captura de ecrã 2025-01-05, às 21 49 05" src="https://github.com/user-attachments/assets/5a1233cc-1339-428b-81c5-b3d2c121235c" />
+<img width="794" alt="Captura de ecrã 2025-01-05, às 21 50 58" src="https://github.com/user-attachments/assets/b730fa20-6d87-4612-a212-7e42f1400b8d" />
+
 
 Função para Análise de Publicações por Palavra-Chave:
 - A função **analisePublicacoesPalavraChave** organiza e analisa publicações com base em palavras-chave extraídas do campo *keywords*;
@@ -306,10 +308,15 @@ Função para Análise de Publicações por Palavra-Chave:
   - Por ordem alfabética.
 - Após a ordenação, os resultados são salvos no ficheiro "analisePublicacoesPalavrasChave.txt", incluindo as palavras-chave, o respetivo número de ocorrências (tamanho da lista de publicações: *len(artigos)*) e detalhes das publicações (título e data, se disponíveis);
 - Ao concluir a análise, é exibida uma mensagem de sucesso.
+
+  <img width="512" alt="Captura de ecrã 2025-01-05, às 21 52 31" src="https://github.com/user-attachments/assets/112ff00f-64fc-43aa-baf9-d80e7a1305e0" />
+  <img width="750" alt="Captura de ecrã 2025-01-05, às 21 54 47" src="https://github.com/user-attachments/assets/b4ed50c7-29e5-4953-8809-893364bfae96" />
+  <img width="794" alt="Captura de ecrã 2025-01-05, às 21 54 53" src="https://github.com/user-attachments/assets/57e3f90c-8f32-4f8d-b7e4-f913b682341e" />
   
 Função para Exibir *Help*:
 - A função **exibirHelp** fornece uma descrição detalhada dos comandos disponíveis no programa, facilitando o uso por novos usuários ou para referência rápida.
 
+<img width="477" alt="Captura de ecrã 2025-01-05, às 21 56 08" src="https://github.com/user-attachments/assets/3e53c047-93d2-46f9-a165-3bc3a6708321" />
 
 ### Conclusão
 Para conseguirmos desenvolver o “Sistema de Consulta e Análise de Publicações Científicas”, foi necessária a utilização de todos os conhecimentos previamente adquiridos, assim como a utilização de diversas informações disponibilizadas na internet (por exemplo: https://matplotlib.org/devdocs/plot_types/index.html) para o cumprimento dos objetivos do projeto. 
