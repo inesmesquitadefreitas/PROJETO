@@ -101,7 +101,7 @@ __Função do Menu Principal:__
 
 __Função principal da GUI:__
 - A função **gui** encarrega-se por implementar a interface gráfica do usuário (GUI) principal do programa. Utiliza o FreeSimpleGUI para exibir a janela inicial e gerir as interações do usuário com o menu principal.
-- A função chama a função **menu_principal** para criar o layout e retornar a janela do menu principal. O programa entra em loop contínuo que processa as ações gerados pelo utilizador, como os cliques nos botões das opções do menu. Dentro do loop, a função verifica qual o botão que foi selecionado ou se a janela foi fechada. Independentemente da ação, a função executa a atividade correspondente. Caso o usuário selecione a opção "Sair" ou feche a janela no canto superior direito, o programa encerra o loop e fecha a janela.  
+- A função chama a função **menu_principal** para criar o layout e retornar a janela do menu principal. O programa entra em loop contínuo que processa as ações geradas pelo utilizador, como os cliques nos botões das opções do menu. Dentro do loop, a função verifica qual o botão que foi selecionado ou se a janela foi fechada. Independentemente da ação, a função executa a atividade correspondente. Caso o usuário selecione a opção "Sair" ou feche a janela no canto superior direito, o programa encerra o loop e fecha a janela.  
 
 
 __Função para Criar uma Publicação:__
