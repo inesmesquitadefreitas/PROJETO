@@ -76,28 +76,28 @@ Um utilizador da interface de linha de comandos poderá executar as seguintes op
 
 #### Explicação do Código
 
-Função para Carregar os Dados:
+__Função para Carregar os Dados:__
 - A função **carregaDados** tem como propósito carregar os dados armazenados num arquivo JSON para o uso no programa;
 - Relativamente ao parâmetro *fnome*, este representa o nome ou o caminho JSON, com um valor padrão, neste caso, definido como “ata_medica_papers.json”. Isto permite que a função seja usada sem a necessidade de especificar o arquivo sempre que seja necessário utilizá-la.
 - Quanto ao funcionamento desta função, esta abre o arquivo JSON no modo de leitura com a codificação “utf-8” para garantir a compatibilidade com caracteres especiais e, de seguida, utiliza o métodos json.load para converter o conteúdo do arquivo JSON num objeto Python, como um dicionário ou uma lista.
 - Esta função possui, ainda, tratamento para possíveis erros. Se o arquivo não existir ou o conteúdo do arquivo JSON não for válido, esta irá retornar um dicionário vazio e irá exibir mensagens de erro. Em caso de sucesso, a função retorna os dados carregados do arquivo. 
 
-Função para Salvar Dados:
+__Função para Salvar Dados:__
 - A função **salvarDados**, tem como objetivo salvar os dados num arquivo JSON.
 - Esta recebe dois parâmetros:
   * dados - são os dados a serem salvos em formato de dicionário ou lista;
   * ficheiro - nome ou caminho do arquivo onde os dados são armazenados (padrão: “ata_medica_papers.json”).
 - O seu funcionamento consiste na abertura do arquivo no modo e escrita (“w”) com a codificação “utf-8” e salvar os dados utilizando json.dump, formatando-os com indent=4 para maior legibilidade. Caso ocorra algum erro durante o processo, uma mensagem detalhada é exibida ao usuário para informar o problema.
 
-Função Main:
+__Função Main:__
 - A função **main** controla o fluxo principal do programa, organizando as operações de carregar, visualizar e salvar os dados.
 - Em primeiro lugar, utiliza a função **carregaDADOS** para carregar os dados de um ficheiro JSON localizado no caminho especificado, armazenando-os na variável dados.
 - De seguida, exibe os dados carregados com o comando *print*, permitindo verificar se estes foram carregados corretamente. Por fim, chama a função **salvarDados** para gravar os dados no ficheiro JSON. 
 
-Função do Menu Principal:
+__Função do Menu Principal:__
 - A função **menu_principal** é responsável por criar e retornar a interface gráfica de um menu principal, utilizando a biblioteca FreeSimpleGUI. Esta função organiza a interface através de um conjunto de botões, cada um com uma funcionalidade específica, e elementos, para facilitar a interação do utilizador com o programa.
 
-Função Principal GUI:
+__Função Principal GUI:__
 - A função **gui** encarrega-se por implementar a interface gráfica do usuário (GUI) principal do programa;
 - Esta utiliza o FreeSimpleGUI para exibir a janela inicial e gerir as interações do usuário com o menu principal;
 - A função chama a função menu_principal para criar o *layout* e retornar a janela do menu principal;
@@ -112,7 +112,7 @@ Função Principal GUI:
 
  
 
-Função para Criar uma Publicação:
+__Função para Criar uma Publicação:__
 - A função **criarPublicacao** tem o intuito de permitir ao usuário criar uma nova publicação com detalhes como o título, resumo, palavras-chave, autores, DOI, url do pdf e do artigo e data de publicação;
 - Esta começa por apresentar um *layout*, que permite ao utilizador inserir as informações em cada campo da nova publicação;
 - Neste *layout*, visualizamos botões, que permitem, por exemplo que o utilizador cancele a operação, fechando a janela (*sg.Button("Cancelar", button_color=("black", "pink")*). Neste caso, o botão foi personalizado para apresentar cor de texto preta e fundo cor de rosa.
@@ -129,7 +129,7 @@ Função para Criar uma Publicação:
 
 
 
-Função para Consultar uma Publicação Específica:
+__Função para Consultar uma Publicação Específica:__
 - A função **consultarPublicacao** permite ao utilizador consultar os detalhes de uma publicação específica, identificada pelo índice na lista de publicações. Esta funcionalidade utiliza a biblioteca *FreeSimpleGUI* para criar uma interface gráfica. 
 - A função começa por definir o tema visual da janela como *LightGrey1* e constrói um *layout* que inclui uma caixa de texto para introduzir o índice da publicação, botões para "Consultar" e "Cancelar", e uma área de texto, não editável, onde os detalhes da publicação serão exibidos, criando, em seguida, uma janela com este layout.
 - Assim, o programa entra num ciclo onde lê os eventos da janela e os valores inseridos pelo utilizador. Caso o utilizador clique no botão "Cancelar" ou feche a janela, o ciclo termina, encerrando a janela. Se o botão "Consultar" for clicado, a função tenta converter o valor introduzido na caixa de texto para um número inteiro, que será utilizado como índice para aceder à publicação.
@@ -148,7 +148,7 @@ Função para Consultar uma Publicação Específica:
 
 
 
-Função para Filtrar Publicações:
+__Função para Filtrar Publicações:__
 - A função **filtrarPublicacoes** permite que o utilizador pesquise publicações na base de dados com base em critérios específicos, utilizando uma interface gráfica criada com o *FreeSimpleGUI*;
 - A função inicia configurando o tema da janela e definindo um *layout* repleto de botões para que o utilizador selecione os critérios de filtro (como "Título", "Autor", "Afiliação", "Data da Publicação" e "Palavra-Chave") e uma área de texto para exibir os resultados. Um botão "Cancelar" também está disponível para sair do processo de filtragem;
 - A janela é apresentada ao utilizador e a função entra num ciclo que processa os eventos da interface. Se o utilizador fechar a janela ou clicar no botão "Cancelar", o ciclo termina e a janela é fechada. Caso o utilizador clique num dos botões de filtro, como "Título" ou "Autor", é exibida uma caixa de diálogo para introduzir o termo a ser pesquisado. O termo introduzido é guardado na variável filtro;
@@ -174,7 +174,7 @@ Função para Filtrar Publicações:
 
 
 
-Função para Atualizar uma Publicação Existente:
+__Função para Atualizar uma Publicação Existente:__
 - A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados;
 - Esta função utiliza a biblioteca *FreeSimpleGUI* para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação;
 - Um *layout* (*layout1*) é definido com um campo de entrada de texto, para se inserir o índice da publicação que se deseja atualizar, e com os botões “Atualizar” e “Cancelar”;
@@ -195,7 +195,7 @@ Função para Atualizar uma Publicação Existente:
 
 
 
-Função para Eliminar uma Publicação Existente:
+__Função para Eliminar uma Publicação Existente:__
 - A função **eliminarPublicacao** permite ao utilizador eliminar uma publicação específica da lista de publicações, identificada pelo seu índice. A interface gráfica, criada com FreeSimpleGUI, guia o utilizador no processo de eliminação da publicação;
 - A função começa por definir o *layout* da janela, que inclui um campo de entrada para o índice da publicação a eliminar e dois botões: "Eliminar" e "Cancelar". Quando a janela é aberta, a função entra num ciclo onde lê os eventos e os valores introduzidos pelo utilizador.
 - Se o utilizador clicar em "Cancelar" ou fechar a janela, o ciclo é terminado, e a janela é encerrada. Caso clique em "Eliminar", a função tenta converter o valor introduzido no campo de índice para um número inteiro;
@@ -211,7 +211,7 @@ Função para Eliminar uma Publicação Existente:
 
 
 
-Função para Listar Autores e as suas Publicações:
+__Função para Listar Autores e as suas Publicações:__
 - A função **listarAutores** tem como intuito criar um arquivo de texto que contenha uma lista de autores e as respetivas publicações registadas na estrutura de dados;
 - Inicialmente, é criado um dicionário denominado de *autor_publicações*, que terá como chave cada autor de *dados* e o respetivo valor será a lista dos títulos das publicações que estes escreveram;
 - A função percorre, então, os dados e verifica se cada publicação possui a chave *"authors"* e, se, para cada dicionário da chave, existe a chave *"name"*;
@@ -229,7 +229,7 @@ Função para Listar Autores e as suas Publicações:
 
 
 
-Função para Importar Dados:
+__Função para Importar Dados:__
 - A função **importarDados** permite adicionar publicações de outro ficheiro JSON à base de dados existente.
 - Esta inicializa com um layout que permite que o usuário selecione o arquivo JSON a importar, importe a informação do mesmo ou cancele a operação;
 - A função recebe, então, como parâmetro, o nome ou o caminho do ficheiro JSON (ficheiro);
@@ -258,7 +258,7 @@ Função para Importar Dados:
 
 
 
-Função para Gerar Relatórios de Estatísticas:
+__Função para Gerar Relatórios de Estatísticas:__
 - A função **gerarRelatorios** é responsável por criar relatórios de estatísticas com base nos dados do ficheiro com o qual trabalhamos;
 - Estes relatórios incluem distribuições de publicações por ano, palavras-chave por frequência, publicações por autor, entre outros, e apresentam visualizações como gráficos e resumos escritos num arquivo Markdown (*relatorio.md*);
 - Esta utiliza o FreeSimpleGUI para apresentar um menu de opções, onde o usuário escolhe o tipo de relatório a ser gerado;
@@ -283,7 +283,7 @@ Função para Gerar Relatórios de Estatísticas:
  <img width="1112" alt="Captura de ecrã 2025-01-05, às 21 47 04" src="https://github.com/user-attachments/assets/0d67810d-b27c-49a2-84bb-1518ecbc8832" />
   
 
-Função para Análise de Publicações por Autor:
+__Função para Análise de Publicações por Autor:__
 - A função **analisePublicacoesAutor** agrupa e analisa publicações com base nos autores listados no campo *authors*;
 - Esta cria um dicionário (*dicionario_autores*) onde cada autor será uma chave, associada a uma lista de publicações;
 - Ao percorrer cada publicação presente na lista do ficheiro *ataMedicaPapers.json*, esta verifica se a publicação contém autores, analisando-os e adicionando cada nome de autor (*name*) a *dicionario_palavras*, se este ainda não estiver lá presente;
@@ -298,7 +298,7 @@ Função para Análise de Publicações por Autor:
 <img width="794" alt="Captura de ecrã 2025-01-05, às 21 50 58" src="https://github.com/user-attachments/assets/b730fa20-6d87-4612-a212-7e42f1400b8d" />
 
 
-Função para Análise de Publicações por Palavra-Chave:
+__Função para Análise de Publicações por Palavra-Chave:__
 - A função **analisePublicacoesPalavraChave** organiza e analisa publicações com base em palavras-chave extraídas do campo *keywords*;
 - Esta cria um dicionário (*dicionario_palavras*) onde cada palavra-chave será uma chave, associada a uma lista de publicações;
 - Ao percorrer cada publicação presente na lista do ficheiro *ataMedicaPapers.json*, esta verifica se a publicação contém palavras-chave, analisando-as e adicionando cada palavra a *dicionario_palavras*, se esta ainda não estiver lá presente;
@@ -313,7 +313,7 @@ Função para Análise de Publicações por Palavra-Chave:
   <img width="750" alt="Captura de ecrã 2025-01-05, às 21 54 47" src="https://github.com/user-attachments/assets/b4ed50c7-29e5-4953-8809-893364bfae96" />
   <img width="794" alt="Captura de ecrã 2025-01-05, às 21 54 53" src="https://github.com/user-attachments/assets/57e3f90c-8f32-4f8d-b7e4-f913b682341e" />
   
-Função para Exibir *Help*:
+__Função para Exibir *Help*:__
 - A função **exibirHelp** fornece uma descrição detalhada dos comandos disponíveis no programa, facilitando o uso por novos usuários ou para referência rápida.
 
 <img width="477" alt="Captura de ecrã 2025-01-05, às 21 56 08" src="https://github.com/user-attachments/assets/3e53c047-93d2-46f9-a165-3bc3a6708321" />
