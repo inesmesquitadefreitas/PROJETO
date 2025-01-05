@@ -153,6 +153,13 @@ __Função para importar dados:__
 - Se ocorrer algum erro durante o processo, como o ficheiro não existir ou ter um formato inválido, a função captura a exceção e imprime uma mensagem de erro detalhada.
 
 __Função para Gerar Relatórios de Estatísticas:__
+- A função gerarRelatorios permite gerar relatórios de estatísticas e gráficos relativos a:
+* Distribuição de publicações por ano
+* Distribuição de publicações por mês de um determinado ano
+* Número de publicações por autor (top 20 autores)
+* Distribuição de publicações de um autor por anos
+* Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave)
+* Distribuição de palavras-chave mais frequente por ano.
 
 __Função para Análise de Publicações por Autor:__
 - A função **analisePublicacoesAutor** agrupa e analisa publicações com base nos autores listados no campo authors;
