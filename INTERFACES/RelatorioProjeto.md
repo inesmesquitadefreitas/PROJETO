@@ -142,8 +142,6 @@ Função para Consultar uma Publicação Específica:
   ![image](https://github.com/user-attachments/assets/758dd450-28e7-40c5-849b-96916df659f1)
 
 
-
-
   ![image](https://github.com/user-attachments/assets/5a06d67b-691d-4127-ae27-6fd190a90fc1)
   
 
@@ -181,6 +179,20 @@ Função para Atualizar uma Publicação Existente
 - Um layout (*layout1*) é definido com um campo de entrada de texto, para se inserir o índice da publicação que se deseja atualizar, e com os botões “Atualizar” e “Cancelar”;
 - Caso o índice introduzido esteja dentro do intervalo válido de publicações na lista *dados*, a janela de consulta é fechada e um novo layout é criado para exibir os detalhes da publicação (título, resumo, palavras-chave, data de publicação), permitindo que o usuário atualize os campos;
 - Os valores dos campos preenchidos pelo utilizador são capturados e usados para atualizar os detalhes da publicação no dicionário correspondente. Uma mensagem de confirmação de sucesso é exibida no ecrã.
+
+
+![Captura de ecrã 2025-01-05 205320](https://github.com/user-attachments/assets/c5f48bf1-895a-443c-8503-025e26e81130)
+
+
+![Captura de ecrã 2025-01-05 205336](https://github.com/user-attachments/assets/c56430eb-9487-4ad5-a3ec-01b6a3fe20f1)
+
+
+![Captura de ecrã 2025-01-05 205432](https://github.com/user-attachments/assets/9e9433d1-e970-47d4-babb-c601bdb1d0e0)
+
+
+![Captura de ecrã 2025-01-05 205442](https://github.com/user-attachments/assets/a51885ab-a431-43c5-be0c-61f8d72e70f3)
+
+
 
 Função para Eliminar uma Publicação Existente:
 - A função **eliminarPublicacao** permite ao utilizador eliminar uma publicação específica da lista de publicações, identificada pelo seu índice. A interface gráfica, criada com FreeSimpleGUI, guia o utilizador no processo de remoção.
