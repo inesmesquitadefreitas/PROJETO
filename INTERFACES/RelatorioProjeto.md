@@ -108,11 +108,16 @@ Função Principal GUI:
 Função para Criar uma Publicação:
 - A função **criarPublicacao** tem o intuito de permitir ao usuário criar uma nova publicação com detalhes como o título, resumo, palavras-chave, autores, DOI, url do pdf e do artigo e data de publicação;
 - Esta começa por apresentar um layout, que permite ao utilizador inserir as informações em cada campo da nova publicação;
-- Neste layout, visualizamos botões, que permitem, por exemplo que o utilizador cancele a operação, fechando a janela (sg.Button("Cancelar", button_color=("black", "pink")). Neste caso, o botão foi personalizado para apresentar cor de texto preta e fundo cor de rosa.
-- Estão presentes também caixas de texto, que permitirão ao usuário escrever a informação pedida, como [sg.Text("Título:", text_color='black'), sg.InputText(key="titulo")], no qual será inserida a informação para o título;
+- Neste layout, visualizamos botões, que permitem, por exemplo que o utilizador cancele a operação, fechando a janela (*sg.Button("Cancelar", button_color=("black", "pink")*). Neste caso, o botão foi personalizado para apresentar cor de texto preta e fundo cor de rosa.
+- Estão presentes também caixas de texto, que permitirão ao usuário escrever a informação pedida, como *[sg.Text("Título:", text_color='black'), sg.InputText(key="titulo")]*, no qual será inserida a informação para o título;
 - Estes dados introduzidos pelo utilizador são então salvos e armazenados na lista de publicações do arquivo JSON, *ataMmedicaPapers.json*.
 - Para tal, seleciona-se na janela do Menu Principal a opção “Criar Publicação”, que abre uma nova janela, onde é possível inserir as informações necessárias.
 - Por fim, uma mensagem *pop-up* confirma que a publicação foi salva com sucesso.
+  
+  ![Captura de ecrã 2025-01-05 184300](https://github.com/user-attachments/assets/e004fa2e-d6f8-4bbd-85fe-f206a0174af3)
+
+  ![Captura de ecrã 2025-01-05 184312](https://github.com/user-attachments/assets/bca93ad4-be33-40b3-b0fe-6d01914c9230)
+
 
 Função para Consultar uma Publicação Específica:
 - A função **consultarPublicacao** permite ao utilizador consultar os detalhes de uma publicação específica, identificada pelo índice na lista de publicações. Esta funcionalidade utiliza a biblioteca *FreeSimpleGUI* para criar uma interface gráfica. 
