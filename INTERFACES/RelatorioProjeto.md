@@ -280,7 +280,7 @@ Função para Gerar Relatórios de Estatísticas:
   <img width="752" alt="Captura de ecrã 2025-01-05, às 21 41 34" src="https://github.com/user-attachments/assets/c9206f30-f058-4c76-ab18-7ab3b881b641" />
   <img width="393" alt="Captura de ecrã 2025-01-05, às 21 43 20" src="https://github.com/user-attachments/assets/e0ec2f98-089c-4cc2-a5f9-347bea14277a" />
   <img width="752" alt="Captura de ecrã 2025-01-05, às 21 45 47" src="https://github.com/user-attachments/assets/cd900c0a-98cb-4901-8e5c-db78a83efdbd" />
-  ![Uploading Captura de ecrã 2025-01-05, às 21.47.04.png…]()
+ <img width="1112" alt="Captura de ecrã 2025-01-05, às 21 47 04" src="https://github.com/user-attachments/assets/0d67810d-b27c-49a2-84bb-1518ecbc8832" />
   
 
 Função para Análise de Publicações por Autor:
