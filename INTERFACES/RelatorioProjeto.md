@@ -275,6 +275,13 @@ Função para Gerar Relatórios de Estatísticas:
 - Após gerar o relatório correspondente, o programa exibe uma mensagem de sucesso e permite ao usuário continuar ou sair.
   <img width="752" alt="Captura de ecrã 2025-01-05, às 21 28 16" src="https://github.com/user-attachments/assets/9e19083f-8f5f-4785-987e-dd49ec931969" />
   <img width="752" alt="Captura de ecrã 2025-01-05, às 21 30 54" src="https://github.com/user-attachments/assets/025f7ef6-04d7-4965-b78b-5f82a134e755" />
+  <img width="752" alt="Captura de ecrã 2025-01-05, às 21 36 43" src="https://github.com/user-attachments/assets/50ec3650-55ee-4f61-8683-979dc2e123c5" />
+<img width="393" alt="Captura de ecrã 2025-01-05, às 21 44 08" src="https://github.com/user-attachments/assets/16f8ad6d-46a9-4b3f-a6df-1880b0eef8b1" />
+  <img width="752" alt="Captura de ecrã 2025-01-05, às 21 41 34" src="https://github.com/user-attachments/assets/c9206f30-f058-4c76-ab18-7ab3b881b641" />
+  <img width="393" alt="Captura de ecrã 2025-01-05, às 21 43 20" src="https://github.com/user-attachments/assets/e0ec2f98-089c-4cc2-a5f9-347bea14277a" />
+  <img width="752" alt="Captura de ecrã 2025-01-05, às 21 45 47" src="https://github.com/user-attachments/assets/cd900c0a-98cb-4901-8e5c-db78a83efdbd" />
+  ![Uploading Captura de ecrã 2025-01-05, às 21.47.04.png…]()
+  
 
 Função para Análise de Publicações por Autor:
 - A função **analisePublicacoesAutor** agrupa e analisa publicações com base nos autores listados no campo *authors*;
