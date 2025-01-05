@@ -206,4 +206,4 @@ Função para Exibir *Help*:
 
 
 ### Conclusão
-Para conseguirmos desenvolver o “Sistema de Consulta e Análise de Publicações Científicas”, foi necessária a utilização de todos os conhecimentos previamente adquiridos, assim como a utilização de diversas informações disponibilizadas na internet para o cumprimento dos objetivos do projeto. 
+Para conseguirmos desenvolver o “Sistema de Consulta e Análise de Publicações Científicas”, foi necessária a utilização de todos os conhecimentos previamente adquiridos, assim como a utilização de diversas informações disponibilizadas na internet (por exemplo: https://matplotlib.org/devdocs/plot_types/index.html) para o cumprimento dos objetivos do projeto. 
