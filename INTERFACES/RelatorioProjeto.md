@@ -230,15 +230,33 @@ Função para Listar Autores e as suas Publicações:
 
 
 Função para Importar Dados:
-- A função **importarDados** permite adicionar publicações de outro ficheiro JSON à base de dados existente. 
-- A função recebe como parâmetro o nome ou o caminho de um ficheiro JSON (ficheiro);
-- Utiliza um bloco try para lidar com possíveis erros durante o processo;
+- A função **importarDados** permite adicionar publicações de outro ficheiro JSON à base de dados existente.
+- Esta inicializa com um layout que permite que o usuário selecione o arquivo JSON a importar, importe a informação do mesmo ou cancele a operação;
+- A função recebe, então, como parâmetro, o nome ou o caminho do ficheiro JSON (ficheiro);
+- Utiliza um bloco *try* para lidar com possíveis erros durante o processo;
 - Primeiro, abre o ficheiro especificado em modo de leitura, utilizando a codificação utf-8 para garantir compatibilidade com caracteres especiais;
-- De seguida, carrega os dados do ficheiro como um objeto Python (como uma lista ou dicionário) usando json.load.
-- Os dados importados são adicionados à base de dados existente, representada pela variável dados, utilizando o método extend, que insere múltiplos elementos no final de uma lista;
-- Após a adição, os dados atualizados são salvos no ficheiro principal, recorrendo à função salvarDados;
-- Se a importação for bem-sucedida, uma mensagem de sucesso é exibida no console, indicando que os dados foram importados corretamente;
+- De seguida, carrega os dados do ficheiro como um objeto Python (como uma lista ou dicionário) usando *json.load*.
+- Os dados importados são adicionados à base de dados existente, representada pela variável *dados*, utilizando o método *extend*, que insere múltiplos elementos no final de uma lista;
+- Após a adição, os dados atualizados são salvos no ficheiro principal, recorrendo à função **salvarDados**;
+- Se a importação for bem-sucedida, uma mensagem de sucesso é exibida, indicando que os dados foram importados corretamente;
 - Se ocorrer algum erro durante o processo, como o ficheiro não existir ou ter um formato inválido, a função captura a exceção e imprime uma mensagem de erro detalhada.
+
+
+![image](https://github.com/user-attachments/assets/a7ed6503-f512-4d43-9bff-3b4b72a570cc)
+
+
+![Captura de ecrã 2025-01-05 211649](https://github.com/user-attachments/assets/3a0bc11d-ccdb-4a0b-9a03-0f1247b55115)
+
+
+![Captura de ecrã 2025-01-05 211722](https://github.com/user-attachments/assets/408c73ce-7f18-41a8-8c8a-4ee0aeb72590)
+
+
+![Captura de ecrã 2025-01-05 211735](https://github.com/user-attachments/assets/9a913f85-35a9-42c6-bce5-46f5f51d53d0)
+
+
+![Captura de ecrã 2025-01-05 211750](https://github.com/user-attachments/assets/614f4c41-d8fb-4049-b618-c1143ae3f4b6)
+
+
 
 Função para Gerar Relatórios de Estatísticas:
 - A função **gerarRelatorios** é responsável por criar relatórios de estatísticas com base nos dados do ficheiro com o qual trabalhamos;
