@@ -274,6 +274,7 @@ Função para Gerar Relatórios de Estatísticas:
 - Os gráficos são salvos localmente e vinculados ao relatório no arquivo Markdown;
 - Após gerar o relatório correspondente, o programa exibe uma mensagem de sucesso e permite ao usuário continuar ou sair.
   <img width="752" alt="Captura de ecrã 2025-01-05, às 21 28 16" src="https://github.com/user-attachments/assets/9e19083f-8f5f-4785-987e-dd49ec931969" />
+  <img width="752" alt="Captura de ecrã 2025-01-05, às 21 30 54" src="https://github.com/user-attachments/assets/025f7ef6-04d7-4965-b78b-5f82a134e755" />
 
 Função para Análise de Publicações por Autor:
 - A função **analisePublicacoesAutor** agrupa e analisa publicações com base nos autores listados no campo *authors*;
