@@ -174,7 +174,7 @@ Função para Filtrar Publicações:
 
 
 
-Função para Atualizar uma Publicação Existente
+Função para Atualizar uma Publicação Existente:
 - A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados;
 - Esta função utiliza a biblioteca *FreeSimpleGUI* para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação;
 - Um *layout* (*layout1*) é definido com um campo de entrada de texto, para se inserir o índice da publicação que se deseja atualizar, e com os botões “Atualizar” e “Cancelar”;
@@ -211,11 +211,23 @@ Função para Eliminar uma Publicação Existente:
 
 
 
-Função para Listar Autores e as suas Publicações
+Função para Listar Autores e as suas Publicações:
 - A função **listarAutores** tem como intuito criar um arquivo de texto que contenha uma lista de autores e as respetivas publicações registadas na estrutura de dados;
-- A função percorre os dados, organiza as informações de cada autor e salva tudo num arquivo denominado por “listaAutoresPublicacoes.txt";
+- Inicialmente, é criado um dicionário denominado de *autor_publicações*, que terá como chave cada autor de *dados* e o respetivo valor será a lista dos títulos das publicações que estes escreveram;
+- A função percorre, então, os dados e verifica se cada publicação possui a chave *"authors"* e, se, para cada dicionário da chave, existe a chave *"name"*;
+- Se esta encontrar um nome de um autor que não esteja presente no dicionário, adiciona-o como chave e insere como valor o título dessa publicação;
+- Esta vai acumulando no dicionário os autores e os respetivos títulos, que será posteriormente salvo num arquivo denominado por “listaAutoresPublicacoes.txt";
 - O arquivo é aberto no modo de escrita (“w”) com a codificação UTF-8, para garantir a compatibilidade com caracteres especiais;
 - Após gerar o arquivo, a função imprime a mensagem: "Lista de autores e as suas respetivas publicações gerada com sucesso em 'listaAutoresPublicacoes.txt'."
+
+
+![image](https://github.com/user-attachments/assets/4b8e75e0-7efc-40be-b622-1f053c08633c)
+
+
+![image](https://github.com/user-attachments/assets/66cd0858-fe33-4f33-a180-04f51698ba02)
+
+
+
 
 Função para Importar Dados:
 - A função **importarDados** permite adicionar publicações de outro ficheiro JSON à base de dados existente. 
