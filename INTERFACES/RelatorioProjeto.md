@@ -294,6 +294,8 @@ Função para Análise de Publicações por Autor:
 - Após a ordenação, os resultados são exportados para o ficheiro "analisePublicacoesAutores.txt", incluindo os nomes dos autores, o respetivo número de publicações e detalhes de cada publicação (título e data, se disponíveis);
 - Quando terminada a análise, é exibida uma mensagem de sucesso.
 
+<img width="463" alt="Captura de ecrã 2025-01-05, às 21 49 05" src="https://github.com/user-attachments/assets/5a1233cc-1339-428b-81c5-b3d2c121235c" />
+
 Função para Análise de Publicações por Palavra-Chave:
 - A função **analisePublicacoesPalavraChave** organiza e analisa publicações com base em palavras-chave extraídas do campo *keywords*;
 - Esta cria um dicionário (*dicionario_palavras*) onde cada palavra-chave será uma chave, associada a uma lista de publicações;
