@@ -144,11 +144,30 @@ Função para Consultar uma Publicação Específica:
 
 
 Função para Filtrar Publicações:
-- A função **filtrarPublicacoes** permite que o utilizador pesquise publicações na base de dados com base em critérios específicos, utilizando uma interface gráfica criada com o *FreeSimpleGUI*. 
-- A função inicia configurando o tema da janela e definindo um layout que inclui uma mensagem explicativa, botões para selecionar os critérios de filtro (como "Título", "Autor", "Afiliação", "Data da Publicação" e "Palavra-Chave") e uma área de texto para exibir os resultados. Um botão "Cancelar" também está disponível para sair do processo de filtragem.
-- A janela é apresentada ao utilizador, e a função entra num ciclo que processa os eventos da interface. Se o utilizador fechar a janela ou clicar no botão "Cancelar", o ciclo termina e a janela é fechada. Caso o utilizador clique num dos botões de filtro, como "Título" ou "Autor", é exibida uma caixa de diálogo para introduzir o termo a ser pesquisado. O termo introduzido é guardado na variável filtro.
-- Com base no filtro selecionado, a função percorre a lista de publicações (dados) e verifica se os critérios correspondem. As publicações que atendem ao critério são guardadas numa lista chamada publicacoes_encontradas. Caso sejam encontradas as publicações pretendidas, a função exibe os resultados formatados na área de texto da janela, incluindo o título, os nomes dos autores e a data de publicação. Se nenhuma publicação for encontrada, uma mensagem de aviso é exibida.
+- A função **filtrarPublicacoes** permite que o utilizador pesquise publicações na base de dados com base em critérios específicos, utilizando uma interface gráfica criada com o *FreeSimpleGUI*;
+- A função inicia configurando o tema da janela e definindo um layout repleto de botões para que o utilizador selecione os critérios de filtro (como "Título", "Autor", "Afiliação", "Data da Publicação" e "Palavra-Chave") e uma área de texto para exibir os resultados. Um botão "Cancelar" também está disponível para sair do processo de filtragem;
+- A janela é apresentada ao utilizador e a função entra num ciclo que processa os eventos da interface. Se o utilizador fechar a janela ou clicar no botão "Cancelar", o ciclo termina e a janela é fechada. Caso o utilizador clique num dos botões de filtro, como "Título" ou "Autor", é exibida uma caixa de diálogo para introduzir o termo a ser pesquisado. O termo introduzido é guardado na variável filtro;
+- Com base no filtro selecionado, a função percorre a lista de publicações (dados) e verifica se os critérios correspondem. As publicações que atendem ao critério são guardadas numa lista chamada **publicacoes_encontradas**;
+- Se nenhuma publicação for encontrada, uma mensagem de aviso é exibida.
+- Caso sejam encontradas as publicações pretendidas, a função inicializa outro layout, que servirá para o usuário selecionar o tipo de ordenação das publicações encontradas:
+  - Ordem alfabética dos títulos;
+  - Pela data das publicações (da mais recente à mais antiga).
+- A função exibe os resultados formatados na área de texto da janela, incluindo o título, os nomes dos autores e a data de publicação.
 - Por fim, quando o utilizador termina a filtragem ou fecha a janela, o ciclo é encerrado, e a janela é fechada. Esta função é útil para localizar rapidamente publicações específicas na base de dados, fornecendo uma interface acessível e várias opções de pesquisa.
+
+
+  ![image](https://github.com/user-attachments/assets/7e525e8e-1794-4359-8514-0ee8c0629da0)
+
+
+  ![image](https://github.com/user-attachments/assets/371a6bab-de62-4927-9431-05f25ba435c8)
+
+
+  ![Captura de ecrã 2025-01-05 204507](https://github.com/user-attachments/assets/65b85982-12db-41c9-97d0-1a2fa8139ced)
+
+
+  ![Captura de ecrã 2025-01-05 204520](https://github.com/user-attachments/assets/6594a7d5-09ab-4318-9761-d8e84cb7b12c)
+
+
 
 Função para Atualizar uma Publicação Existente
 - A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados. Esta função utiliza a biblioteca FreeSimpleGUI para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação.
