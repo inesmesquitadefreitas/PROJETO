@@ -47,6 +47,7 @@ __9. Importação de Dados:__ Em qualquer momento, deverá ser possível importa
 
 __10. Exportação parcial de dados:__ Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa.
 
+
 #### Requisitos Técnicos
 Os principais objetivos deste projeto incluem:
 - Implementar o sistema da aplicação em Python;
