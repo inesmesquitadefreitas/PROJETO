@@ -9,7 +9,6 @@
 #### Beatriz Maia Oliveira, A107281 (a107281@uminho.pt)
 #### Inês Mesquita de Freitas, A108959 (a108959@uminho.pt)
 
-
 ### Introdução
 
 O presente relatório descreve a elaboração de um projeto realizado no âmbito da unidade curricular “Algoritmos e Técnicas de Programação”, cujo objetivo é desenvolver, em Python, um “Sistema de Consulta e Análise de Publicações Científicas”. 
@@ -21,19 +20,19 @@ O projeto permite criar, atualizar e analisar publicações científicas. Com ba
 #### Requisitos do Sistema
 O sistema deve incorporar as seguintes funções:
 
-__1. Carregamento da Base de Dados:__ O programa deverá inicialmente carregar para memória o dataset guardado no ficheiro de suporte à aplicação (ataMedicaPapers.json);
+1. Carregamento da Base de Dados: O programa deverá inicialmente carregar para memória o dataset guardado no ficheiro de suporte à aplicação (ataMedicaPapers.json);
 
-__2. Criação de Publicações:__ O utilizador deverá conseguir criar um novo artigo, definindo um título, um resumo, as palavras-chave, o DOI (digital object identifier), uma lista de autores e a sua afiliação correspondente, o url para o ficheiro PDF do artigo, a data de publicação e o url do artigo; 
+2. Criação de Publicações: O utilizador deverá conseguir criar um novo artigo, definindo um título, um resumo, as palavras-chave, o DOI (digital object identifier), uma lista de autores e a sua afiliação correspondente, o url para o ficheiro PDF do artigo, a data de publicação e o url do artigo; 
 
-__3. Atualização de Publicações:__ O sistema deverá possibilitar a atualização da informação de uma publicação, nomeadamente a data de publicação, o resumo, as palavras-chave, os autores e as afiliações; 
+3. Atualização de Publicações: O sistema deverá possibilitar a atualização da informação de uma publicação, nomeadamente a data de publicação, o resumo, as palavras-chave, os autores e as afiliações; 
 
-__4. Consulta de Publicações:__ O sistema deverá permitir pesquisar publicações, através de filtros, sendo estes o título, um autor, uma afiliação, a data de publicação e as palavras-chave. Deverá ainda ser possível ordenar as publicações encontradas pelos títulos e pela data de publicação; 
+4. Consulta de Publicações: O sistema deverá permitir pesquisar publicações, através de filtros, sendo estes o título, um autor, uma afiliação, a data de publicação e as palavras-chave. Deverá ainda ser possível ordenar as publicações encontradas pelos títulos e pela data de publicação; 
 
-__5. Análise de Publicações por Autor:__ O sistema deverá facultar a listagem dos autores e aceder aos artigos de cada autor da lista. Os autores devem aparecer ordenados pela frequência dos seus artigos publicados e/ou por ordem alfabética; 
+5. Análise de Publicações por Autor : O sistema deverá facultar a listagem dos autores e aceder aos artigos de cada autor da lista. Os autores devem aparecer ordenados pela frequência dos seus artigos publicados e/ou por ordem alfabética; 
 
-__6. Análise de Publicações por Palavras-chave:__ O sistema deverá permitir a pesquisa e visualização das palavras-chave do dataset, devendo estas estar ordenadas pelo seu número de ocorrências nos artigos e/ou por ordem alfabética. Para além disso, o sistema deverá também permitir visualizar a lista das publicações associadas a cada palavra-chave; 
+6. Análise de Publicações por Palavras-chave: O sistema deverá permitir a pesquisa e visualização das palavras-chave do dataset, devendo estas estar ordenadas pelo seu número de ocorrências nos artigos e/ou por ordem alfabética. Para além disso, o sistema deverá também permitir visualizar a lista das publicações associadas a cada palavra-chave; 
 
-__7. Estatísticas de Publicação:__ O sistema deverá apresentar relatórios que incluam os seguintes gráficos: 
+7. Estatísticas de Publicação: O sistema deverá apresentar relatórios que incluam os seguintes gráficos: 
 * Distribuição de publicações por ano;
 * Distribuição de publicações por mês de um determinado ano;
 * Número de publicações por autor (top 20 autores); 
@@ -41,12 +40,11 @@ __7. Estatísticas de Publicação:__ O sistema deverá apresentar relatórios q
 * Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave); 
 * Distribuição de palavras-chave mais frequente por ano.
 
-__8. Armazenamento dos Dados:__ Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte; 
+8. Armazenamento dos Dados: Quando o utilizador decidir sair da aplicação ou tiver selecionado o armazenamento dos dados, a aplicação deverá guardar os dados em memória no ficheiro de suporte; 
 
-__9. Importação de Dados:__ Em qualquer momento, deverá ser possível importar novos registos de um outro ficheiro que tenha a mesma estrutura do ficheiro de suporte; 
+9. Importação de Dados: Em qualquer momento, deverá ser possível importar novos registos de um outro ficheiro que tenha a mesma estrutura do ficheiro de suporte; 
 
-__10. Exportação parcial de dados:__ Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa.
-
+10. Exportação parcial de dados: Em qualquer momento, deverá ser possível exportar para ficheiro os registos resultantes de uma pesquisa.
 
 #### Requisitos Técnicos
 Os principais objetivos deste projeto incluem:
@@ -79,37 +77,34 @@ Um utilizador da interface de linha de comandos poderá executar as seguintes op
 * Sair: termina o programa.
 
 #### Explicação do Código
-__Função para Carregar os Dados:__
+Função para Carregar os Dados:
 - A função **carregaDados** tem como propósito carregar os dados armazenados num arquivo JSON para o uso no programa. Relativamente ao parâmetro *fnome*, este representa o nome ou o caminho JSON, com um valor padrão, neste caso, definido como “ata_medica_papers.json”. Isto permite que a função seja usada sem a necessidade de especificar o arquivo sempre que seja necessário utilizá-la.
 - Quanto ao funcionamento desta função, esta abre o arquivo JSON no modo de leitura com a codificação “utf-8” para garantir a compatibilidade com caracteres especiais e, de seguida, utiliza o métodos json.load para converter o conteúdo do arquivo JSON num objeto Python, como um dicionário ou uma lista.
 - Esta função possui, ainda, tratamento para possíveis erros. Se o arquivo não existir ou o conteúdo do arquivo JSON não for válido, esta irá retornar um dicionário vazio e irá exibir mensagens de erro. Em caso de sucesso, a função retorna os dados carregados do arquivo. 
 
-__Função para Salvar Dados:__
+Função para Salvar Dados:
 - A função **salvarDados**, tem como objetivo salvar os dados num arquivo JSON.
 - Esta recebe dois parâmetros:
   * dados - são os dados a serem salvos em formato de dicionário ou lista;
   * ficheiro - nome ou caminho do arquivo onde os dados são armazenados (padrão: “ata_medica_papers.json”).
 - O seu funcionamento consiste na abertura do arquivo no modo e escrita (“w”) com a codificação “utf-8” e salvar os dados utilizando json.dump, formatando-os com indent=4 para maior legibilidade. Caso ocorra algum erro durante o processo, uma mensagem detalhada é exibida ao usuário para informar o problema.
 
-__Função Main:__
+Função Main:
 - A função **main** controla o fluxo principal do programa, organizando as operações de carregar, visualizar e salvar os dados.
 - Em primeiro lugar, utiliza a função **carregaDADOS** para carregar os dados de um ficheiro JSON localizado no caminho especificado, armazenando-os na variável dados.
 - De seguida, exibe os dados carregados com o comando *print*, permitindo verificar se estes foram carregados corretamente. Por fim, chama a função **salvarDados** para gravar os dados no ficheiro JSON. 
 
-__Função do Menu Principal:__
+Função do Menu Principal
 - A função **menu_principal** é responsável por criar e retornar a interface gráfica de um menu principal, utilizando a biblioteca FreeSimpleGUI. Esta função organiza a interface através de um conjunto de botões, cada um com uma funcionalidade específica, e elementos, para facilitar a interação do utilizador com o programa.
 
-__Função principal da GUI:__
-- A função **gui** encarrega-se por implementar a interface gráfica do usuário (GUI) principal do programa. Utiliza o FreeSimpleGUI para exibir a janela inicial e gerir as interações do usuário com o menu principal.
-- A função chama a função **menu_principal** para criar o layout e retornar a janela do menu principal. O programa entra em loop contínuo que processa as ações geradas pelo utilizador, como os cliques nos botões das opções do menu. Dentro do loop, a função verifica qual o botão que foi selecionado ou se a janela foi fechada. Independentemente da ação, a função executa a atividade correspondente. Caso o usuário selecione a opção "Sair" ou feche a janela no canto superior direito, o programa encerra o loop e fecha a janela.  
+Função principal da GUI
 
-
-__Função para Criar uma Publicação:__
+Função para Criar uma Publicação
 - A função **criarPublicacao** tem o intuito de permitir ao usuário criar uma nova publicação com detalhes como o título, resumo, palavras-chave, autores, DOI, links e data de publicação. Estes dados introduzidos pelo utilizador são então salvos e armazenados na lista de publicações do arquivo JSON, *ataMmedicaPapers.json*.
 - Para tal, seleciona-se na janela do Menu Principal a opção “Criar Publicação”, que abre uma nova janela, onde é possível inserir as informações necessárias.
 - Por fim, uma mensagem *pop-up* confirma que a publicação foi salva com sucesso.
 
-__Função para Consultar uma Publicação Específica:__
+Função para Consultar uma Publicação Específica:
 - A função **consultarPublicacao** permite ao utilizador consultar os detalhes de uma publicação específica, identificada pelo índice na lista de publicações. Esta funcionalidade utiliza a biblioteca *FreeSimpleGUI* para criar uma interface gráfica. 
 - A função começa por definir o tema visual da janela como LightGrey1 e constrói um layout que inclui uma caixa de texto para introduzir o índice da publicação, botões para "Consultar" e "Cancelar", e uma área de texto, não editável, onde os detalhes da publicação serão exibidos, criando, em seguida, uma janela com este layout.
 - Assim, o programa entra num ciclo onde lê os eventos da janela e os valores inseridos pelo utilizador. Caso o utilizador clique no botão "Cancelar" ou feche a janela, o ciclo termina, encerrando a janela. Se o botão "Consultar" for clicado, a função tenta converter o valor introduzido na caixa de texto para um número inteiro, que será utilizado como índice para aceder à publicação.
@@ -117,31 +112,31 @@ __Função para Consultar uma Publicação Específica:__
 - Por fim, quando o utilizador termina a consulta, a janela é fechada e a função encerra. Esta função é útil para explorar rapidamente os detalhes de uma publicação específica, utilizando uma interface amigável e mensagens claras para lidar com erros.
 
 
-__Função para Filtrar Publicações:__
+Função para Filtrar Publicações:
 - A função **filtrarPublicacoes** permite que o utilizador pesquise publicações na base de dados com base em critérios específicos, utilizando uma interface gráfica criada com o *FreeSimpleGUI*. 
 - A função inicia configurando o tema da janela e definindo um layout que inclui uma mensagem explicativa, botões para selecionar os critérios de filtro (como "Título", "Autor", "Afiliação", "Data da Publicação" e "Palavra-Chave") e uma área de texto para exibir os resultados. Um botão "Cancelar" também está disponível para sair do processo de filtragem.
 - A janela é apresentada ao utilizador, e a função entra num ciclo que processa os eventos da interface. Se o utilizador fechar a janela ou clicar no botão "Cancelar", o ciclo termina e a janela é fechada. Caso o utilizador clique num dos botões de filtro, como "Título" ou "Autor", é exibida uma caixa de diálogo para introduzir o termo a ser pesquisado. O termo introduzido é guardado na variável filtro.
 - Com base no filtro selecionado, a função percorre a lista de publicações (dados) e verifica se os critérios correspondem. As publicações que atendem ao critério são guardadas numa lista chamada publicacoes_encontradas. Caso sejam encontradas as publicações pretendidas, a função exibe os resultados formatados na área de texto da janela, incluindo o título, os nomes dos autores e a data de publicação. Se nenhuma publicação for encontrada, uma mensagem de aviso é exibida.
 - Por fim, quando o utilizador termina a filtragem ou fecha a janela, o ciclo é encerrado, e a janela é fechada. Esta função é útil para localizar rapidamente publicações específicas na base de dados, fornecendo uma interface acessível e várias opções de pesquisa.
 
-__Função para atualizar uma publicação existente:__
+Função para atualizar uma publicação existente
 - A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados. Esta função utiliza a biblioteca FreeSimpleGUI para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação.
 - Um layout (layout_consulta) é definido com um campo de entrada de texto para se inserir o índice da publicação que se deseja atualizar, e também os botões “Atualizar” e “Cancelar”. Caso o índice introduzido esteja dentro do intervalo válido de publicações na lista dados, a janela de consulta é fechada e um novo layout é criado para exibir os detalhes da publicação (título, resumo, palavras-chave, data de publicação), permitindo que o usuário atualize os campos.
 - Os valores dos campos preenchidos pelo utilizador são capturados e usados para atualizar os detalhes da publicação no dicionário correspondente. Uma mensagem de confirmação de sucesso é exibida no ecrã.
 
-__Função para eliminar uma publicação existente:__
+Função para eliminar uma publicação existente:
 - A função **eliminarPublicacao** permite ao utilizador eliminar uma publicação específica da lista de publicações, identificada pelo seu índice. A interface gráfica, criada com FreeSimpleGUI, guia o utilizador no processo de remoção.
 - A função começa por definir o layout da janela, que inclui um campo de entrada para o índice da publicação a eliminar e dois botões: "Eliminar" e "Cancelar". Quando a janela é aberta, a função entra num ciclo onde lê os eventos e os valores introduzidos pelo utilizador.
 - Se o utilizador clicar em "Cancelar" ou fechar a janela, o ciclo é terminado, e a janela é encerrada. Caso clique em "Eliminar", a função tenta converter o valor introduzido no campo de índice para um número inteiro. Em seguida, verifica se o índice é válido, ou seja, se está dentro do intervalo da lista de publicações (dados).
 - Se o índice for válido, a função utiliza o método pop para remover a publicação correspondente da lista. Após a remoção, os dados atualizados são salvos no ficheiro JSON utilizando a função salvarDados, e uma mensagem de sucesso é exibida ao utilizador. Por outro lado, se o índice for inválido, ou se o valor introduzido não for um número, uma mensagem de erro é apresentada. Por fim, a janela é encerrada ao concluir a operação.
 
-__Função para listar autores e as suas publicações:__
+Função para listar autores e as suas publicações
 - A função **listarAutores** tem como intuito criar um arquivo de texto que contenha uma lista de autores e as respetivas publicações registadas na estrutura de dados;
 - A função percorre os dados, organiza as informações de cada autor e salva tudo num arquivo denominado por “listaAutoresPublicacoes.txt";
 - O arquivo é aberto no modo de escrita (“w”) com a codificação UTF-8, para garantir a compatibilidade com caracteres especiais;
 - Após gerar o arquivo, a função imprime a mensagem: "Lista de autores e as suas respetivas publicações gerada com sucesso em 'listaAutoresPublicacoes.txt'."
 
-__Função para importar dados:__
+Função para importar dados:
 - A função **importarDados** permite adicionar publicações de outro ficheiro JSON à base de dados existente. 
 - A função recebe como parâmetro o nome ou o caminho de um ficheiro JSON (ficheiro);
 - Utiliza um bloco try para lidar com possíveis erros durante o processo;
@@ -152,34 +147,45 @@ __Função para importar dados:__
 - Se a importação for bem-sucedida, uma mensagem de sucesso é exibida no console, indicando que os dados foram importados corretamente;
 - Se ocorrer algum erro durante o processo, como o ficheiro não existir ou ter um formato inválido, a função captura a exceção e imprime uma mensagem de erro detalhada.
 
-__Função para Gerar Relatórios de Estatísticas:__
-- A função gerarRelatorios permite gerar relatórios de estatísticas e gráficos relativos a:
-* Distribuição de publicações por ano
-* Distribuição de publicações por mês de um determinado ano
-* Número de publicações por autor (top 20 autores)
-* Distribuição de publicações de um autor por anos
-* Distribuição de palavras-chave pela sua frequência (top 20 palavras-chave)
-* Distribuição de palavras-chave mais frequente por ano.
+Função para Gerar Relatórios de Estatísticas:
+- A função **gerarRelatorios** é responsável por criar relatórios de estatísticas com base nos dados do ficheiro com o qual trabalhamos;
+- Estes relatórios incluem distribuições de publicações por ano, palavras-chave por frequência, publicações por autor, entre outros, e apresentam visualizações como gráficos e resumos escritos num arquivo Markdown (*relatorio.md*);
+- Esta utiliza o FreeSimpleGUI para apresentar um menu de opções, onde o usuário escolhe o tipo de relatório a ser gerado;
+- As opções incluem diferentes análises, como:
+  - Distribuição de publicações por ano;
+  - Frequência de palavras-chave;
+  - Distribuição de publicações por autor;
+  - Distribuição de publicações por mês de um ano específico;
+  - Distribuição de publicações de um autor específico por ano;
+  - Palavra-chave mais frequente por ano.
+- É posteriormente criado (ou atualizado) um arquivo chamado *relatorio.md* para armazenar os resultados num formato estruturado. As informações incluem descrições e links para gráficos salvos como imagens;
+- Para cada opção, os dados são processados para gerar estatísticas e gráficos correspondentes;
+- Os gráficos são salvos localmente e vinculados ao relatório no arquivo Markdown;
+- Após gerar o relatório correspondente, o programa exibe uma mensagem de sucesso e permite ao usuário continuar ou sair.
 
-__Função para Análise de Publicações por Autor:__
-- A função **analisePublicacoesAutor** agrupa e analisa publicações com base nos autores listados no campo authors;
-- Cria um dicionário onde cada autor é uma chave associada a uma lista de publicações que ele escreveu;
-- A interface gráfica, implementada com PySimpleGUI, oferece duas opções de ordenação:
+Função para Análise de Publicações por Autor:
+- A função **analisePublicacoesAutor** agrupa e analisa publicações com base nos autores listados no campo *authors*;
+- Esta cria um dicionário (*dicionario_autores*) onde cada autor será uma chave, associada a uma lista de publicações;
+- Ao percorrer cada publicação presente na lista do ficheiro *ataMedicaPapers.json*, esta verifica se a publicação contém autores, analisando-os e adicionando cada nome de autor (*name*) a *dicionario_palavras*, se este ainda não estiver lá presente;
+- O valor associado a cada autor corresponde a uma lista que contém todas as publicações que este escreveu;
+- A interface gráfica, implementada com FreeSimpleGUI, oferece duas opções de ordenação:
   - Por frequência de publicações (em ordem decrescente);
   - Por ordem alfabética dos nomes dos autores.
 - Após a ordenação, os resultados são exportados para o ficheiro "analisePublicacoesAutores.txt", incluindo os nomes dos autores, o respetivo número de publicações e detalhes de cada publicação (título e data, se disponíveis);
-- No fim, é exibida uma mensagem de sucesso é exibida ao finalizar a análise.
+- Quando terminada a análise, é exibida uma mensagem de sucesso.
 
-__Função para Análise de Publicações por Palavra-Chave:__
-- A função **analisePublicacoesPalavraChave** organiza e analisa publicações com base em palavras-chave extraídas do campo keywords;
-- Cria um dicionário onde cada palavra-chave é uma chave, associada a uma lista de publicações que a mencionam.
-- Permite ao usuário, via interface gráfica com PySimpleGUI, escolher a ordenação das palavras-chave:
+Função para Análise de Publicações por Palavra-Chave:
+- A função **analisePublicacoesPalavraChave** organiza e analisa publicações com base em palavras-chave extraídas do campo *keywords*;
+- Esta cria um dicionário (*dicionario_palavras*) onde cada palavra-chave será uma chave, associada a uma lista de publicações;
+- Ao percorrer cada publicação presente na lista do ficheiro *ataMedicaPapers.json*, esta verifica se a publicação contém palavras-chave, analisando-as e adicionando cada palavra a *dicionario_palavras*, se esta ainda não estiver lá presente;
+- O valor associado a cada palavra corresponde a uma lista que contém todas as publicações que mencionam a palavra;
+- A função vai permitir, depois, ao usuário, via interface gráfica com o FreeSimpleGUI, escolher a ordenação das palavras-chave:
   - Por frequência de ocorrências (ordem decrescente);
   - Por ordem alfabética.
-- Após a ordenação, os resultados são salvos no ficheiro "analisePublicacoesPalavrasChave.txt", incluindo as palavras-chave, o respetivo número de ocorrências e detalhes das publicações (título e data, se disponíveis);
-- No fim, é exibida uma mensagem de sucesso ao concluir a análise;
+- Após a ordenação, os resultados são salvos no ficheiro "analisePublicacoesPalavrasChave.txt", incluindo as palavras-chave, o respetivo número de ocorrências (tamanho da lista de publicações: *len(artigos)*) e detalhes das publicações (título e data, se disponíveis);
+- Ao concluir a análise, é exibida uma mensagem de sucesso.
   
-__Função para Exibir “Help”:__
+Função para Exibir *Help*:
 - A função **exibirHelp** fornece uma descrição detalhada dos comandos disponíveis no programa, facilitando o uso por novos usuários ou para referência rápida.
 
 ### Exemplo de Execução do Sistema
@@ -192,8 +198,5 @@ __Função para Exibir “Help”:__
   ![Captura de ecrã 2025-01-05 184300](https://github.com/user-attachments/assets/589a75ff-6a78-4500-9560-3e4f5bea5a5a)
 
 
-
-
-
-6. Conclusão
+### Conclusão
 Para conseguirmos desenvolver o “Sistema de Consulta e Análise de Publicações Científicas”, foi necessária a utilização de todos os conhecimentos previamente adquiridos, assim como a utilização de diversas informações disponibilizadas na internet para o cumprimento dos objetivos do projeto. 
