@@ -15,7 +15,8 @@ O presente relatório descreve a elaboração de um projeto realizado no âmbito
 Para tal, foram utilizadas estruturas de dados apropriadas e as bibliotecas necessárias para o correto funcionamento da aplicação. Para uma interação mais intuitiva, foi ainda utilizada uma interface gráfica, o FreeSimpleGUI, que permite a visualização de um menu que apresenta as funções disponíveis.
 
 ### Descrição do Projeto
-O projeto permite criar, atualizar e analisar publicações científicas. Com base num dataset de publicações, o sistema possibilita a pesquisa de artigos utilizando filtros, como a data de publicação, as palavras-chave, autores, entre outros. Adicionalmente, são também gerados relatórios que exibem gráficos ilustrativos e pormenorizados, com estatísticas para a análise de métricas dos artigos e dos seus autores.
+O projeto permite criar, atualizar e analisar publicações científicas.
+Com base num dataset de publicações, o sistema possibilita a pesquisa de artigos utilizando filtros, como a data de publicação, as palavras-chave, autores, entre outros. Adicionalmente, são também gerados relatórios que exibem gráficos ilustrativos e pormenorizados, com estatísticas para a análise de métricas dos artigos e dos seus autores.
 
 #### Requisitos do Sistema
 O sistema deve incorporar as seguintes funções:
