@@ -170,8 +170,10 @@ Função para Filtrar Publicações:
 
 
 Função para Atualizar uma Publicação Existente
-- A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados. Esta função utiliza a biblioteca FreeSimpleGUI para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação.
-- Um layout (layout_consulta) é definido com um campo de entrada de texto para se inserir o índice da publicação que se deseja atualizar, e também os botões “Atualizar” e “Cancelar”. Caso o índice introduzido esteja dentro do intervalo válido de publicações na lista dados, a janela de consulta é fechada e um novo layout é criado para exibir os detalhes da publicação (título, resumo, palavras-chave, data de publicação), permitindo que o usuário atualize os campos.
+- A função **atualizarPublicacao** é responsável por gerir a atualização de informações de uma publicação específica dentro de um conjunto de dados;
+- Esta função utiliza a biblioteca *FreeSimpleGUI* para criar uma interface gráfica e fornecer etapas interativas para selecionar e editar uma publicação;
+- Um layout (*layout1*) é definido com um campo de entrada de texto, para se inserir o índice da publicação que se deseja atualizar, e com os botões “Atualizar” e “Cancelar”;
+- Caso o índice introduzido esteja dentro do intervalo válido de publicações na lista *dados*, a janela de consulta é fechada e um novo layout é criado para exibir os detalhes da publicação (título, resumo, palavras-chave, data de publicação), permitindo que o usuário atualize os campos;
 - Os valores dos campos preenchidos pelo utilizador são capturados e usados para atualizar os detalhes da publicação no dicionário correspondente. Uma mensagem de confirmação de sucesso é exibida no ecrã.
 
 Função para Eliminar uma Publicação Existente:
