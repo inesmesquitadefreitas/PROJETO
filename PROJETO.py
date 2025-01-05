@@ -24,17 +24,17 @@ dados = carregaDADOS("C:/Users/Inês Mesquita/Documents/Eng_Biomédica/Programa�
 # Função para CRIAR uma nova publicação ✔
 def criarPublicacao():
     layout = [
-        [sg.Text("Título:"), sg.InputText(key="titulo")],
-        [sg.Text("Resumo:"), sg.Multiline(key="resumo")],
-        [sg.Text("Palavras-chave (separadas por vírgulas):"), sg.InputText(key="palavras_chave")],
-        [sg.Text("DOI:"), sg.InputText(key="doi")],
-        [sg.Text("URL do PDF:"), sg.InputText(key="url_pdf")],
-        [sg.Text("URL do Artigo:"), sg.InputText(key="url_artigo")],
-        [sg.Text("Data de Publicação (YYYY-MM-DD):"), sg.InputText(key="data_publicacao")],
-        [sg.Text("Autores e Afiliações:")],
-        [sg.Button("Adicionar Autor"), sg.Button("Remover Autor")],
+        [sg.Text("Título:", text_color='black'), sg.InputText(key="titulo")],
+        [sg.Text("Resumo:", text_color='black'), sg.Multiline(key="resumo")],
+        [sg.Text("Palavras-chave (separadas por vírgulas):", text_color='black'), sg.InputText(key="palavras_chave")],
+        [sg.Text("DOI:", text_color='black'), sg.InputText(key="doi")],
+        [sg.Text("URL do PDF:", text_color='black'), sg.InputText(key="url_pdf")],
+        [sg.Text("URL do Artigo:", text_color='black'), sg.InputText(key="url_artigo")],
+        [sg.Text("Data de Publicação (YYYY-MM-DD):", text_color='black'), sg.InputText(key="data_publicacao")],
+        [sg.Text("Autores e Afiliações:", text_color='black')],
+        [sg.Button("Adicionar Autor", button_color=("black", "pink")), sg.Button("Remover Autor", button_color=("black", "pink"))],
         [sg.Listbox(values=[], size=(40, 5), key="autores", enable_events=True)],
-        [sg.Button("Salvar"), sg.Button("Cancelar")],
+        [sg.Button("Salvar", button_color=("white", "crimson")), sg.Button("Cancelar", button_color=("black", "pink"))],
     ]
     janela = sg.Window("Criar Publicação", layout)
 
@@ -79,7 +79,7 @@ def consultarPublicacao():
     sg.theme('LightGrey1')
     layout = [
         [sg.Text("Digite o índice da publicação:"), sg.InputText(key="indice")],
-        [sg.Button("Consultar", button_color = ('black', 'pink')), sg.Button("Cancelar", button_color = ('black', 'pink'))],
+        [sg.Button("Consultar", button_color=("white", "crimson")), sg.Button("Cancelar", button_color = ('black', 'pink'))],
         [sg.Multiline(size=(60, 15), key="resultado", disabled=True)],
     ]
     janela = sg.Window("Consultar Publicação", layout)
@@ -115,7 +115,6 @@ def consultarPublicacao():
 # ----------------------------------------------------------------------
 # Função para FILTRAR publicações ✔
 def filtrarPublicacoes():
-    sg.theme("LightBlue2")
     layout = [
         [sg.Text("Escolha o tipo de filtro:", text_color='crimson')],
         [sg.Button("Título", button_color=("black", "pink")), sg.Button("Autor", button_color=("black", "pink")), sg.Button("Afiliação", button_color=("black", "pink")),
@@ -171,7 +170,7 @@ def filtrarPublicacoes():
 def atualizarPublicacao():
     layout_consulta = [
         [sg.Text("Índice da publicação a atualizar:"), sg.InputText(key="indice")],
-        [sg.Button("Atualizar", button_color=("black", "pink")), sg.Button("Cancelar", button_color=("black", "pink"))],
+        [sg.Button("Atualizar", button_color=("white", "crimson")), sg.Button("Cancelar", button_color=("black", "pink"))],
     ]
 
     janela_consulta = sg.Window("Consultar Publicação", layout_consulta)
@@ -232,7 +231,7 @@ def atualizarPublicacao():
 def eliminarPublicacao():
     layout = [
         [sg.Text("Índice da publicação a eliminar:"), sg.InputText(key="indice")],
-        [sg.Button("Eliminar", button_color=("white", "red")), sg.Button("Cancelar", button_color=("black", "pink"))],
+        [sg.Button("Eliminar", button_color=("white", "crimson")), sg.Button("Cancelar", button_color=("black", "pink"))],
     ]
 
     janela = sg.Window("Eliminar Publicação", layout)
@@ -291,7 +290,7 @@ def listarAutores():
 def importarDados():
     layout = [
         [sg.Text("Selecione o arquivo JSON para importar:"), sg.Input(key="-FILE-"), sg.FileBrowse(file_types=(('JSON Files', '*.json'),))],
-        [sg.Button("Importar", key="-IMPORTAR-"), sg.Button("Cancelar")],
+        [sg.Button("Importar", button_color=("white", "crimson"), key="-IMPORTAR-"), sg.Button("Cancelar", button_color=("black", "pink"))],
     ]
 
     window = sg.Window("Importar Dados", layout)
@@ -318,8 +317,7 @@ def importarDados():
     window.close()
     
 # ----------------------------------------------------------------------
-# Função para gerar RELATÓRIOS de ESTATÍSTICAS ✔
-
+# Função para gerar RELATÓRIOS de ESTATÍSTICAS
 def gerarRelatorios():
     layout = [
         [sg.Text("Escolha o relatório que deseja gerar:", text_color='crimson', font=("Arial", 16, "bold"))],
@@ -332,7 +330,7 @@ def gerarRelatorios():
         [sg.Button("Sair", button_color=("white", "crimson"), key="7")],
     ]
 
-    window = sg.Window("Gerar Relatórios de Estatísticas", layout)
+    window = sg.Window("Gerar Relatórios de Estatísticas", layout, size = (400, 300), resizable=False, finalize=True)
 
     with open("relatorio.md", "w", encoding="utf-8") as f:
         f.write("RELATÓRIO DE ESTATÍSTICAS\n")
@@ -379,21 +377,21 @@ def gerarRelatorios():
                     fontsize=8,
                     color="black"
                 )
-
-            # Salvar Gráfico como Imagem
+            
             grafico1 = "publicacoesPorAno.png"
             plt.savefig(grafico1)
-            plt.close()
 
             with open("relatorio.md", "a", encoding="utf-8") as f: # "a" --> add (se escrevesse "w", apagava tudo o que o ficheiro já tinha)
                 f.write("\nNúmero de publicações por ano\n")
                 for ano, contagem_publicacoes in anos_ordenados:
                     f.write(f"- {ano}: {contagem_publicacoes}\n")
                 f.write("\n")
-                f.write("Gráfico de Distribuição de Publicações por Ano\n")
                 f.write(f"![Gráfico de Distribuição de Publicações por Ano]({grafico1})\n")
+            
+            plt.show()
+            plt.close()
+            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md'.")
 
-            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico1}'.")
           
         elif event == "2":
             palavras_chave_freq = {}
@@ -427,20 +425,19 @@ def gerarRelatorios():
             plt.gca().invert_yaxis() # Inverte para a + frequente no topo
             plt.tight_layout()
 
-            # Salvar o gráfico como imagem
-            grafico2 = "frequenciasPalavrasChave.png"
+            grafico2 = "frequenciaPalavrasChave.png"
             plt.savefig(grafico2)
-            plt.close()
 
             with open("relatorio.md", "a", encoding="utf-8") as f:
                 f.write("\nFrequência de palavras-chave:\n")
                 for palavra, frequencia in top20_palavras:
                     f.write(f"- {palavra}: {frequencia}\n")
                 f.write("\n")
-                f.write("Gráfico de Distribuição de Palavras-Chave por Frequência - Top 20 Palavras\n")
-                f.write(f"![Gráfico de Distribuição de Palavras-Chave por Frequência]({grafico2})\n")
+                f.write(f"![Gráfico de Frequências de Palavras-Chave]({grafico2})\n")
         
-            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico2}'.")
+            plt.show()
+            plt.close()
+            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md'.")
 
         elif event == "3":
             publicacoes_por_autor = {}
@@ -468,20 +465,19 @@ def gerarRelatorios():
             plt.gca().invert_yaxis()  # Inverte para o maior no topo
             plt.tight_layout()
 
-            # Salvar o gráfico como imagem
             grafico3 = "publicacoesPorAutor.png"
             plt.savefig(grafico3)
-            plt.close()
 
             with open("relatorio.md", "a", encoding="utf-8") as f:
                 f.write("\nNúmero de publicações por autor:\n")
                 for nomes, n_publicacoes in top20_autores:
                     f.write(f"- {nomes}: {n_publicacoes}\n")
                 f.write("\n")
-                f.write("Gráfico de Distribuição de Publicações por Autor - Top 20 Autores\n")
-                f.write(f"![Gráfico de Distribuição de Publicações por Autor\n]({grafico3})\n")
-        
-            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico3}'.")
+                f.write(f"![Gráfico de Distribuição de Publicações Por Autor]({grafico3})\n")
+
+            plt.show()
+            plt.close()
+            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md'.")
 
         elif event == "4":
             layout = [
@@ -529,20 +525,19 @@ def gerarRelatorios():
             # - Multiplica esse valor (fração de cada elemento) pela soma dos valores em "sizes_filtrados"
             ax.set_title(f"Número de Publicações por Mês em {ano_escolhido}")
 
-            # Salvar Gráfico como Imagem
-            grafico4 = f"publicacoesPorMesDe{ano_escolhido}.png"
+            grafico4 = f"publicacoesPorMesde{ano_escolhido}.png"
             plt.savefig(grafico4)
-            plt.close()
     
             with open("relatorio.md", "a", encoding="utf-8") as f:
                 f.write(f"\nNúmero de Publicações por Mês em {ano_escolhido}:\n")
                 for mes, publicacoes in contagem_meses.items():
                     f.write(f"- {mes}: {publicacoes}\n")
                 f.write("\n")
-                f.write(f"Gráfico de Distribuição de Publicações por Mês em {ano_escolhido} \n")
-                f.write(f"![Gráfico de Distribuição de Publicações por Mês em {ano_escolhido}]({grafico4})\n")
-        
-            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico4}'.")
+                f.write(f"![Gráfico de Distribuição de Publicações Por Mês em {ano_escolhido}]({grafico4})\n")
+
+            plt.show()
+            plt.close()
+            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md'.")
 
         elif event == "5":
             autores = list(set(autor["name"] for p in dados if p.get("authors") for autor in p["authors"]))
@@ -584,10 +579,8 @@ def gerarRelatorios():
             ax.pie(sizes, labels=labels, autopct=lambda p: f'{int(p/100.*sum(sizes))}', startangle=90, colors = ['lightskyblue', 'lightgreen', 'khaki'])
             ax.set_title(f"Número de Publicações de {autor_escolhido} por Anos")
 
-            # Salvar o gráfico como imagem
-            grafico5 = f"publicacoesPorAnosDe{autor_escolhido}.png"
+            grafico5 = f"publicacoesPorMesde{autor_escolhido}.png"
             plt.savefig(grafico5)
-            plt.close()
 
             # Escrever Relatório
             with open("relatorio.md", "a", encoding="utf-8") as f:
@@ -595,10 +588,11 @@ def gerarRelatorios():
                 for anos, quantidades in anos_ordenados:
                     f.write(f"- {anos}: {quantidades}\n")
                 f.write("\n")
-                f.write(f"Gráfico de Distribuição de Publicações por Anos de {autor_escolhido}\n")
-                f.write(f"![Gráfico de Distribuição de Publicações por Anos de {autor_escolhido}]({grafico5})\n")
-        
-            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico5}'.")
+                f.write(f"![Gráfico de Distribuição de Publicações Por Mês de {autor_escolhido}]({grafico5})\n")
+
+            plt.show()
+            plt.close()
+            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md'.")
     
 
         elif event == "6":
@@ -645,10 +639,8 @@ def gerarRelatorios():
             plt.grid(True, linestyle='--', alpha=0.7)
             plt.tight_layout()
 
-            # Salvar o gráfico como imagem
-            grafico6 = "palavraMaisFrequentePorAno.png"
+            grafico6 = "palavraChaveFrequentePorAno.png"
             plt.savefig(grafico6)
-            plt.close()
 
             # Escrever o relatório
             with open("relatorio.md", "a", encoding="utf-8") as f:
@@ -656,10 +648,11 @@ def gerarRelatorios():
                 for ano, (palavra, frequencia) in palavras_frequentes_por_ano.items():
                     f.write(f"- {ano}: {palavra} ({frequencia} ocorrências)\n")
                 f.write("\n")
-                f.write("Gráfico de Palavra-Chave Mais Frequente por Ano\n")
-                f.write(f"![Gráfico de Palavra-Chave Mais Frequente por Ano]({grafico6})\n")
-        
-            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md' e gráfico salvo em '{grafico6}'.")
+                f.write(f"![Gráfico de Palavra-Chave mais Frequente por Ano]({grafico6})\n")
+
+            plt.show()
+            plt.close()
+            sg.popup(f"Relatório gerado com sucesso em 'relatorio.md'.")
 
     window.close()
 
@@ -677,13 +670,15 @@ def analisePublicacoesAutor():
                         dicionario_autores[nome_autor] = []
                     dicionario_autores[nome_autor].append(p)
 
+    # Layout da interface gráfica
     layout = [
         [sg.Text("Escolha o tipo de ordenação:")],
-        [sg.Radio("Ordenar por frequência de artigos publicados (ordem decrescente).", "RADIO1", key="-FREQ-", default=True)],
-        [sg.Radio("Ordenar por ordem alfabética dos nomes dos autores.", "RADIO1", key="-ALPHA-")],
-        [sg.Button("Gerar Análise", key="-GERAR-"), sg.Button("Cancelar")]
+        [sg.Button("Ordenar por frequência de artigos publicados (ordem decrescente)", button_color=("white", "crimson"), key="-FREQUENCIA-")],
+        [sg.Button("Ordenar por ordem alfabética dos nomes dos autores", button_color=("white", "crimson"), key="-ALFABETICA-")],
+        [sg.Button("Cancelar", button_color=("black", "pink"))]
     ]
 
+    # Janela da aplicação utilizando a biblioteca FreeSimpleGUI
     window = sg.Window("Análise de Publicações por Autor", layout)
 
     cond = True
@@ -691,30 +686,27 @@ def analisePublicacoesAutor():
         event, values = window.read()
         if event in (sg.WINDOW_CLOSED, "Cancelar"):
             cond = False
-        elif event == "-GERAR-":
-            if values["-FREQ-"]:
-                autores_ordenados = sorted(dicionario_autores.items(), key=lambda x: len(x[1]), reverse=True)
-            elif values["-ALPHA-"]:
-                autores_ordenados = sorted(dicionario_autores.items(), key=lambda x: x[0].lower())
-            else:
-                autores_ordenados = dicionario_autores.items()
+        elif event == "-FREQUENCIA-":
+            autores_ordenados = sorted(dicionario_autores.items(), key=lambda x: len(x[1]), reverse=True)
+        elif event == "-ALFABETICA-":
+            autores_ordenados = sorted(dicionario_autores.items(), key=lambda x: x[0].lower())
 
-            with open("analisePublicacoesAutores.txt", "w", encoding="utf-8") as f:
-                f.write("------ AUTORES E ARTIGOS PUBLICADOS ------\n")
-                for autor, artigos in autores_ordenados:
-                    f.write(f"\nAutor: {autor} ({len(artigos)} artigos publicados)\n")
-                    for i, p in enumerate(artigos, start=1):
-                        if p.get('title'):
-                            if p.get('publish_date'):
-                                f.write(f"({i}) {p['title']} (Publicado em {p['publish_date']})\n")
-                            else:
-                                f.write(f"({i}) {p['title']} (Publicação sem data referida)\n")
+        with open("analisePublicacoesAutores.txt", "w", encoding="utf-8") as f:
+            f.write("------ AUTORES E ARTIGOS PUBLICADOS ------\n")
+            for autor, artigos in autores_ordenados:
+                f.write(f"\nAutor: {autor} ({len(artigos)} artigos publicados)\n")
+                for i, p in enumerate(artigos, start=1):
+                    if p.get('title'):
+                        if p.get('publish_date'):
+                            f.write(f"({i}) {p['title']} (Publicado em {p['publish_date']})\n")
                         else:
-                            f.write(f"({i}) Publicação sem título.\n")
-                    f.write("\n")
+                            f.write(f"({i}) {p['title']} (Publicação sem data referida)\n")
+                    else:
+                        f.write(f"({i}) Publicação sem título.\n")
+                f.write("\n")
 
-            sg.popup("Sucesso", "Análise de publicações por autor gerada com sucesso em 'analisePublicacoesAutores.txt'.")
-            cond = False
+        sg.popup("Sucesso", "Análise de publicações por autor gerada com sucesso em 'analisePublicacoesAutores.txt'.")
+        cond = False
 
     window.close()
 # ----------------------------------------------------------------------
@@ -732,9 +724,9 @@ def analisePublicacoesPalavraChave():
 
     layout = [
         [sg.Text("Escolha o tipo de ordenação:")],
-        [sg.Radio("Ordenar palavras-chave pela frequência de ocorrências (ordem decrescente).", "RADIO1", key="-FREQ-", default=True)],
-        [sg.Radio("Ordenar palavras-chave por ordem alfabética.", "RADIO1", key="-ALPHA-")],
-        [sg.Button("Gerar Análise", key="-GERAR-"), sg.Button("Cancelar")]
+        [sg.Button("Ordenar palavras-chave pela frequência de ocorrências (ordem decrescente)", button_color=("white", "crimson"), key="-FREQUENCIA-")],
+        [sg.Button("Ordenar palavras-chave por ordem alfabética", button_color=("white", "crimson"), key="-ALFABETICA-")],
+        [sg.Button("Cancelar", button_color=("black", "pink"))]
     ]
 
     window = sg.Window("Análise de Publicações por Palavra-Chave", layout)
@@ -744,30 +736,27 @@ def analisePublicacoesPalavraChave():
         event, values = window.read()
         if event in (sg.WINDOW_CLOSED, "Cancelar"):
             cond = False
-        elif event == "-GERAR-":
-            if values["-FREQ-"]:
-                palavras_ordenadas = sorted(dicionario_palavras.items(), key=lambda x: len(x[1]), reverse=True)
-            elif values["-ALPHA-"]:
-                palavras_ordenadas = sorted(dicionario_palavras.items(), key=lambda x: x[0])
-            else:
-                palavras_ordenadas = dicionario_palavras.items()
+        elif event == "-FREQUENCIA-":
+            palavras_ordenadas = sorted(dicionario_palavras.items(), key=lambda x: len(x[1]), reverse=True)
+        elif event == "-ALFABETICA-":
+            palavras_ordenadas = sorted(dicionario_palavras.items(), key=lambda x: x[0])
 
-            with open("analisePublicacoesPalavrasChave.txt", "w", encoding="utf-8") as f:
-                f.write("------ PALAVRAS-CHAVE E ARTIGOS PUBLICADOS ------\n")
-                for palavra, artigos in palavras_ordenadas:
-                    f.write(f"\nPalavra-chave: '{palavra}' ({len(artigos)} ocorrências)\n")
-                    for i, p in enumerate(artigos, start=1):
-                        if p.get('title'):
-                            if p.get('publish_date'):
-                                f.write(f"({i}) {p['title']} (Publicado em {p['publish_date']})\n")
-                            else:
-                                f.write(f"({i}) {p['title']} (Publicação sem data referida)\n")
+        with open("analisePublicacoesPalavrasChave.txt", "w", encoding="utf-8") as f:
+            f.write("------ PALAVRAS-CHAVE E ARTIGOS PUBLICADOS ------\n")
+            for palavra, artigos in palavras_ordenadas:
+                f.write(f"\nPalavra-chave: '{palavra}' ({len(artigos)} ocorrências)\n")
+                for i, p in enumerate(artigos, start=1):
+                    if p.get('title'):
+                        if p.get('publish_date'):
+                            f.write(f"({i}) {p['title']} (Publicado em {p['publish_date']})\n")
                         else:
-                            f.write(f"({i}) Publicação sem título.\n")
-                    f.write("\n")
+                            f.write(f"({i}) {p['title']} (Publicação sem data referida)\n")
+                    else:
+                        f.write(f"({i}) Publicação sem título.\n")
+                f.write("\n")
 
-            sg.popup("Sucesso", "Análise de publicações por palavra-chave gerada com sucesso em 'analisePublicacoesPalavrasChave.txt'.")
-            cond = False
+        sg.popup("Sucesso", "Análise de publicações por palavra-chave gerada com sucesso em 'analisePublicacoesPalavrasChave.txt'.")
+        cond = False
 
     window.close()
     
@@ -790,10 +779,10 @@ def menu_principal():
          sg.Button("Gerar Relatórios", button_color=("black", "pink"))],
         [sg.Button("Analisar Publicações por Autor", button_color=("black", "pink")),
          sg.Button("Analisar Publicações por Palavra-Chave", button_color=("black", "pink")),
-         sg.Button("Help", button_color=("black", "pink"))],
+         sg.Button("Help", button_color=("black", "lightblue"))],
         [sg.Button("Sair", button_color=("white", "crimson"))],
     ]
-    return sg.Window("Menu Principal", layout, finalize=True)
+    return sg.Window("Menu Principal", layout, size = (550, 200), resizable=False, finalize=True)
 
 # Função Principal da GUI
 def gui():
