@@ -105,6 +105,12 @@ Função Principal GUI:
 - Independentemente da ação, a função executa a atividade correspondente;
 - Caso o usuário selecione a opção "Sair" ou feche a janela no canto superior direito, o programa encerra o loop e fecha a janela.
 
+
+![Captura de ecrã 2025-01-05 181829](https://github.com/user-attachments/assets/a2ce681e-ca69-4ec9-a271-decd56cf5cf1)
+
+
+ 
+
 Função para Criar uma Publicação:
 - A função **criarPublicacao** tem o intuito de permitir ao usuário criar uma nova publicação com detalhes como o título, resumo, palavras-chave, autores, DOI, url do pdf e do artigo e data de publicação;
 - Esta começa por apresentar um layout, que permite ao utilizador inserir as informações em cada campo da nova publicação;
