@@ -15,8 +15,7 @@ O presente relatório descreve a elaboração de um projeto realizado no âmbito
 Para tal, foram utilizadas estruturas de dados apropriadas e as bibliotecas necessárias para o correto funcionamento da aplicação. Para uma interação mais intuitiva, foi ainda utilizada uma interface gráfica, o FreeSimpleGUI, que permite a visualização de um menu que apresenta as funções disponíveis.
 
 ### Descrição do Projeto
-O projeto permite criar, atualizar e analisar publicações científicas.
-Com base num dataset de publicações, o sistema possibilita a pesquisa de artigos utilizando filtros, como a data de publicação, as palavras-chave, autores, entre outros. Adicionalmente, são também gerados relatórios que exibem gráficos ilustrativos e pormenorizados, com estatísticas para a análise de métricas dos artigos e dos seus autores.
+O projeto permite criar, atualizar e analisar publicações científicas. Com base num dataset de publicações, o sistema possibilita a pesquisa de artigos utilizando filtros, como a data de publicação, as palavras-chave, autores, entre outros. Adicionalmente, são também gerados relatórios que exibem gráficos ilustrativos e pormenorizados, com estatísticas para a análise de métricas dos artigos e dos seus autores.
 
 #### Requisitos do Sistema
 O sistema deve incorporar as seguintes funções:
@@ -55,10 +54,9 @@ Os principais objetivos deste projeto incluem:
 - Integrar bibliotecas Python para funcionalidades gráficas, como Matplotlib;
 - Implementar um mecanismo de armazenamento persistente, como um ficheiro JSON.
 
-
 ### Desenvolvimento da Aplicação
 #### Estrutura de Dados
-O código da aplicação utiliza as seguintes estruturas de dados: dicionários, listas e listas de dicionários. O sistema consiste numa lista de dicionários, correspondendo cada um destes dicionários a uma publicação. Esta inclui diversas categorias: resumo (“abstract”), palavras-chave (“keywords”), DOI (“doi”), url do pdf (“pdf”), data de publicação (“publish_date”), título (“title”), url do artigo (“url”) e autores (“authors”), correspondendo estes, por sua vez, a uma lista de dicionários que compreendem o nome (“name”) e a afiliação do(s) autor(es) (“affiliation”).
+O código da aplicação utiliza as seguintes estruturas de dados: dicionários, listas e listas de dicionários. O sistema consiste numa lista de dicionários, correspondendo cada um destes dicionários a uma publicação. Esta inclui diversas categorias: **resumo** (“abstract”), **palavras-chave** (“keywords”), **DOI** (“doi”), **url do pdf** (“pdf”), **data de publicação** (“publish_date”), **título** (“title”), **url do artigo** (“url”) e **autores** (“authors”), correspondendo estes, por sua vez, a uma lista de dicionários que compreendem o **nome** (“name”) e a **afiliação** do(s) autor(es) (“affiliation”).
 Adicionalmente, a biblioteca JSON é utilizada para salvar e guardar os dados das publicações, assim como aceder a dados já existentes nesse arquivo.
 Por fim, a utilização do FreeSimpleGUI facilitou a criação de interfaces gráficas de forma simples e intuitiva, visto que permite a visualização da linha de comando num menu claro e acessível. Este exibe as funções de criar, consultar, filtrar, atualizar, eliminar, importar publicações, assim como as de listar autores e as suas publicações, gerar relatórios, analisar publicações por autor e, finalmente, analisar publicações por palavra-chave.
 
