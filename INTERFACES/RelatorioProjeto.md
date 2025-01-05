@@ -196,6 +196,7 @@ Função para Exibir *Help*:
 - A função **exibirHelp** fornece uma descrição detalhada dos comandos disponíveis no programa, facilitando o uso por novos usuários ou para referência rápida.
 
 ### Exemplo de Execução do Sistema
+
 (1) O utilizador seleciona, no menu, a funcionalidade que deseja implementar:
   
   ![Captura de ecrã 2025-01-05 181829](https://github.com/user-attachments/assets/83f7127a-2235-424a-abae-fa4d50897ea9)
